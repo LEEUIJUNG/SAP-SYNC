@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC401_C15_MAIN2</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC401_C15_MAIN2</h2>
+<h3> Description: EXERCISE . CREATE OBJECTS</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZBC401_C15_MAIN<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZBC401_C15_MAIN2.<br />
+<br />
+include <a href ="zbc401_c15_main2_cls.html">ZBC401_C15_MAIN2_CLS</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZBC401_C15_MAIN_CLS.<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;참조&nbsp;변수&nbsp;선언<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;DATA:&nbsp;LO_AIRPLANE&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;LCL_AIRPLANE.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;참조변수를&nbsp;여러줄&nbsp;보관할&nbsp;수&nbsp;있는&nbsp;ITAB<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;DATA:&nbsp;LT_AIRPLANE&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;REF&nbsp;TO&nbsp;LCL_AIRPLANE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;비행기&nbsp;OBJ들을&nbsp;생성<br />
+*&nbsp;생성된&nbsp;OBJ들을&nbsp;ITAB에&nbsp;보관한다.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;LO_AIRPLANE.<br />
+&nbsp;&nbsp;APPEND&nbsp;LO_AIRPLANE&nbsp;TO&nbsp;LT_AIRPLANE.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;LO_AIRPLANE.<br />
+&nbsp;&nbsp;APPEND&nbsp;LO_AIRPLANE&nbsp;TO&nbsp;LT_AIRPLANE.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;LO_AIRPLANE.<br />
+&nbsp;&nbsp;APPEND&nbsp;LO_AIRPLANE&nbsp;TO&nbsp;LT_AIRPLANE.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;LO_AIRPLANE.&nbsp;"&nbsp;CLEAR&nbsp;하더라도&nbsp;OBJ는&nbsp;전부&nbsp;ITAB에&nbsp;보관중이라서&nbsp;GARBAGE&nbsp;COLLECTOR&nbsp;에게&nbsp;삭제되지&nbsp;않는다.<br />
+<br />
+&nbsp;&nbsp;REFRESH&nbsp;LT_AIRPLANE.&nbsp;"&nbsp;ITAB&nbsp;을&nbsp;최고하&nbsp;하는&nbsp;순간&nbsp;더이상&nbsp;가리키는&nbsp;참조변수가&nbsp;하나도&nbsp;없기&nbsp;때문에<br />
+&nbsp;&nbsp;"&nbsp;생성된&nbsp;모든&nbsp;OBJ는&nbsp;GARBAGE&nbsp;COLLECTOR&nbsp;에게&nbsp;삭제된다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC401_C15_MAIN4</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC401_C15_MAIN4</h2>
+<h3> Description: EXERCISE5. CREATE AND USE CONSTRUCTORS</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZBC401_C15_MAIN<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZBC401_C15_MAIN4.<br />
+<br />
+include <a href ="zbc401_c15_main4_cls.html">ZBC401_C15_MAIN4_CLS</a>.<br />
+include <a href ="zbc401_c15_main4_top.html">ZBC401_C15_MAIN4_TOP</a>.<br />
+<br />
+<br />
+<br />
+START-OF-SELECTION.<br />
+<br />
+&nbsp;&nbsp;WRITE:/&nbsp;|{&nbsp;LCL_AIRPLANE=&gt;GV_TEST&nbsp;}|.<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;CREATE_AIRPLANE&nbsp;USING&nbsp;'PLANE1'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'747-400'.<br />
+<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;CREATE_AIRPLANE&nbsp;USING&nbsp;'PLANE2'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'A380-800'.<br />
+<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;CREATE_AIRPLANE&nbsp;USING&nbsp;'PLANE3'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'DC-10-10'.<br />
+<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;GO_AIRPLANE.&nbsp;"&nbsp;CLEAR&nbsp;하더라도&nbsp;OBJ는&nbsp;전부&nbsp;ITAB에&nbsp;보관중이라서&nbsp;GARBAGE&nbsp;COLLECTOR&nbsp;에게&nbsp;삭제되지&nbsp;않는다.<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;비행기&nbsp;댓수&nbsp;관련&nbsp;출력문<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;LCL_AIRPLANE=&gt;DISPLAY_N_O_AIRPLANES(&nbsp;).<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;비행기&nbsp;생성&nbsp;댓수를&nbsp;받아&nbsp;MSG&nbsp;로&nbsp;출력.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;DATA:&nbsp;LV_MESSAGE&nbsp;TYPE&nbsp;STRING.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;아래도&nbsp;같은&nbsp;결과&nbsp;RETURNING&nbsp;PARM&nbsp;이&nbsp;있으면&nbsp;변수처럼&nbsp;사용&nbsp;가능<br />
+*&nbsp;&nbsp;DATA:&nbsp;LV_COUNT&nbsp;TYPE&nbsp;I.<br />
+*&nbsp;&nbsp;LV_COUNT&nbsp;=&nbsp;LCL_AIRPLANE=&gt;GET_N_O_AIRPLANES(&nbsp;).<br />
+*&nbsp;&nbsp;LV_MESSAGE&nbsp;=&nbsp;|&nbsp;현재&nbsp;생성된&nbsp;비행기는&nbsp;{&nbsp;LV_COUNT&nbsp;}대&nbsp;입니다.&nbsp;|.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;LV_MESSAGE&nbsp;=&nbsp;|&nbsp;현재&nbsp;생성된&nbsp;비행기는&nbsp;{&nbsp;LCL_AIRPLANE=&gt;GET_N_O_AIRPLANES(&nbsp;)&nbsp;}대&nbsp;입니다.&nbsp;|.<br />
+<br />
+&nbsp;&nbsp;MESSAGE&nbsp;LV_MESSAGE&nbsp;TYPE&nbsp;'I'.<br />
+<br />
+<br />
+&nbsp;&nbsp;REFRESH&nbsp;GT_AIRPLANE.&nbsp;"&nbsp;ITAB&nbsp;을&nbsp;최고하&nbsp;하는&nbsp;순간&nbsp;더이상&nbsp;가리키는&nbsp;참조변수가&nbsp;하나도&nbsp;없기&nbsp;때문에<br />
+&nbsp;&nbsp;"&nbsp;생성된&nbsp;모든&nbsp;OBJ는&nbsp;GARBAGE&nbsp;COLLECTOR&nbsp;에게&nbsp;삭제된다.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;CREATE_AIRPLANE<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM CREATE_AIRPLANE  USING    VALUE(PV_NAME) TYPE STRING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE(PV_PLANETYPE)&nbsp;TYPE&nbsp;SAPLANE-PLANETYPE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;비행기&nbsp;OBJ들을&nbsp;생성<br />
+*&nbsp;생성된&nbsp;OBJ들을&nbsp;ITAB에&nbsp;보관한다.<br />
+*&nbsp;OBJ가&nbsp;생성될때&nbsp;INSTANCE&nbsp;METHOD&nbsp;-&nbsp;CONSTRUCTOR가&nbsp;자등으로&nbsp;호출된다.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_AIRPLANE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;PV_NAME<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PLANETYPE&nbsp;=&nbsp;PV_PLANETYPE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NO_DATA_FOUND_BY_PLANETYPE&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+<br />
+&nbsp;&nbsp;CASE&nbsp;SY-SUBRC.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GO_AIRPLANE-&gt;DISPLAY_ATTRIBUTES(&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;DB&nbsp;에&nbsp;DATA&nbsp;가&nbsp;없음<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;|해당&nbsp;비행기&nbsp;모델로&nbsp;{&nbsp;PV_PLANETYPE&nbsp;}&nbsp;검색된&nbsp;데이터가&nbsp;없습니다.|&nbsp;TYPE&nbsp;'E'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;OTHERS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;'알&nbsp;수&nbsp;없는&nbsp;오류가&nbsp;발생했습니다.'&nbsp;TYPE&nbsp;'E'.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;"&nbsp;굳이&nbsp;해당&nbsp;METHOD를&nbsp;호출할&nbsp;필요가&nbsp;없다,&nbsp;OBJ&nbsp;생성시&nbsp;CONSTRUCTOR에&nbsp;의해&nbsp;자동으로&nbsp;실행됨<br />
+*&nbsp;&nbsp;GO_AIRPLANE-&gt;SET_ATRRTIBUTES(<br />
+*&nbsp;&nbsp;EXPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;IV_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;PV_NAME<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;IV_PLANETYPE&nbsp;=&nbsp;PV_PLANETYPE<br />
+*).<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;"&nbsp;생성된&nbsp;객채를&nbsp;OBJ의&nbsp;주소값을&nbsp;ITAB에&nbsp;추가한다.<br />
+&nbsp;&nbsp;APPEND&nbsp;GO_AIRPLANE&nbsp;TO&nbsp;GT_AIRPLANE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;이부분의&nbsp;순서는&nbsp;상관&nbsp;없다&nbsp;어차피&nbsp;ITAB이&nbsp;가지고&nbsp;있는것은&nbsp;OBJ의&nbsp;단순&nbsp;주소값임으로<br />
+*&nbsp;APPEND&nbsp;해서&nbsp;ITAB에&nbsp;추가를&nbsp;한뒤에&nbsp;작업을&nbsp;해도&nbsp;OBJ에&nbsp;반영이&nbsp;된다.<br />
+*&nbsp;&nbsp;GO_AIRPLANE-&gt;SET_ATRRTIBUTES(<br />
+*&nbsp;&nbsp;EXPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;IV_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;PV_NAME<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;IV_PLANETYPE&nbsp;=&nbsp;PV_PLANETYPE<br />
+*).<br />
+<br />
+   </div>
+   <div class="code">
+ENDFORM.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;Hard&nbsp;coded<br />
+*&nbsp;&nbsp;&nbsp;해당&nbsp;비행기&nbsp;모델로<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

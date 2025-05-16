@@ -1,0 +1,375 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC401_C15_ALV2</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC401_C15_ALV2</h2>
+<h3> Description: EXERCISE 19. DIALOG BOX WITH ALV GRID CONTROL</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;&nbsp;SAPBC401_ALV_T1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Template&nbsp;for&nbsp;first&nbsp;excercise&nbsp;on&nbsp;ALV-Grid&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+REPORT  ZBC401_C15_ALV2.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**************&nbsp;Types&nbsp;and&nbsp;Data&nbsp;Definitions&nbsp;************************<br />
+   </div>
+   <div class="code">
+TYPES: TY_SPFLI TYPE STANDARD TABLE OF SPFLI<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;NON-UNIQUE&nbsp;KEY&nbsp;CARRID&nbsp;CONNID.<br />
+<br />
+DATA OK_CODE TYPE SY-UCOMM.<br />
+<br />
+DATA: GT_SPFLI TYPE TY_SPFLI.<br />
+<br />
+DATA: GO_CONTAINER TYPE REF TO CL_GUI_CUSTOM_CONTAINER.<br />
+DATA: GO_ALV_GIRD TYPE REF TO CL_GUI_ALV_GRID.<br />
+<br />
+CLASS LCL_EVENT_HANDELR DEFINITION DEFERRED." 나중에 CLASS 를 정의한다고 알려줌 일단 있는 것으로 취급<br />
+DATA: GO_HANDLER TYPE REF TO LCL_EVENT_HANDELR.<br />
+<br />
+CLASS LCL_EVENT_HANDELR DEFINITION.<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;더블클릭&nbsp;이벤트<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:&nbsp;ON_EVENT&nbsp;FOR&nbsp;EVENT&nbsp;DOUBLE_CLICK&nbsp;OF&nbsp;CL_GUI_ALV_GRID&nbsp;IMPORTING&nbsp;E_COLUMN&nbsp;E_ROW.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;DIALOG&nbsp;창&nbsp;X&nbsp;버튼&nbsp;누르는&nbsp;이벤트,&nbsp;창만&nbsp;닫는게&nbsp;아니라&nbsp;ALV&nbsp;도&nbsp;없에&nbsp;줘야한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;EVENT가&nbsp;발생한&nbsp;객체를&nbsp;SENDER&nbsp;로&nbsp;전달한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:&nbsp;ON_CLOSE&nbsp;FOR&nbsp;EVENT&nbsp;CLOSE&nbsp;OF&nbsp;CL_GUI_DIALOGBOX_CONTAINER&nbsp;IMPORTING&nbsp;SENDER.<br />
+<br />
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MT_SFLIGHT&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;SFLIGHT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;자주&nbsp;사용하는&nbsp;CONTAINER<br />
+*&nbsp;CL_GUI_CONTAINER&nbsp;-&nbsp;원형,&nbsp;직접&nbsp;생성이&nbsp;안됨<br />
+*&nbsp;CL_GUI_CUSTOM_CONTAINER&nbsp;:&nbsp;화면안에&nbsp;&nbsp;CUSTOM&nbsp;CONTROL&nbsp;AREA를&nbsp;만들어야&nbsp;사용가능<br />
+*&nbsp;CL_GUI_DOCKING_CONTAINER&nbsp;:&nbsp;화면&nbsp;바깥&nbsp;상하좌우에&nbsp;CONTAINER&nbsp;를&nbsp;신규로&nbsp;붙혀서&nbsp;만든다.<br />
+*&nbsp;CL_GUI_SPLITTER_CONTAINER&nbsp;:&nbsp;기존&nbsp;CONTAINER&nbsp;를&nbsp;상하좌우로&nbsp;분리하는데&nbsp;사용<br />
+*&nbsp;CL_GUI_DIALOGBOX_CONTAINER&nbsp;:&nbsp;CONTAINER&nbsp;가&nbsp;POPUP&nbsp;으로&nbsp;만들어&nbsp;질떄&nbsp;사용<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MO_CONT_POPUP&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;CL_GUI_DIALOGBOX_CONTAINER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MO_ALV_POPUP&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;CL_GUI_ALV_GRID.<br />
+<br />
+ENDCLASS.<br />
+<br />
+CLASS LCL_EVENT_HANDELR IMPLEMENTATION.<br />
+&nbsp;&nbsp;METHOD&nbsp;ON_EVENT.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;LV_MSG&nbsp;TYPE&nbsp;STRING.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;ALPHA&nbsp;기능&nbsp;잘&nbsp;사용하자&nbsp;추가&nbsp;공부&nbsp;IN&nbsp;산입,&nbsp;0UT&nbsp;제거<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;LV_MSG&nbsp;=&nbsp;|&nbsp;더블클릭한&nbsp;COL&nbsp;:&nbsp;{&nbsp;E_COLUMN-FIELDNAME&nbsp;}&nbsp;ROW&nbsp;:&nbsp;{&nbsp;E_ROW-INDEX&nbsp;ALPHA&nbsp;=&nbsp;OUT&nbsp;}|.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;LV_MSG&nbsp;TYPE&nbsp;'I'.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;LS_SPFLI&nbsp;TYPE&nbsp;SPFLI.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;GT_SPFLI&nbsp;에서&nbsp;E_ROW-INDEX&nbsp;의&nbsp;INDEX&nbsp;를&nbsp;가진&nbsp;행을&nbsp;LS_SPFLI&nbsp;에&nbsp;넣어&nbsp;읽는다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;GT_SPFLI&nbsp;INTO&nbsp;LS_SPFLI&nbsp;INDEX&nbsp;E_ROW-INDEX.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;SFLIGHT&nbsp;&nbsp;에&nbsp;있는&nbsp;필드&nbsp;이외의&nbsp;필드를&nbsp;&nbsp;선택하면&nbsp;DUMP&nbsp;나옴&nbsp;"CARRID,&nbsp;CONNID"&nbsp;만&nbsp;존재함<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;향후&nbsp;SPFLI&nbsp;에서&nbsp;CLICK&nbsp;한&nbsp;COL&nbsp;이&nbsp;SFLIGHT&nbsp;가&nbsp;있는&nbsp;경우만&nbsp;이방식&nbsp;사용하는&nbsp;식으로&nbsp;수정해보자.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FIELD-SYMBOLS:&nbsp;&lt;FS_FIELD&gt;&nbsp;TYPE&nbsp;ANY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ASSIGN&nbsp;COMPONENT&nbsp;E_COLUMN-FIELDNAME&nbsp;OF&nbsp;STRUCTURE&nbsp;LS_SPFLI&nbsp;TO&nbsp;&lt;FS_FIELD&gt;.<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;내가&nbsp;선택한&nbsp;FIELD&nbsp;가&nbsp;검색&nbsp;대상&nbsp;TAB에&nbsp;존재하는지&nbsp;점검<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;LV_FLAG&nbsp;TYPE&nbsp;C&nbsp;VALUE&nbsp;0.&nbsp;"&nbsp;존재&nbsp;상태를&nbsp;기록하는&nbsp;FLAG<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DESC_TABLE&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;CL_ABAP_TABLEDESCR,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DESC_STRUC&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;CL_ABAP_STRUCTDESCR.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FIELD-SYMBOLS:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;P_COMPONENT&gt;&nbsp;TYPE&nbsp;ABAP_COMPDESCR.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DESC_TABLE&nbsp;?=&nbsp;CL_ABAP_TABLEDESCR=&gt;DESCRIBE_BY_DATA(&nbsp;MT_SFLIGHT&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DESC_STRUC&nbsp;?=&nbsp;DESC_TABLE-&gt;GET_TABLE_LINE_TYPE(&nbsp;).<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;DESC_STRUC-&gt;COMPONENTS&nbsp;ASSIGNING&nbsp;&lt;P_COMPONENT&gt;.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;E_COLUMN-FIELDNAME&nbsp;=&nbsp;&lt;P_COMPONENT&gt;-NAME.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_FLAG&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXIT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;LV_FLAG&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;만약&nbsp;검색&nbsp;대상&nbsp;TAB&nbsp;에&nbsp;FIELD&nbsp;가&nbsp;존재하면.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA(LV_SQL)&nbsp;=&nbsp;|&nbsp;{&nbsp;E_COLUMN-FIELDNAME&nbsp;}&nbsp;=&nbsp;'{&nbsp;&lt;FS_FIELD&gt;&nbsp;}'&nbsp;AND&nbsp;CONNID&nbsp;=&nbsp;'{&nbsp;LS_SPFLI-CONNID&nbsp;}'|.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;SFLIGHT&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;MT_SFLIGHT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;&nbsp;(LV_SQL).<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;MO_CONT_POPUP&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;MO_CONT_POPUP<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WIDTH&nbsp;&nbsp;&nbsp;=&nbsp;500&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Width&nbsp;of&nbsp;This&nbsp;Container<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HEIGHT&nbsp;&nbsp;=&nbsp;200&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Height&nbsp;of&nbsp;This&nbsp;Container<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TOP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;200&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Top&nbsp;Position&nbsp;of&nbsp;Dialog&nbsp;Box<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEFT&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;500&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Left&nbsp;Position&nbsp;of&nbsp;Dialog&nbsp;Box<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CAPTION&nbsp;=&nbsp;'비행일정'.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;재목<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;MO_ALV_POPUP<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_PARENT&nbsp;=&nbsp;MO_CONT_POPUP.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Parent&nbsp;Container<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MO_ALV_POPUP-&gt;SET_TABLE_FOR_FIRST_DISPLAY(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_STRUCTURE_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;'SFLIGHT'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Internal&nbsp;Output&nbsp;Table&nbsp;Structure&nbsp;Name<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_OUTTAB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;MT_SFLIGHT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Output&nbsp;Table<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;MO_CONT_POPUP&nbsp;에서&nbsp;CLOSE&nbsp;라는&nbsp;EVNET&nbsp;가&nbsp;발생할떄&nbsp;이&nbsp;CLASS&nbsp;의&nbsp;ON_CLOSE&nbsp;METHOD&nbsp;가&nbsp;실&nbsp;행되게&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;HANDLER&nbsp;ME-&gt;ON_CLOSE&nbsp;FOR&nbsp;MO_CONT_POPUP.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;새로운&nbsp;EVENT&nbsp;발생으로&nbsp;MT_SFLIGHT&nbsp;값이&nbsp;변경되어&nbsp;있다면&nbsp;MO_ALV_POPUP&nbsp;를&nbsp;REFRESH&nbsp;해야&nbsp;ALV에&nbsp;반영이됨<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MO_ALV_POPUP-&gt;REFRESH_TABLE_DISPLAY(&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;'검색&nbsp;대상&nbsp;TABLE에&nbsp;FIELD&nbsp;가&nbsp;존재하지&nbsp;않습니다'&nbsp;TYPE&nbsp;'I'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;빠른&nbsp;ALV&nbsp;출력&nbsp;TEST<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CL_DEMO_OUTPUT=&gt;WRITE(<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA&nbsp;=&nbsp;&nbsp;&nbsp;MT_SFLIGHT<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NAME&nbsp;=&nbsp;&nbsp;LV_SQL<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CL_DEMO_OUTPUT=&gt;DISPLAY(&nbsp;).<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;ON_CLOSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;EVENT가&nbsp;발생한&nbsp;객체를&nbsp;SENDER&nbsp;로&nbsp;받아온다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;SENDER&nbsp;를&nbsp;통해&nbsp;ALV&nbsp;를&nbsp;삭제한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;삭제&nbsp;순서는&nbsp;역순임으로&nbsp;POPUP&nbsp;CONTAINER&nbsp;가&nbsp;없어지기&nbsp;전에&nbsp;ALV부터&nbsp;없에야&nbsp;한다.<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;MO_ALV_POPUP&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;ALV&nbsp;를&nbsp;삭제한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MO_ALV_POPUP-&gt;FREE(&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;ALV&nbsp;OBJ&nbsp;를&nbsp;초기화한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FREE&nbsp;MO_ALV_POPUP.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;닫기&nbsp;버튼이&nbsp;눌렸던&nbsp;POPUP&nbsp;CONTAINER&nbsp;를&nbsp;삭제<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SENDER-&gt;FREE(&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;SENDER&nbsp;(MO_CONT_POPUP)&nbsp;OBJ&nbsp;를&nbsp;초기화&nbsp;해준다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FREE&nbsp;MO_CONT_POPUP.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+ENDCLASS.<br />
+<br />
+<br />
+<br />
+START-OF-SELECTION.<br />
+   </div>
+   <div class="codeComment">
+*********************<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;SPFLI&nbsp;INTO&nbsp;TABLE&nbsp;GT_SPFLI.<br />
+<br />
+&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;'0100'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module&nbsp;&nbsp;STATUS_0100&nbsp;&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE STATUS_0100 OUTPUT.<br />
+&nbsp;&nbsp;SET&nbsp;PF-STATUS&nbsp;'DYNPROSTATUS'.<br />
+&nbsp;&nbsp;SET&nbsp;TITLEBAR&nbsp;&nbsp;'TITLE1'.<br />
+ENDMODULE.                 " STATUS_0100  OUTPUT<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module&nbsp;&nbsp;ALV_GRID&nbsp;&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE ALV_GRID OUTPUT.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;GO_CONTAINER&nbsp;IS&nbsp;INITIAL.<br />
+<br />
+   </div>
+   <div class="codeComment">
+***&nbsp;Create&nbsp;object&nbsp;of&nbsp;class&nbsp;CL_GUI_CUSTOM_CAONTAINER&nbsp;to&nbsp;manage&nbsp;data&nbsp;!<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_CONTAINER<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONTAINER_NAME&nbsp;=&nbsp;'CONTAINER_1'.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Name&nbsp;of&nbsp;the&nbsp;Screen&nbsp;CustCtrl&nbsp;Name&nbsp;to&nbsp;Link&nbsp;Container&nbsp;To<br />
+<br />
+   </div>
+   <div class="codeComment">
+***&nbsp;create&nbsp;object&nbsp;of&nbsp;class&nbsp;cl_gui_alv_grid&nbsp;to&nbsp;visualize&nbsp;data&nbsp;!<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_ALV_GIRD<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_PARENT&nbsp;=&nbsp;GO_CONTAINER.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Parent&nbsp;Container<br />
+<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+***&nbsp;create&nbsp;handler&nbsp;instance&nbsp;and&nbsp;register&nbsp;handler&nbsp;method&nbsp;********<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_HANDLER.&nbsp;"&nbsp;생성자가&nbsp;없어서&nbsp;전달할&nbsp;파라미터가&nbsp;없다.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;HANDLER&nbsp;GO_HANDLER-&gt;ON_EVENT&nbsp;FOR&nbsp;GO_ALV_GIRD.&nbsp;"&nbsp;내가&nbsp;전달한&nbsp;ALV&nbsp;객체만&nbsp;반응하겠다.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;HANDLER&nbsp;GO_HANDLER-&gt;ON_EVENT&nbsp;FOR&nbsp;ALL&nbsp;INSTANCES.&nbsp;"&nbsp;모든&nbsp;ALV&nbsp;객체에&nbsp;반응하게다.<br />
+<br />
+<br />
+***&nbsp;Call&nbsp;method&nbsp;to&nbsp;visualize&nbsp;data&nbsp;of&nbsp;internal&nbsp;table&nbsp;************<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;GO_ALV_GIRD-&gt;SET_TABLE_FOR_FIRST_DISPLAY(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_STRUCTURE_NAME&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;'SPFLI'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Internal&nbsp;Output&nbsp;Table&nbsp;Structure&nbsp;Name<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_OUTTAB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;GT_SPFLI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Output&nbsp;Table<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;).<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+<br />
+<br />
+ENDMODULE.                 " ALV_GRID  OUTPUT<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module&nbsp;&nbsp;USER_COMMAND_0100&nbsp;&nbsp;INPUT<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE USER_COMMAND_0100 INPUT.<br />
+<br />
+&nbsp;&nbsp;CASE&nbsp;OK_CODE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'BACK'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;SCREEN&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'EXIT'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE&nbsp;PROGRAM.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+ENDMODULE.                 " USER_COMMAND_0100  INPUT<br />
+<br />
+   </div>
+   <div class="codeComment">
+*GUI&nbsp;Texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;TITLE1&nbsp;--&gt;&nbsp;BC401&nbsp;-&nbsp;Übung&nbsp;zum&nbsp;ALV&nbsp;Grid&nbsp;Control<br />
+*&nbsp;TITLE1&nbsp;--&gt;&nbsp;EXERCISE&nbsp;19.&nbsp;DIALOG&nbsp;BOX&nbsp;WITH&nbsp;ALV&nbsp;GRID&nbsp;CONTROL<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;001&nbsp;Aircraft&nbsp;Name<br />
+*&nbsp;002&nbsp;Aircraft<br />
+*&nbsp;003&nbsp;Weight<br />
+*&nbsp;004&nbsp;Tank&nbsp;Capacity<br />
+*&nbsp;CA1&nbsp;Number&nbsp;of&nbsp;Aircraft<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;Hard&nbsp;coded<br />
+*&nbsp;&nbsp;&nbsp;검색&nbsp;대상&nbsp;TABLE에&nbsp;FIELD&nbsp;가&nbsp;존재하지&nbsp;않습니다<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

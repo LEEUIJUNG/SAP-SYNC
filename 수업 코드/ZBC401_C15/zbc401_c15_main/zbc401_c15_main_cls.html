@@ -1,0 +1,155 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC401_C15_MAIN_CLS</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC401_C15_MAIN_CLS</h2>
+<h3> Description: CLS</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZBC401_C15_MAIN_CLS<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+CLASS LCL_AIRPLANE DEFINITION.<br />
+<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;INSTANCE&nbsp;METHOD<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;PRIVATE&nbsp;INSTANCE&nbsp;ATTRIBUTE&nbsp;의&nbsp;값을&nbsp;설정하기&nbsp;위한&nbsp;METHOD<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;이&nbsp;메소드는&nbsp;정의된&nbsp;ATTRIBUTE&nbsp;와&nbsp;동일한&nbsp;TYPE&nbsp;으로&nbsp;데이터를&nbsp;입력받아.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;PIA에&nbsp;전달한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;SET_ATRRTIBUTES&nbsp;IMPORTING&nbsp;VALUE(IV_NAME)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;STRING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE(IV_PLANETYPE)&nbsp;TYPE&nbsp;SAPLANE-PLANETYPE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;DISPLAY_ATTRIBUTES.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS&nbsp;DISPLAY_N_O_AIRPLANES.<br />
+<br />
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;INSTANCE&nbsp;ATTRIBUTE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MV_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;STRING,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_PLANETYPE&nbsp;TYPE&nbsp;SAPLANE-PLANETYPE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;STATIC&nbsp;ATTRIBUTE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:&nbsp;GV_N_O_AIRPLANES&nbsp;TYPE&nbsp;I&nbsp;VALUE&nbsp;0.<br />
+<br />
+ENDCLASS.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;정의한&nbsp;METHOD의&nbsp;로직을&nbsp;구현<br />
+   </div>
+   <div class="code">
+CLASS LCL_AIRPLANE IMPLEMENTATION.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;SET_ATRRTIBUTES.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;이&nbsp;METHOD&nbsp;가&nbsp;호출되면&nbsp;외부에서&nbsp;전달받은&nbsp;IMPORT&nbsp;PARM&nbsp;의&nbsp;값을<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;PIA&nbsp;에게&nbsp;&nbsp;SET&nbsp;한다.&nbsp;IMPORT&nbsp;PARM&nbsp;VAL&nbsp;-&gt;&nbsp;PIA<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_NAME&nbsp;=&nbsp;IV_NAME.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_PLANETYPE&nbsp;=&nbsp;IV_PLANETYPE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GV_N_O_AIRPLANES&nbsp;+=&nbsp;1.&nbsp;"&nbsp;현재&nbsp;비행기&nbsp;생성시&nbsp;자동으로&nbsp;비행기&nbsp;갯수가&nbsp;증가,&nbsp;임시로&nbsp;선언<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_ATTRIBUTES.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/(5)&nbsp;ICON_FLIGHT&nbsp;AS&nbsp;ICON,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_PLANETYPE&nbsp;,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_NAME.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/(15)&nbsp;'비행기&nbsp;이름',&nbsp;AT&nbsp;20&nbsp;MV_NAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/(15)&nbsp;'비행기&nbsp;타입',&nbsp;AT&nbsp;20&nbsp;MV_PLANETYPE,&nbsp;ICON_FLIGHT&nbsp;AS&nbsp;ICON.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;METHOD&nbsp;내에서&nbsp;STATIC&nbsp;METHOD&nbsp;호출&nbsp;하는&nbsp;방법<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;LCL_AIRPLANE=&gt;DISPLAY_N_O_AIRPLANES(&nbsp;).<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_N_O_AIRPLANES.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;'현재&nbsp;생성된&nbsp;비행기는',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_N_O_AIRPLANES,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'대&nbsp;입니다.'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;METHOD&nbsp;내에서&nbsp;ㅑ&nbsp;METHOD&nbsp;호출&nbsp;하는&nbsp;방법<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;DATA&nbsp;:LV_O&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;LCL_AIRPLANE.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;LV_O.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;LV_O-&gt;DISPLAY_ATTRIBUTES(&nbsp;).<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+ENDCLASS.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>
