@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>MZBC410_SOLUTION6_C15I01</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: MZBC410_SOLUTION6_C15I01</h2>
+<h3> Description: PAI Modules</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MZBC410_SOLUTION2_C15I01<br />
+*&---------------------------------------------------------------------*<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module&nbsp;&nbsp;CHECK_SFLIGHT&nbsp;&nbsp;INPUT<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE CHECK_SFLIGHT INPUT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;화면에&nbsp;입력된&nbsp;항공사id,&nbsp;항공편no,&nbsp;비행일자를&nbsp;이용해서<br />
+*&nbsp;sflight&nbsp;table&nbsp;에서&nbsp;데이터를&nbsp;조회한다.<br />
+*&nbsp;조회된&nbsp;데이터는&nbsp;성공적이면,&nbsp;화면에&nbsp;출력하기&nbsp;위해&nbsp;dic,&nbsp;str에&nbsp;데이터를&nbsp;전달.<br />
+*&nbsp;실패하면,&nbsp;정보성&nbsp;메세지를&nbsp;bc410의&nbsp;007로&nbsp;출력하고,&nbsp;dictionary&nbsp;structure&nbsp;를&nbsp;초기화한다.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CLEAR&nbsp;GS_FLIGHT.&nbsp;"&nbsp;select&nbsp;문에서&nbsp;사용하는&nbsp;변수는&nbsp;검색전에&nbsp;깔끔하게&nbsp;초기화&nbsp;하는&nbsp;습관을&nbsp;들이자.<br />
+&nbsp;&nbsp;"&nbsp;만약&nbsp;초기화&nbsp;하지&nbsp;않고&nbsp;쓰는&nbsp;습관이&nbsp;계속되면,&nbsp;찌꺼기&nbsp;데이터에&nbsp;의한&nbsp;오작동&nbsp;가능성&nbsp;있음<br />
+<br />
+&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;*&nbsp;FROM&nbsp;SFLIGHT&nbsp;INTO&nbsp;GS_FLIGHT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;CARRID&nbsp;=&nbsp;SDYN_CONN-CARRID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;CONNID&nbsp;=&nbsp;SDYN_CONN-CONNID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;FLDATE&nbsp;=&nbsp;SDYN_CONN-FLDATE.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;=&nbsp;0&nbsp;.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;검색이&nbsp;성공<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;화면에&nbsp;검색된&nbsp;데이터가&nbsp;출력되도록&nbsp;전달한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;입력필드와&nbsp;이름이&nbsp;똑같은&nbsp;dic&nbsp;struc&nbsp;변수에게<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MOVE-CORRESPONDING&nbsp;GS_FLIGHT&nbsp;TO&nbsp;SDYN_CONN.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;검색된&nbsp;데이터가&nbsp;없다면<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;I007(BC410).<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;dictionary&nbsp;structure&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;SDYN_CONN.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module&nbsp;&nbsp;USER_COMMAND_0100&nbsp;&nbsp;INPUT<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE USER_COMMAND_0100 INPUT.<br />
+<br />
+&nbsp;&nbsp;CASE&nbsp;&nbsp;GV_UCOMM.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'X'.&nbsp;"&nbsp;gv_ucomm&nbsp;이&nbsp;'x'&nbsp;일&nbsp;때<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"프로그램을&nbsp;종료하고&nbsp;호출&nbsp;이전&nbsp;화면으로&nbsp;이동<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE&nbsp;TO&nbsp;SCREEN&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'T'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;150&nbsp;번화면을&nbsp;pop&nbsp;up&nbsp;으로&nbsp;호출한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;왼쪽에서&nbsp;10&nbsp;칸&nbsp;위에서&nbsp;5줄&nbsp;간격으로&nbsp;팝업창이&nbsp;열린다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;150<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STARTING&nbsp;AT&nbsp;50&nbsp;5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDING&nbsp;AT&nbsp;80&nbsp;10.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;OTHERS.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;사용자가&nbsp;fucntion&nbsp;code&nbsp;'back'&nbsp;로&nbsp;지정된&nbsp;뒤로가기&nbsp;버튼을&nbsp;눌렀을때<br />
+&nbsp;&nbsp;"&nbsp;OK&nbsp;타입과&nbsp;assigned&nbsp;된&nbsp;OK_CODE&nbsp;변수에게&nbsp;'back'&nbsp;이&nbsp;기록된다.<br />
+&nbsp;&nbsp;"&nbsp;그&nbsp;뒤에&nbsp;PAI&nbsp;모듈이&nbsp;실행되는데,&nbsp;여기에서&nbsp;OK_CODE&nbsp;변수&nbsp;값을&nbsp;기록해서<br />
+&nbsp;&nbsp;"&nbsp;'BACK'&nbsp;이라면&nbsp;뒤로가기&nbsp;버튼에&nbsp;알맞는&nbsp;기능을&nbsp;구현한다.<br />
+&nbsp;&nbsp;CASE&nbsp;OK_CODE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'BACK1234'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE&nbsp;TO&nbsp;SCREEN&nbsp;0.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'TIME'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;150<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STARTING&nbsp;AT&nbsp;50&nbsp;5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDING&nbsp;AT&nbsp;80&nbsp;10.<br />
+<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module&nbsp;&nbsp;EXIT_0100&nbsp;&nbsp;INPUT<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE EXIT_0100 INPUT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;OK_CODE&nbsp;변수는&nbsp;화면에서&nbsp;OK&nbsp;타입에&nbsp;연결된&nbsp;변수다<br />
+*&nbsp;사용자가&nbsp;어떤&nbsp;버튼을&nbsp;누르거나,&nbsp;엔터를&nbsp;누르면&nbsp;&nbsp;PAI&nbsp;가&nbsp;작동하는데<br />
+*&nbsp;이떄&nbsp;사용자의&nbsp;행동에따라&nbsp;OK_CODE&nbsp;에&nbsp;알맞는&nbsp;FUNCTION&nbsp;CODE&nbsp;가&nbsp;기록된다<br />
+<br />
+*&nbsp;이&nbsp;모듈&nbsp;EXIT-COMMAND&nbsp;전용&nbsp;모듈이므로,&nbsp;OK-CODE&nbsp;변수는&nbsp;EXIT1234&nbsp;또는&nbsp;CANCLE1234&nbsp;말고는&nbsp;다른값을&nbsp;가질&nbsp;수&nbsp;없다.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CASE&nbsp;OK_CODE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'EXIT1234'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;교재&nbsp;exercise에서&nbsp;요구하는&nbsp;기눙&nbsp;-&gt;&nbsp;프로그램을&nbsp;떠나라<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE&nbsp;PROGRAM.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'CANCEL1234'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;교재&nbsp;exerciseㅇ서&nbsp;요구하는&nbsp;기능&nbsp;-&gt;&nbsp;입출력&nbsp;필드를&nbsp;초기화하고,&nbsp;현재&nbsp;화면을&nbsp;다시&nbsp;보여라<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;GS_FLIGHT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;PARAMETER&nbsp;ID:&nbsp;'CAR'&nbsp;FIELD&nbsp;GS_FLIGHT-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'CON'&nbsp;FIELD&nbsp;GS_FLIGHT-CONNID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'DAY'&nbsp;FIELD&nbsp;GS_FLIGHT-FLDATE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;현재&nbsp;화면은&nbsp;0100이므로,&nbsp;0100&nbsp;화면이&nbsp;나오도록&nbsp;아래와&nbsp;같이&nbsp;처리한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;SCREEN&nbsp;0100.&nbsp;"&nbsp;다음화면을&nbsp;0100&nbsp;으로&nbsp;설정<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE&nbsp;SCREEN.&nbsp;"&nbsp;현재&nbsp;화면을&nbsp;버리고&nbsp;0100&nbsp;(&nbsp;다음화면&nbsp;)으로&nbsp;이동<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE&nbsp;TO&nbsp;SCREEN&nbsp;0100.&nbsp;"&nbsp;이렇게&nbsp;적어도&nbsp;똑같음<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module&nbsp;&nbsp;CHECK_PLANETYPE&nbsp;&nbsp;INPUT<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE CHECK_PLANETYPE INPUT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;입력된&nbsp;비행기&nbsp;모델을&nbsp;가지고&nbsp;있는&nbsp;필드는&nbsp;SDYN_PLANETYPE<br />
+<br />
+*&nbsp;테이블&nbsp;saplene&nbsp;에서&nbsp;필드&nbsp;Planetype에&nbsp;저장된&nbsp;데이터&nbsp;중<br />
+*&nbsp;입력한&nbsp;비행기&nbsp;모델과&nbsp;동일한&nbsp;데이터&nbsp;한줄을&nbsp;검색한다.<br />
+*&nbsp;검색한&nbsp;한&nbsp;줄의&nbsp;데이터에서&nbsp;최대좌석수&nbsp;SEATSMAX&nbsp;만&nbsp;가져온다.<br />
+*&nbsp;가져온&nbsp;최대좌석수는&nbsp;SDYN_CONN-SEATSMAX에&nbsp;보관한다.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;SEATSMAX<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;SAPLANE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;SDYN_CONN-SEATSMAX<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;PLANETYPE&nbsp;=&nbsp;SDYN_CONN-PLANETYPE.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;검색&nbsp;성공<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;바뀐&nbsp;비행기의&nbsp;이코노미의&nbsp;최대좌석이&nbsp;바뀌기전&nbsp;비행기의&nbsp;이노코미의&nbsp;예약좌석보다&nbsp;적으면&nbsp;안된다.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;SDYN_CONN-SEATSMAX&nbsp;&lt;&nbsp;GS_FLIGHT-SEATSOCC.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;&nbsp;E109(BC410).<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;GS_FLIGHT&nbsp;에는&nbsp;SFLIGHT에서&nbsp;검색된&nbsp;결과&nbsp;데이터<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;입력한&nbsp;항공기&nbsp;모델과&nbsp;그&nbsp;항공기의&nbsp;최대좌석수&nbsp;기준으로&nbsp;업데이트<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;이후&nbsp;next&nbsp;screen을&nbsp;통해&nbsp;0100&nbsp;화면의&nbsp;PBO&nbsp;모듈이&nbsp;작동할떄<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;PBO&nbsp;Module의&nbsp;MOVE_TO_DYNP&nbsp;에&nbsp;의해서&nbsp;화면에&nbsp;출력할&nbsp;SDYN_CONN이<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;GS_FLIGHT기준으로&nbsp;업데이트되면서&nbsp;화면에&nbsp;내가&nbsp;입력한&nbsp;항공기와<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;그&nbsp;항공기의&nbsp;최대&nbsp;좌석수가&nbsp;출력되는&nbsp;걸&nbsp;볼&nbsp;수&nbsp;있따.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FLIGHT-PLANETYPE&nbsp;=&nbsp;SDYN_CONN-PLANETYPE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FLIGHT-SEATSMAX&nbsp;=&nbsp;SDYN_CONN-SEATSMAX.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"검색실패<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;&nbsp;'해당&nbsp;항공기&nbsp;모델명은&nbsp;존재하지&nbsp;않습니다.'(E01)&nbsp;TYPE&nbsp;'E'.<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDMODULE.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

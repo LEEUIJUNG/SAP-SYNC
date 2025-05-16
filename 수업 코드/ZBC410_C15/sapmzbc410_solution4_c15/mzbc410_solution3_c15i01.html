@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>MZBC410_SOLUTION3_C15I01</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: MZBC410_SOLUTION3_C15I01</h2>
+<h3> Description: PAI Modules</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MZBC410_SOLUTION2_C15I01<br />
+*&---------------------------------------------------------------------*<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module&nbsp;&nbsp;CHECK_SFLIGHT&nbsp;&nbsp;INPUT<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE CHECK_SFLIGHT INPUT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;화면에&nbsp;입력된&nbsp;항공사id,&nbsp;항공편no,&nbsp;비행일자를&nbsp;이용해서<br />
+*&nbsp;sflight&nbsp;table&nbsp;에서&nbsp;데이터를&nbsp;조회한다.<br />
+*&nbsp;조회된&nbsp;데이터는&nbsp;성공적이면,&nbsp;화면에&nbsp;출력하기&nbsp;위해&nbsp;dic,&nbsp;str에&nbsp;데이터를&nbsp;전달.<br />
+*&nbsp;실패하면,&nbsp;정보성&nbsp;메세지를&nbsp;bc410의&nbsp;007로&nbsp;출력하고,&nbsp;dictionary&nbsp;structure&nbsp;를&nbsp;초기화한다.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CLEAR&nbsp;GS_FLIGHT.&nbsp;"&nbsp;select&nbsp;문에서&nbsp;사용하는&nbsp;변수는&nbsp;검색전에&nbsp;깔끔하게&nbsp;초기화&nbsp;하는&nbsp;습관을&nbsp;들이자.<br />
+&nbsp;&nbsp;"&nbsp;만약&nbsp;초기화&nbsp;하지&nbsp;않고&nbsp;쓰는&nbsp;습관이&nbsp;계속되면,&nbsp;찌꺼기&nbsp;데이터에&nbsp;의한&nbsp;오작동&nbsp;가능성&nbsp;있음<br />
+<br />
+&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;*&nbsp;FROM&nbsp;SFLIGHT&nbsp;INTO&nbsp;GS_FLIGHT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;CARRID&nbsp;=&nbsp;SDYN_CONN-CARRID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;CONNID&nbsp;=&nbsp;SDYN_CONN-CONNID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;FLDATE&nbsp;=&nbsp;SDYN_CONN-FLDATE.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;=&nbsp;0&nbsp;.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;검색이&nbsp;성공<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;화면에&nbsp;검색된&nbsp;데이터가&nbsp;출력되도록&nbsp;전달한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;입력필드와&nbsp;이름이&nbsp;똑같은&nbsp;dic&nbsp;struc&nbsp;변수에게<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MOVE-CORRESPONDING&nbsp;GS_FLIGHT&nbsp;TO&nbsp;SDYN_CONN.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;검색된&nbsp;데이터가&nbsp;없다면<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;I007(BC410).<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;dictionary&nbsp;structure&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;SDYN_CONN.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Module&nbsp;&nbsp;USER_COMMAND_0100&nbsp;&nbsp;INPUT<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*----------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE USER_COMMAND_0100 INPUT.<br />
+<br />
+&nbsp;&nbsp;CASE&nbsp;&nbsp;GV_UCOMM.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'X'.&nbsp;"&nbsp;gv_ucomm&nbsp;이&nbsp;'x'&nbsp;일&nbsp;때<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"프로그램을&nbsp;종료하고&nbsp;호출&nbsp;이전&nbsp;화면으로&nbsp;이동<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE&nbsp;TO&nbsp;SCREEN&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'T'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;150&nbsp;번화면을&nbsp;pop&nbsp;up&nbsp;으로&nbsp;호출한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;왼쪽에서&nbsp;10&nbsp;칸&nbsp;위에서&nbsp;5줄&nbsp;간격으로&nbsp;팝업창이&nbsp;열린다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;150<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STARTING&nbsp;AT&nbsp;50&nbsp;5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDING&nbsp;AT&nbsp;80&nbsp;10.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;OTHERS.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+" 사용자가 fucntion code 'back' 로 지정된 뒤로가기 버튼을 눌렀을때<br />
+" OK 타입과 assigned 된 OK_CODE 변수에게 'back' 이 기록된다.<br />
+" 그 뒤에 PAI 모듈이 실행되는데, 여기에서 OK_CODE 변수 값을 기록해서<br />
+" 'BACK' 이라면 뒤로가기 버튼에 알맞는 기능을 구현한다.<br />
+&nbsp;&nbsp;CASE&nbsp;OK_CODE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'BACK'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LEAVE&nbsp;TO&nbsp;SCREEN&nbsp;0.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'TIME'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;150<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STARTING&nbsp;AT&nbsp;50&nbsp;5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDING&nbsp;AT&nbsp;80&nbsp;10.<br />
+<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+ENDMODULE.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

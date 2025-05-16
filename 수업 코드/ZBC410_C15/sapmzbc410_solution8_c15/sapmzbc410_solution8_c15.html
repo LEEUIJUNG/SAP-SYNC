@@ -1,0 +1,132 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>SAPMZBC410_SOLUTION8_C15</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: SAPMZBC410_SOLUTION8_C15</h2>
+<h3> Description: Exercise 8. Create Tabstrip Controls</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;Pool&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SAPMZBC410_SOLUTION8_C15<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Exercise&nbsp;8.&nbsp;Create&nbsp;Tabstrip&nbsp;Controls<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+include <a href ="mzbc410_solution8_c15top.html">MZBC410_SOLUTION8_C15TOP</a>.<br />
+<br />
+include <a href ="mzbc410_solution8_c15o01.html">MZBC410_SOLUTION8_C15O01</a>.<br />
+include <a href ="mzbc410_solution8_c15i01.html">MZBC410_SOLUTION8_C15I01</a>.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;MZBC410_SOLUTION6_C15F01.<br />
+<br />
+<br />
+*Module&nbsp;Pool&nbsp;에서&nbsp;사용&nbsp;하는&nbsp;Event<br />
+*프로그램&nbsp;실행시&nbsp;화면&nbsp;호출&nbsp;전에&nbsp;먼저&nbsp;실행되는&nbsp;일회성&nbsp;이벤트<br />
+   </div>
+   <div class="code">
+LOAD-OF-PROGRAM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;1.&nbsp;SAP&nbsp;Memory&nbsp;에서&nbsp;기록된&nbsp;값을&nbsp;가져온다.<br />
+*&nbsp;2.&nbsp;기록된&nbsp;값을&nbsp;기준으로&nbsp;Database&nbsp;Table&nbsp;Sflight&nbsp;를&nbsp;조회<br />
+*&nbsp;3.&nbsp;조회한&nbsp;결과는&nbsp;GS_FLIGHT에게&nbsp;전달<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;"&nbsp;SAP&nbsp;에&nbsp;기록된&nbsp;값을&nbsp;가져오는&nbsp;KEY&nbsp;WORD<br />
+&nbsp;&nbsp;"&nbsp;GET&nbsp;PARAMETER&nbsp;ID&nbsp;(&nbsp;'&nbsp;파라미터&nbsp;ID&nbsp;값&nbsp;',&nbsp;'&nbsp;'&nbsp;따음표를&nbsp;적어줘야함&nbsp;문자열이여야함&nbsp;)&nbsp;FIELD&nbsp;(&nbsp;메모리에&nbsp;기록된&nbsp;값을&nbsp;전달&nbsp;받을&nbsp;변수&nbsp;)<br />
+&nbsp;&nbsp;GET&nbsp;PARAMETER&nbsp;ID:&nbsp;'CAR'&nbsp;FIELD&nbsp;GS_FLIGHT-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'CON'&nbsp;FIELD&nbsp;GS_FLIGHT-CONNID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'DAY'&nbsp;FIELD&nbsp;GS_FLIGHT-FLDATE.<br />
+<br />
+&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;SFLIGHT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;GS_FLIGHT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;CARRID&nbsp;=&nbsp;GS_FLIGHT-CARRID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;CONNID&nbsp;=&nbsp;GS_FLIGHT-CONNID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;FLDATE&nbsp;=&nbsp;&nbsp;GS_FLIGHT-FLDATE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*GUI&nbsp;Texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;TITLE_0100&nbsp;--&gt;&nbsp;&&nbsp;&&nbsp;&&nbsp;&&nbsp;&<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;E01&nbsp;해당&nbsp;항공기&nbsp;모델명은&nbsp;존재하지&nbsp;않습니다.<br />
+*&nbsp;T01&nbsp;flight&nbsp;Data<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;BC410<br />
+*007&nbsp;&nbsp;&nbsp;Table&nbsp;entry&nbsp;for&nbsp;specified&nbsp;key&nbsp;does&nbsp;not&nbsp;exist<br />
+*109&nbsp;&nbsp;&nbsp;No.&nbsp;of&nbsp;places&nbsp;booked&nbsp;exceeds&nbsp;capacity<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;Hard&nbsp;coded<br />
+*&nbsp;&nbsp;&nbsp;해당&nbsp;항공기&nbsp;모델명은&nbsp;존재하지&nbsp;않습니다.&nbsp;(E01)<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>
