@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>YC15_TEST_04</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: YC15_TEST_04</h2>
+<h3> Description: structure 연습</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;YC15_TEST_04<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT YC15_TEST_04.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ABAP&nbsp;Dictionary의&nbsp;Structure&nbsp;Type을&nbsp;사용하여&nbsp;선언<br />
+   </div>
+   <div class="code">
+DATA  GS_FLIGHT TYPE BC400_S_FLIGHT.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Local&nbsp;Structure&nbsp;Type&nbsp;생성.<br />
+   </div>
+   <div class="code">
+TYPES BEGIN OF TYS_FLIGHTINFO.<br />
+TYPES CARRID TYPE S_CARR_ID.<br />
+TYPES CARRNAME TYPE S_CARRNAME.<br />
+TYPES CONNID TYPE S_CONN_ID.<br />
+TYPES FLDATE TYPE S_DATE.<br />
+TYPES PERCENTAGE TYPE P LENGTH 3 DECIMALS 2.<br />
+TYPES END OF TYS_FLIGHTINFO.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;프로그램&nbsp;내부의&nbsp;Local&nbsp;Structure&nbsp;Type&nbsp;을&nbsp;이용하여&nbsp;선언.<br />
+   </div>
+   <div class="code">
+DATA GS_FLIGHTINFO TYPE TYS_FLIGHTINFO.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Type을&nbsp;활용하지&nbsp;않고&nbsp;직접&nbsp;Structrue&nbsp;구조를&nbsp;만들면서&nbsp;선언<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF GS_A,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;C&nbsp;LENGTH&nbsp;10,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AGE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GENDER&nbsp;&nbsp;&nbsp;TYPE&nbsp;C&nbsp;LENGTH&nbsp;1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BIRTHDAY&nbsp;TYPE&nbsp;D,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;GS_A.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Structure&nbsp;변수를&nbsp;참조하여&nbsp;Structure&nbsp;선언.<br />
+   </div>
+   <div class="code">
+DATA GS_B LIKE GS_A.<br />
+<br />
+GS_A-NAME = '홍길동'.<br />
+GS_A-AGE = 100.<br />
+GS_A-GENDER = 'M'.<br />
+GS_A-BIRTHDAY ='20001231'.<br />
+<br />
+MOVE-CORRESPONDING GS_FLIGHT TO GS_FLIGHTINFO.<br />
+<br />
+<br />
+BREAK-POINT.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

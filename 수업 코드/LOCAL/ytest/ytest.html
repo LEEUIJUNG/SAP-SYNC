@@ -1,0 +1,270 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>YTEST</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: YTEST</h2>
+<h3> Description: Program YTEST</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;YC15_TEST_23<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT YC15_TEST_23.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;비밀번호가&nbsp;있는&nbsp;문<br />
+   </div>
+   <div class="code">
+CLASS LCL_DOOR DEFINITION.<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;문이&nbsp;열리기&nbsp;위해서는&nbsp;비민&nbsp;번호가&nbsp;필요<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;OPEN&nbsp;IMPORTING&nbsp;IV_PASSWORD&nbsp;TYPE&nbsp;STRING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING&nbsp;EV_RESULT&nbsp;&nbsp;&nbsp;TYPE&nbsp;C.&nbsp;"&nbsp;S:&nbsp;문이&nbsp;열렸나&nbsp;&nbsp;,&nbsp;F:&nbsp;열기에&nbsp;실패했나<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;문이&nbsp;닫힐떄는&nbsp;특별한&nbsp;조건이&nbsp;없다<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;CLOSE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;비밀번호가&nbsp;일치하면&nbsp;신규&nbsp;비밀면호로&nbsp;교체<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;SET_PASSWORD&nbsp;IMPORTING&nbsp;IV_OLD_PASSWORD&nbsp;TYPE&nbsp;STRING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_NEW_PASSWORD&nbsp;TYPE&nbsp;STRING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING&nbsp;EV_RESULT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;C.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;문이&nbsp;닫혀있는지&nbsp;열려&nbsp;있는지&nbsp;알려주는&nbsp;기능<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;&nbsp;GET_STATUS&nbsp;EXPORTING&nbsp;EV_STATUS&nbsp;TYPE&nbsp;C.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS&nbsp;&nbsp;TEST_STATIC.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA&nbsp;&nbsp;STATIC_VAL_PU&nbsp;TYPE&nbsp;STRING&nbsp;VALUE&nbsp;'STATIC&nbsp;VAL'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA&nbsp;&nbsp;INST_VAL_PU&nbsp;TYPE&nbsp;STRING&nbsp;VALUE&nbsp;'INSTANCE&nbsp;VAL'.<br />
+<br />
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;문이&nbsp;열릴떄&nbsp;필요한&nbsp;비미런호<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;각각의&nbsp;문마다&nbsp;비밀번호&nbsp;생성가능<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;CLASS&nbsp;ATTR&nbsp;의&nbsp;네이밍은&nbsp;M(MEMBER&nbsp;-&nbsp;CLASS&nbsp;의&nbsp;MEMBER&nbsp;라는&nbsp;뜻&nbsp;,&nbsp;객체가&nbsp;만들어&nbsp;질때마다&nbsp;객체에&nbsp;소속된&nbsp;~&nbsp;)&nbsp;으로&nbsp;시작한다<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;MV,&nbsp;MS&nbsp;,MT&nbsp;등등<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MV_PASSWORD&nbsp;TYPE&nbsp;STRING.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MV_STATUS&nbsp;TYPE&nbsp;C.&nbsp;"&nbsp;O:&nbsp;OPEN,&nbsp;C:&nbsp;CLOSE&nbsp;,&nbsp;"&nbsp;S:&nbsp;문이&nbsp;열렸나&nbsp;&nbsp;,&nbsp;F:&nbsp;열기에&nbsp;실패했나<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA&nbsp;&nbsp;INST_VAL_PR&nbsp;TYPE&nbsp;STRING&nbsp;VALUE&nbsp;'INSTANCE&nbsp;VAL'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA&nbsp;&nbsp;STATIC_VAL_PR&nbsp;TYPE&nbsp;STRING&nbsp;VALUE&nbsp;'STATIC&nbsp;VAL'.<br />
+<br />
+ENDCLASS.<br />
+<br />
+CLASS LCL_DOOR IMPLEMENTATION.<br />
+&nbsp;&nbsp;METHOD&nbsp;TEST_STATIC.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;'TEST&nbsp;STATIC'.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;비밀번호&nbsp;일치시&nbsp;문열림<br />
+&nbsp;&nbsp;METHOD&nbsp;OPEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;MV_PASSWORD&nbsp;=&nbsp;IV_PASSWORD.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_STATUS&nbsp;=&nbsp;'O'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EV_RESULT&nbsp;=&nbsp;'S'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_STATUS&nbsp;=&nbsp;'C'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EV_RESULT&nbsp;=&nbsp;'F'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;문닫힘<br />
+&nbsp;&nbsp;METHOD&nbsp;CLOSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_STATUS&nbsp;=&nbsp;'C'.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;비밀번호가&nbsp;일치할떄만&nbsp;새로운&nbsp;비밀번호로&nbsp;교채<br />
+&nbsp;&nbsp;METHOD&nbsp;SET_PASSWORD.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;MV_PASSWORD&nbsp;=&nbsp;IV_OLD_PASSWORD.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_PASSWORD&nbsp;=&nbsp;IV_NEW_PASSWORD.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_STATUS&nbsp;=&nbsp;'S'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_STATUS&nbsp;=&nbsp;'F'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;현재&nbsp;문이&nbsp;열린지&nbsp;닫힌지&nbsp;상태결과<br />
+&nbsp;&nbsp;METHOD&nbsp;GET_STATUS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EV_STATUS&nbsp;=&nbsp;MV_STATUS.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+ENDCLASS.<br />
+<br />
+<br />
+DATA: GO_DOOR1 TYPE REF TO LCL_DOOR.<br />
+DATA: GO_DOOR2 TYPE REF TO LCL_DOOR.<br />
+DATA: GV_STATUS TYPE C.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;CLASS&nbsp;를&nbsp;쓸대는&nbsp;EVENTS&nbsp;에&nbsp;대한&nbsp;명시를&nbsp;명확히&nbsp;해야함<br />
+*&nbsp;START-OF-SELECTION.&nbsp;같은&nbsp;EVENT&nbsp;를&nbsp;명시&nbsp;안하고&nbsp;CLASS&nbsp;를&nbsp;사용하면<br />
+*&nbsp;STATEMENT&nbsp;IS&nbsp;NOT&nbsp;ACCESIBLE&nbsp;오류가&nbsp;나옴<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_DOOR1.<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_DOOR2.<br />
+<br />
+&nbsp;&nbsp;WRITE:/&nbsp;'1번'.<br />
+&nbsp;&nbsp;PERFORM&nbsp;DISPLAY_DOOR_STATUS&nbsp;USING&nbsp;GO_DOOR1.<br />
+<br />
+<br />
+&nbsp;&nbsp;WRITE:/&nbsp;'2번'.<br />
+&nbsp;&nbsp;PERFORM&nbsp;DISPLAY_DOOR_STATUS&nbsp;USING&nbsp;GO_DOOR1.<br />
+<br />
+&nbsp;&nbsp;WRITE:/&nbsp;'1번&nbsp;문을&nbsp;닫아서'.<br />
+&nbsp;&nbsp;GO_DOOR1-&gt;CLOSE(&nbsp;).<br />
+&nbsp;&nbsp;PERFORM&nbsp;DISPLAY_DOOR_STATUS&nbsp;USING&nbsp;GO_DOOR1.<br />
+<br />
+&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;'1번&nbsp;비밀번호를&nbsp;ABCD로&nbsp;변경'.<br />
+&nbsp;&nbsp;GO_DOOR1-&gt;SET_PASSWORD(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_OLD_PASSWORD&nbsp;=&nbsp;SPACE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_NEW_PASSWORD&nbsp;=&nbsp;'ABCD'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EV_RESULT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;GV_STATUS<br />
+&nbsp;&nbsp;).<br />
+&nbsp;&nbsp;PERFORM&nbsp;DISPLAY_DOOR_STATUS&nbsp;USING&nbsp;GO_DOOR1.<br />
+<br />
+<br />
+&nbsp;&nbsp;WRITE:/&nbsp;'1번&nbsp;의&nbsp;비밀번호를&nbsp;DDDD&nbsp;로&nbsp;열어본다.'.<br />
+&nbsp;&nbsp;GO_DOOR1-&gt;OPEN(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PASSWORD&nbsp;=&nbsp;'DDDD'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EV_RESULT&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;GV_STATUS<br />
+&nbsp;&nbsp;).<br />
+&nbsp;&nbsp;PERFORM&nbsp;DISPLAY_DOOR_STATUS&nbsp;USING&nbsp;GO_DOOR1.<br />
+<br />
+&nbsp;&nbsp;WRITE:/&nbsp;'1번&nbsp;의&nbsp;비밀번호를&nbsp;ABCD&nbsp;로&nbsp;열어본다.'.<br />
+&nbsp;&nbsp;GO_DOOR1-&gt;OPEN(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PASSWORD&nbsp;=&nbsp;'ABCD'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EV_RESULT&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;GV_STATUS<br />
+&nbsp;&nbsp;).<br />
+&nbsp;&nbsp;PERFORM&nbsp;DISPLAY_DOOR_STATUS&nbsp;USING&nbsp;GO_DOOR1.<br />
+<br />
+&nbsp;&nbsp;LCL_DOOR=&gt;TEST_STATIC(&nbsp;).<br />
+&nbsp;&nbsp;GO_DOOR1-&gt;TEST_STATIC(&nbsp;).<br />
+<br />
+&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;GO_DOOR1-&gt;INST_VAL_PU.<br />
+&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;GO_DOOR1-&gt;STATIC_VAL_PU.<br />
+&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;LCL_DOOR=&gt;STATIC_VAL_PU.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*---------------------&nbsp;SUBROUTINES&nbsp;-------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+FORM OPEN_DOOR USING PO_DOOR TYPE REF TO LCL_DOOR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PV_PASSWORD&nbsp;TYPE&nbsp;STRING.<br />
+<br />
+&nbsp;&nbsp;PO_DOOR-&gt;OPEN(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PASSWORD&nbsp;=&nbsp;PV_PASSWORD<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EV_RESULT&nbsp;&nbsp;&nbsp;=&nbsp;GV_STATUS<br />
+&nbsp;&nbsp;).<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;DISPLAY_DOOR_STATUS&nbsp;USING&nbsp;GO_DOOR1.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM DISPLAY_DOOR_STATUS USING PO_DOOR TYPE REF TO LCL_DOOR.<br />
+<br />
+&nbsp;&nbsp;GO_DOOR1-&gt;GET_STATUS(<br />
+&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EV_STATUS&nbsp;=&nbsp;GV_STATUS<br />
+).<br />
+<br />
+&nbsp;&nbsp;CASE&nbsp;GV_STATUS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'O'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;&nbsp;'문열림'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'C'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;'문닫힘'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'S'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:'비밀번호&nbsp;변경성공'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'F'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;'비밀먼호&nbsp;변경실패'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;OTHERS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;'문&nbsp;상태&nbsp;알&nbsp;수&nbsp;없음'.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+<br />
+ENDFORM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;001&nbsp;aaaa<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

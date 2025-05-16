@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>YC15_TEST_28_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: YC15_TEST_28_TOP</h2>
+<h3> Description: TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;YC15_TEST_28_TOP<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+DATA: GS_FLIGHT TYPE SFLIGHT.<br />
+DATA: GT_FLIGHT LIKE TABLE OF GS_FLIGHT.<br />
+<br />
+DATA: BEGIN OF GS_DISPLAY,<br />
+&nbsp;&nbsp;CARRID&nbsp;TYPE&nbsp;SFLIGHT-CARRID,<br />
+&nbsp;&nbsp;CONNID&nbsp;TYPE&nbsp;SFLIGHT-CONNID,<br />
+&nbsp;&nbsp;FLDATE&nbsp;TYPE&nbsp;SFLIGHT-FLDATE,<br />
+&nbsp;&nbsp;SEATSMAX&nbsp;TYPE&nbsp;SFLIGHT-SEATSMAX,<br />
+&nbsp;&nbsp;SEATSFREE&nbsp;TYPE&nbsp;SFLIGHT-SEATSMAX,&nbsp;"&nbsp;잔여&nbsp;좌석<br />
+&nbsp;&nbsp;ICON&nbsp;TYPE&nbsp;ICON-ID,&nbsp;"&nbsp;CAHR4&nbsp;로&nbsp;해도&nbsp;상관&nbsp;없음<br />
+&nbsp;&nbsp;PAYMENTSUM&nbsp;TYPE&nbsp;SFLIGHT-PAYMENTSUM,<br />
+&nbsp;&nbsp;CURRENCY&nbsp;TYPE&nbsp;SFLIGHT-CURRENCY,<br />
+<br />
+&nbsp;&nbsp;END&nbsp;OF&nbsp;GS_DISPLAY.<br />
+<br />
+DATA: GT_DISPLAY LIKE TABLE OF GS_DISPLAY.<br />
+<br />
+DATA: GO_CONTAINER TYPE REF TO CL_GUI_CUSTOM_CONTAINER.<br />
+DATA: GO_ALV_GRID TYPE REF TO CL_GUI_ALV_GRID.<br />
+<br />
+DATA: GT_FCAT TYPE LVC_T_FCAT.<br />
+DATA: GS_FCAT TYPE LVC_S_FCAT.<br />
+<br />
+DATA: GS_LAYO TYPE LVC_S_LAYO.<br />
+<br />
+DATA: GS_VARIANT  TYPE DISVARIANT.<br />
+DATA: GV_SAVE TYPE C.<br />
+<br />
+DATA: OK_CODE  TYPE SY-UCOMM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

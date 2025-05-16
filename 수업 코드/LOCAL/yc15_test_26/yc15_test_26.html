@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>YC15_TEST_26</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: YC15_TEST_26</h2>
+<h3> Description: LOCAL CLASS 상속 예제</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;YC15_TEST_26<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT YC15_TEST_26.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;부모&nbsp;CLASS<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+CLASS LCL_ANIMAL DEFINITION.<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;CONSTRUCTOR&nbsp;IMPORTING&nbsp;IV_NAME&nbsp;TYPE&nbsp;STRING.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;CRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;GET_NAME&nbsp;RETURNING&nbsp;VALUE(RV_NAME)&nbsp;TYPE&nbsp;STRING.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;TEST&nbsp;TYPE&nbsp;STRING&nbsp;VALUE&nbsp;'부모님'.<br />
+<br />
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MV_NAME&nbsp;TYPE&nbsp;STRING.<br />
+<br />
+<br />
+ENDCLASS.<br />
+<br />
+CLASS LCL_ANIMAL IMPLEMENTATION.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;CONSTRUCTOR.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_NAME&nbsp;=&nbsp;IV_NAME.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;CRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;MV_NAME,&nbsp;'CRY&nbsp;CRY&nbsp;CRY'.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;GET_NAME.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;RV_NAME&nbsp;=&nbsp;MV_NAME.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+ENDCLASS.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;자식&nbsp;CLASS<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+CLASS LCL_CAT DEFINITION INHERITING FROM LCL_ANIMAL.<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;CRY&nbsp;REDEFINITION.&nbsp;"&nbsp;부모&nbsp;CLASS&nbsp;와&nbsp;같은&nbsp;이름의&nbsp;METHOD&nbsp;를&nbsp;생성하여&nbsp;OVERRIDING&nbsp;을&nbsp;하기&nbsp;위해&nbsp;REDEFINITION&nbsp;재정의를&nbsp;적음<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;CAT_CRY&nbsp;.&nbsp;"&nbsp;REDEFINITION&nbsp;를&nbsp;적지&nbsp;않아도&nbsp;상속해서&nbsp;사용이&nbsp;가능하다.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;CAT_CRY&nbsp;REDEFINITION.&nbsp;"&nbsp;부모&nbsp;CLASS&nbsp;에&nbsp;동일한&nbsp;METHOD&nbsp;가&nbsp;없어서&nbsp;REDEFINITION&nbsp;재정의를&nbsp;할경우&nbsp;ERROR&nbsp;발생<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;GET_NAME&nbsp;EXPORTING&nbsp;EV_NAME&nbsp;TYPE&nbsp;STRING.&nbsp;"&nbsp;부모에&nbsp;동일한&nbsp;명칭의&nbsp;METHOD&nbsp;가&nbsp;있어서&nbsp;중복&nbsp;METHOD&nbsp;가&nbsp;생성됨으로&nbsp;오류가&nbsp;뜸<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;GET_NAME&nbsp;REDEFINITION.&nbsp;"&nbsp;정의&nbsp;안해도&nbsp;사용&nbsp;가능함,&nbsp;대신&nbsp;단순&nbsp;호출만&nbsp;가능함<br />
+<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+ENDCLASS.<br />
+<br />
+<br />
+CLASS LCL_CAT IMPLEMENTATION .<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;CRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SUPER-&gt;CRY(&nbsp;).&nbsp;"&nbsp;SUPER&nbsp;적은건&nbsp;같은&nbsp;이름의&nbsp;METHOD&nbsp;라&nbsp;OVERRIDING&nbsp;하려고<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;CRY(&nbsp;).&nbsp;"&nbsp;자기자신을&nbsp;호출&nbsp;하는&nbsp;것이기&nbsp;때문에&nbsp;무한&nbsp;LOOP&nbsp;가&nbsp;걸림&nbsp;(제귀&nbsp;함수)<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;'그래&nbsp;나는&nbsp;"'&nbsp;&&&nbsp;GET_NAME(&nbsp;)&nbsp;&&&nbsp;'"&nbsp;이다냥'&nbsp;.&nbsp;"&nbsp;부모에&nbsp;같은&nbsp;이름이&nbsp;METHOD가&nbsp;없고&nbsp;상속&nbsp;받은경우&nbsp;SUPER-&gt;&nbsp;를&nbsp;안적어도&nbsp;호출이&nbsp;가능<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;TEST&nbsp;.&nbsp;"&nbsp;부모&nbsp;CLASS&nbsp;에서&nbsp;ATTR&nbsp;도&nbsp;상속이&nbsp;가능하다&nbsp;,&nbsp;SUPER-&gt;&nbsp;로는&nbsp;METHOD&nbsp;만&nbsp;호출이&nbsp;가능하다,&nbsp;ATTR은&nbsp;안됨<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+<br />
+<br />
+ENDCLASS.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;OBJECT&nbsp;나&nbsp;CLASS&nbsp;는&nbsp;어디서&nbsp;구현이&nbsp;되는지&nbsp;EVENT&nbsp;SESSTION이&nbsp;적혀&nbsp;있어야한다.<br />
+*DATA:&nbsp;GO_ANIMAL&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;LCL_ANIMAL.<br />
+*CREATE&nbsp;OBJECT&nbsp;GO_ANIMAL.<br />
+*GO_ANIMAL-&gt;CRY(&nbsp;).<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;DATA:&nbsp;GO_CAT&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;LCL_CAT.<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_CAT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_NAME&nbsp;=&nbsp;'야옹이'.<br />
+&nbsp;&nbsp;GO_CAT-&gt;CRY(&nbsp;).<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

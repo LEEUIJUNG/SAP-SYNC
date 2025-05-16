@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>YC15_TEST_05</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: YC15_TEST_05</h2>
+<h3> Description: Internal Table Practice</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;YCL_TEST_05<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Internal&nbsp;Table&nbsp;변수&nbsp;연습<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT YC15_TEST_05.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;internal&nbsp;tabled은&nbsp;항상&nbsp;line&nbsp;type에&nbsp;사용된&nbsp;타입과&nbsp;동일한&nbsp;모양을&nbsp;지닌&nbsp;structrue&nbsp;변수가&nbsp;필요하다.<br />
+*&nbsp;이러한&nbsp;모양의&nbsp;변수를&nbsp;Work&nbsp;Area&nbsp;(&nbsp;WA&nbsp;)&nbsp;작업공간이라&nbsp;부른다.<br />
+   </div>
+   <div class="code">
+DATA GT_FLIGHTS TYPE BC400_T_FLIGHTS.<br />
+DATA GS_WORKAREA TYPE BC400_S_FLIGHT.<br />
+<br />
+BREAK-POINT.<br />
+<br />
+" WA에 적절한 데이터를 기록<br />
+GS_WORKAREA-CARRID = 'AA'.<br />
+GS_WORKAREA-CONNID = '0001'.<br />
+GS_WORKAREA-FLDATE = SY-DATUM.<br />
+GS_WORKAREA-SEATSMAX  = 200.<br />
+GS_WORKAREA-SEATSOCC = 150.<br />
+GS_WORKAREA-PERCENTAGE = 100 * GS_WORKAREA-SEATSOCC / GS_WORKAREA-SEATSMAX.<br />
+<br />
+" WA의 내용을 IT인 GT_FLIGHTS 에 한 줄 추가한다. 이로인해 IT는 한 줄 늘어나게 된다.<br />
+APPEND GS_WORKAREA TO GT_FLIGHTS.<br />
+<br />
+BREAK-POINT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*GS_WORKAREA에&nbsp;APPEND&nbsp;한&nbsp;값이&nbsp;변하지&nbsp;않았음으로,&nbsp;동일한&nbsp;데이터가&nbsp;한번&nbsp;더&nbsp;추가된다.<br />
+   </div>
+   <div class="code">
+APPEND GS_WORKAREA TO GT_FLIGHTS.<br />
+<br />
+BREAK-POINT.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;WA를&nbsp;초기화&nbsp;시키는&nbsp;방법<br />
+*&nbsp;clear&nbsp;는&nbsp;변수를&nbsp;선언한&nbsp;초기&nbsp;상태화&nbsp;동일해진다.&nbsp;(&nbsp;안에&nbsp;아무것도&nbsp;없다&nbsp;)<br />
+   </div>
+   <div class="code">
+CLEAR GS_WORKAREA-CARRID . " carrid 해당칸의 값만 초기화<br />
+CLEAR GS_WORKAREA-CONNID . " carrid 해당칸의 값만 초기화<br />
+CLEAR GS_WORKAREA. " structure 가 보유한 모든 칸의 값이 초기화<br />
+<br />
+" WA에 적절한 데이터를 기록<br />
+GS_WORKAREA-CARRID = 'BB'.<br />
+GS_WORKAREA-CONNID = '0002'.<br />
+GS_WORKAREA-FLDATE = SY-DATUM.<br />
+GS_WORKAREA-SEATSMAX  = 300.<br />
+GS_WORKAREA-SEATSOCC = 266.<br />
+GS_WORKAREA-PERCENTAGE = 100 * GS_WORKAREA-SEATSOCC / GS_WORKAREA-SEATSMAX.<br />
+<br />
+BREAK-POINT.<br />
+<br />
+" into table을 사용하고 산입에 대한 조건이 없는 insert 문법.<br />
+" 이미 2줄을 보유하고 있는 상태, 그럼 추가로 추가한 내용은 몇번째 줄에 산입이 될건가.<br />
+INSERT GS_WORKAREA INTO TABLE GT_FLIGHTS.  " gt_flights 는 standard it 때문에 append와 동일한 결과가 나옴<br />
+<br />
+" inter table 에 따라 작동 방법이 결정됨<br />
+" standard internal table일 경우 append 처럼 맨 마지막 줄에 추가<br />
+" sorted internal table 일 경우 key field 기준으로 정렬될 수 있는 마지막 위치에 삽입<br />
+" hash internal table일 경우 hash 함수에 의해 특정 위치에 삽입옴<br />
+<br />
+<br />
+BREAK-POINT.<br />
+<br />
+" 첫번째 위치에 삽입을 시킨다. 이로 인해 첫번째 데이터 부터 모든 데이터가 한줄씩 밀리게 된다.<br />
+INSERT GS_WORKAREA INTO GT_FLIGHTS INDEX 1. " AA AA BB -&gt; BB(insert) AA AA BB 로 변경<br />
+INSERT GS_WORKAREA INTO GT_FLIGHTS INDEX 3. "BB AA AA BB -&gt; BB AA BB(insert) AA BB 로 변경<br />
+<br />
+BREAK-POINT.<br />
+<br />
+CLEAR GS_WORKAREA. " structure 가 보유한 모든 칸의 값이 초기화<br />
+<br />
+<br />
+" 싹다 비워둔 상태에서 read table을 한다면?<br />
+" index는 행 번호와 같은 의미를 가진다.<br />
+READ TABLE  GT_FLIGHTS INTO GS_WORKAREA INDEX 2. " gt_flights의 2번째 줄의 데이터를 찾아서 gs_workarea 에 기록한다.<br />
+<br />
+BREAK-POINT.<br />
+<br />
+CLEAR GS_WORKAREA. " structure 가 보유한 모든 칸의 값이 초기화<br />
+<br />
+" width table key는 키필드로 지정된 필드를 검색조건으로 사용하여 특정 행을 하나 찾은 후에 into 절에 기록된 wa 로 에 값을 전달한다.<br />
+READ TABLE GT_FLIGHTS INTO GS_WORKAREA WITH TABLE KEY CARRID = 'AA' " width table key 를 사용하려면  작성된 key field 순서대로 작성해야함<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID&nbsp;=&nbsp;'0001'&nbsp;"&nbsp;&nbsp;ex)&nbsp;carrid&nbsp;connid&nbsp;fldate<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLDATE&nbsp;=&nbsp;SY-DATUM&nbsp;.<br />
+" read table 은 검색된 값이 일치하면 똑같은 조건의 데이터 중 먼저 찾아진 데이터를 가져온다.( index 가 빠른걸 가져온다. )<br />
+<br />
+BREAK-POINT.<br />
+<br />
+" read table 의 문법은 특정 조건에 따른 행을 찾았을때 sy-subrc 를 0 으로 설정한다. 못찾으면 4 또는 8 오류코드를 기록한다.<br />
+<br />
+IF SY-SUBRC EQ 0.<br />
+&nbsp;&nbsp;"&nbsp;찾은&nbsp;행의&nbsp;예약좌석수를&nbsp;190으로&nbsp;변경하고,&nbsp;그에&nbsp;따라&nbsp;관려뇐&nbsp;예약률로&nbsp;재계산하여&nbsp;it&nbsp;에&nbsp;반영<br />
+&nbsp;&nbsp;GS_WORKAREA-SEATSOCC&nbsp;=&nbsp;190.<br />
+&nbsp;&nbsp;GS_WORKAREA-PERCENTAGE&nbsp;=&nbsp;100&nbsp;*&nbsp;GS_WORKAREA-SEATSOCC&nbsp;/&nbsp;GS_WORKAREA-SEATSMAX.<br />
+<br />
+&nbsp;&nbsp;BREAK-POINT.<br />
+<br />
+" from 절에 기록한 wa 의 데이터를 불러와서 it의 어떤 행에 덮어 쓰는지 보자.<br />
+" modify 는 한줄만 변경하는대 사용, condition 없이 변경을 하면?<br />
+" it 가 지정되어 있는 key field를 검색해서 맨 처음 검색된( 조건에 맞는 첫 행 ) data 를 수정<br />
+&nbsp;&nbsp;MODIFY&nbsp;TABLE&nbsp;GT_FLIGHTS&nbsp;FROM&nbsp;GS_WORKAREA.&nbsp;&nbsp;"single&nbsp;record&nbsp;change&nbsp;한줄만&nbsp;변경<br />
+<br />
+ENDIF.<br />
+<br />
+BREAK-POINT.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

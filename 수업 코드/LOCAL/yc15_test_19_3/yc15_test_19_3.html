@@ -1,0 +1,99 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>YC15_TEST_19_3</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: YC15_TEST_19_3</h2>
+<h3> Description: 필드 심블 예제4</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;YC15_TEST_19<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT YC15_TEST_19_3.<br />
+<br />
+DATA: GT_SCARR TYPE TABLE OF SCARR WITH NON-UNIQUE KEY CARRID.<br />
+DATA: GS_SCARR TYPE SCARR.<br />
+<br />
+FIELD-SYMBOLS &lt;FS&gt; TYPE SCARR.<br />
+<br />
+SELECT  * FROM SCARR INTO TABLE GT_SCARR.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*LOOP&nbsp;AT&nbsp;GT_SCARR&nbsp;ASSIGNING&nbsp;&lt;FS&gt;.<br />
+**&nbsp;&nbsp;&nbsp;직접&nbsp;ITAB&nbsp;의&nbsp;SY-TABIX&nbsp;줄을&nbsp;&lt;FS&gt;&nbsp;가&nbsp;가리킨다.<br />
+*&nbsp;&nbsp;&lt;FS&gt;-CARRNAME&nbsp;=&nbsp;'HOMBAHOMBA'&nbsp;&&&nbsp;SY-TABIX.<br />
+*<br />
+*ENDLOOP.<br />
+<br />
+   </div>
+   <div class="code">
+LOOP AT GT_SCARR INTO GS_SCARR.<br />
+&nbsp;&nbsp;&nbsp;GS_SCARR-CARRNAME&nbsp;=&nbsp;'HOMBAHOMBA'.<br />
+&nbsp;&nbsp;&nbsp;MODIFY&nbsp;TABLE&nbsp;GT_SCARR&nbsp;FROM&nbsp;GS_SCARR.<br />
+<br />
+ENDLOOP.<br />
+<br />
+CL_DEMO_OUTPUT=&gt;DISPLAY( GT_SCARR ). " TEST 목적으로 ITAB 을 찍어 보는것.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

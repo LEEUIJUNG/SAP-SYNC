@@ -1,0 +1,206 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>YTEST_BASIC1</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: YTEST_BASIC1</h2>
+<h3> Description: TAB ITAB STRUCTURE 변수 테스트</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;YTEST<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;UNIT&nbsp;5&nbsp;LESSON&nbsp;1&nbsp;USING&nbsp;DATA&nbsp;OBJECTS<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT YTEST.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;SAP&nbsp;자체적으로&nbsp;선언된&nbsp;정보들은&nbsp;TYPE&nbsp;이다.<br />
+*&nbsp;DATA:&nbsp;GS_CARRIER&nbsp;TYPE&nbsp;BC400_S_CARRIER,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FLIGHT&nbsp;&nbsp;TYPE&nbsp;BC400_S_FLIGHT.<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;SAMPLE&nbsp;TYPE,&nbsp;STRUCTURE<br />
+*&nbsp;TYPE&nbsp;과&nbsp;DATA&nbsp;로&nbsp;선언한&nbsp;예시<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+TYPES: BEGIN OF TS_SAMPLE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NUM&nbsp;TYPE&nbsp;N,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INT&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;TS_SAMPLE.&nbsp;"&nbsp;STRUCTRUE&nbsp;TYPE<br />
+<br />
+DATA : BEGIN OF GS_SAMPLE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NUM&nbsp;TYPE&nbsp;N,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INT&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;GS_SAMPLE.&nbsp;"&nbsp;STRUCTURE<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;table&nbsp;type&nbsp;sample<br />
+   </div>
+   <div class="code">
+TYPES TT_FLIGHTS  TYPE TABLE OF BC400_S_FLIGHT<br />
+&nbsp;&nbsp;&nbsp;WITH&nbsp;NON-UNIQUE&nbsp;KEY&nbsp;CARRID&nbsp;CONNID&nbsp;FLDATE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;(&nbsp;TYPE&nbsp;,&nbsp;LIKE&nbsp;)<br />
+*&nbsp;(Structure)&nbsp;TYPE&nbsp;(TYPES)<br />
+*&nbsp;(Structure)&nbsp;LIKE&nbsp;(Structure)<br />
+*&nbsp;(Structure)&nbsp;TYPE&nbsp;(Transparent&nbsp;Table)<br />
+*&nbsp;(Structure)&nbsp;LILKE&nbsp;(Transparent&nbsp;Table)<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+TYPES TY_T1 TYPE TS_SAMPLE. " TYPE FOR STRUCTURE<br />
+DATA GS_D TYPE TS_SAMPLE. " (Structure) TYPE (TYPES)<br />
+<br />
+DATA GS_D0 LIKE GS_D. " (Structure) LIKE (Structure)<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;DATA&nbsp;GS&nbsp;TYPE&nbsp;GS_D.&nbsp;"&nbsp;&nbsp;Type&nbsp;"GS_D"&nbsp;is&nbsp;unknown.<br />
+<br />
+   </div>
+   <div class="code">
+DATA GS_D1 TYPE SPFLI. " (Structure) TYPE (Transparent Table)<br />
+DATA GS_D2 LIKE SPFLI. " (Structure) LILKE (Transparent Table)<br />
+<br />
+TYPES TY_T3 TYPE SPFLI. " ( Structure TYPE ) TYPE (Transparent Table)<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;TYPES&nbsp;T&nbsp;TYPE&nbsp;GS_D1.&nbsp;"&nbsp;Type&nbsp;"GS_D1"&nbsp;is&nbsp;unknown.<br />
+<br />
+   </div>
+   <div class="code">
+TYPES GT_T1 TYPE TT_FLIGHTS.<br />
+DATA GT_T1 TYPE TT_FLIGHTS.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;(&nbsp;TYPE,&nbsp;LIKE&nbsp;)&nbsp;TABLE&nbsp;OF<br />
+*&nbsp;(ITAB)&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;(Transparent&nbsp;Table)<br />
+*&nbsp;(ITAB)&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;(TYPE&nbsp;FOR&nbsp;STRUCTURE)<br />
+*&nbsp;(ITAB)&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;(Transparent&nbsp;Table)<br />
+*&nbsp;(ITAB)&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;(Structure)<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+DATA GT_D1 TYPE TABLE OF SPFLI. " (ITAB) TYPE TABLE OF (Transparent Table)<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;DATA&nbsp;D&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;GS_D1.&nbsp;"&nbsp;Type&nbsp;"GS_D1"is&nbsp;unknown.<br />
+   </div>
+   <div class="code">
+DATA GT_D2 LIKE TABLE OF SPFLI. " (ITAB) LIKE TABLE OF (Transparent Table)<br />
+<br />
+DATA GT_D3 LIKE TABLE OF GS_D1. " (ITAB) LIKE TABLE OF (Structure)<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;DATA&nbsp;GT&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;GS_D1.&nbsp;"&nbsp;Type&nbsp;"GS_D1"is&nbsp;unknown.<br />
+<br />
+   </div>
+   <div class="code">
+DATA GT_D4 TYPE TABLE OF TY_T1. " (ITAB) TYPE TABLE OF (TYPE FOR STRUCTURE)<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;DATA&nbsp;GT&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;TY_T1.&nbsp;"&nbsp;Field&nbsp;"T1"is&nbsp;unknown.<br />
+<br />
+*&nbsp;DATA&nbsp;GT&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;GT_D1.&nbsp;"&nbsp;Type&nbsp;"GT_D1"is&nbsp;unknown.<br />
+   </div>
+   <div class="code">
+DATA GT_D5 LIKE TABLE OF GT_D1. " ITAB(TABLE_LINE) TYPE TABLE OF ITAB<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;LIKE&nbsp;LINE&nbsp;OF<br />
+*&nbsp;(Structure)&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;(ITAB)<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+DATA GS_T1 LIKE LINE OF GT_D1. " (Structure) LIKE LINE OF (ITAB)<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;DATA&nbsp;GS_T&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;GS_D1.&nbsp;"&nbsp;"GS_D1"&nbsp;is&nbsp;not&nbsp;an&nbsp;internal&nbsp;table.<br />
+*&nbsp;DATA&nbsp;GS_T&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;SPFLI.&nbsp;"&nbsp;Field&nbsp;"SPFLI"is&nbsp;unknown.<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+BREAK-POINT.<br />
+<br />
+<br />
+.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

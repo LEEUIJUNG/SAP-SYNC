@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>YTEST_BASIC2</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: YTEST_BASIC2</h2>
+<h3> Description: Program YTEST_BASIC2</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;YTEST_BASIC2<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT YTEST_BASIC2.<br />
+<br />
+<br />
+DATA: GT_FLIGHTS     TYPE BC400_T_FLIGHTS,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_CARRIERS&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;BC400_T_CARRIERS,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_BOOKINGS&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;BC400_T_BOOKINGS,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_CONNECTIONS&nbsp;TYPE&nbsp;BC400_T_CONNECTIONS,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FLIGHT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;BC400_S_FLIGHT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_CARRIER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;BC400_S_CARRIER,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_BOOKING&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;BC400_S_BOOKING,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_CONNECTION&nbsp;&nbsp;TYPE&nbsp;BC400_S_CONNECTION.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;LOCAL&nbsp;TABLE&nbsp;TYPE&nbsp;을&nbsp;선언하고&nbsp;INTERNAL&nbsp;TABLE&nbsp;선언<br />
+   </div>
+   <div class="code">
+TYPES TT_FLIGHTS  TYPE TABLE OF BC400_S_FLIGHT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;NON-UNIQUE&nbsp;KEY&nbsp;CARRID&nbsp;CONNID&nbsp;FLDATE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Table&nbsp;Type&nbsp;선언<br />
+   </div>
+   <div class="code">
+TYPES TT_T TYPE TT_FLIGHTS.<br />
+DATA GT_TT_T TYPE TT_T.<br />
+DATA GT_TT_T2 TYPE TABLE OF TT_T.<br />
+<br />
+DATA GT_FLIGHTS1 TYPE TT_FLIGHTS.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Structure를&nbsp;사용하여&nbsp;바로&nbsp;&nbsp;INTERNAL&nbsp;TABLE&nbsp;선언<br />
+   </div>
+   <div class="code">
+DATA GT_FLIGHTS2  TYPE TABLE OF BC400_S_FLIGHT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;NON-UNIQUE&nbsp;KEY&nbsp;CARRID&nbsp;CONNID&nbsp;FLDATE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;바로&nbsp;Internal&nbsp;Table&nbsp;선언<br />
+   </div>
+   <div class="code">
+DATA GT_FLIGHTS3 TYPE BC400_T_FLIGHTS.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;왜&nbsp;변수&nbsp;이름이&nbsp;같은대&nbsp;선언이&nbsp;되지?&nbsp;타입마다&nbsp;변수이름이&nbsp;다&nbsp;따로&nbsp;있나.<br />
+   </div>
+   <div class="code">
+TYPES  GV TYPE I.<br />
+DATA GV TYPE I.<br />
+DATA GV2 TYPE I.<br />
+<br />
+BREAK-POINT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;실습용&nbsp;데이터를&nbsp;Structure로&nbsp;전달.<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+SELECT SINGLE * " Structure는 한줄만 받음으로 Single 을 적어줘야함<br />
+&nbsp;&nbsp;FROM&nbsp;SFLIGHT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Single&nbsp;을&nbsp;적지&nbsp;않으면&nbsp;Endselct.&nbsp;를&nbsp;사용하는&nbsp;Loop&nbsp;문이&nbsp;됨<br />
+&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;GS_FLIGHT.&nbsp;"&nbsp;Structure&nbsp;는&nbsp;INTO&nbsp;을&nbsp;사용한다<br />
+<br />
+   </div>
+   <div class="codeComment">
+*ENDSELECT.&nbsp;"&nbsp;ENDSELECT를&nbsp;사용하지&nbsp;않는&nbsp;것을&nbsp;권장한다.<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;실습용&nbsp;Internal&nbsp;Table&nbsp;생성&nbsp;Aarray&nbsp;fetch<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+"  실습용 internal table 을 받아온다.<br />
+SELECT *<br />
+&nbsp;&nbsp;FROM&nbsp;SFLIGHT<br />
+&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;GT_FLIGHTS.&nbsp;"&nbsp;TABLE&nbsp;은&nbsp;INTO&nbsp;TABLE&nbsp;을&nbsp;사용한다<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;아래의&nbsp;방식대로&nbsp;하는&nbsp;것을&nbsp;추천한다.&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;를&nbsp;쓰면<br />
+*&nbsp;Select&nbsp;구문에서&nbsp;field&nbsp;의&nbsp;위치를&nbsp;맞추지&nbsp;않아도&nbsp;됨.<br />
+*SELECT&nbsp;CARRID&nbsp;CONNID&nbsp;FLDATE&nbsp;SEATSMAX&nbsp;SEATSOCC<br />
+*&nbsp;&nbsp;FROM&nbsp;SFLIGHT<br />
+*&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;GT_FLIGHTS.<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;Internal&nbsp;Table&nbsp;조작방법.<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;APPEND,&nbsp;INSERT,&nbsp;READ&nbsp;TABLE,&nbsp;MODIFY&nbsp;TABLE,&nbsp;DELETE&nbsp;관련된&nbsp;내용이다.<br />
+<br />
+*&nbsp;실습을&nbsp;위한&nbsp;TABLE&nbsp;을&nbsp;복사한다.&nbsp;MOVE-CORRESPONDING&nbsp;을&nbsp;사용하여<br />
+*&nbsp;MOVE&nbsp;GT_FLIGHTS&nbsp;TO&nbsp;GT_FLIGHTS2.&nbsp;"&nbsp;일반&nbsp;변수도&nbsp;가능<br />
+<br />
+*&nbsp;Condition&nbsp;문에서&nbsp;standard&nbsp;sorted&nbsp;는&nbsp;index,&nbsp;where&nbsp;사용가능<br />
+*&nbsp;hashed&nbsp;는&nbsp;where&nbsp;만&nbsp;사용&nbsp;가능<br />
+<br />
+   </div>
+   <div class="code">
+MOVE-CORRESPONDING GT_FLIGHTS TO GT_FLIGHTS2. " STructure만 가능<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;table&nbsp;의&nbsp;맨뒤&nbsp;행에&nbsp;데이터&nbsp;삽입<br />
+   </div>
+   <div class="code">
+APPEND GS_FLIGHT TO GT_FLIGHTS. " Standart Table 만 사용가능, 맨 마지막 줄에 추가<br />
+   </div>
+   <div class="codeComment">
+*<br />
+**&nbsp;table&nbsp;에&nbsp;데이터&nbsp;삽입<br />
+   </div>
+   <div class="code">
+INSERT GS_FLIGHT INTO GT_FLIGHTS2 INDEX 1. " Standard Table 일 경우 그냥 INTO 만 사용해도 됨<br />
+INSERT GS_FLIGHT INTO TABLE GT_FLIGHTS2. " Standard Table 이 아닐경우<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;table&nbsp;에서&nbsp;한줄을&nbsp;읽어서&nbsp;출력<br />
+   </div>
+   <div class="code">
+READ TABLE GT_FLIGHTS2 INTO GS_FLIGHT INDEX 3. " 3번째 행의 데이터<br />
+READ TABLE GT_FLIGHTS2 INTO GS_FLIGHT WITH TABLE KEY CARRID = 'aa'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID&nbsp;=&nbsp;17<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLDATE&nbsp;=&nbsp;'2024-07-11'.&nbsp;"&nbsp;key&nbsp;field&nbsp;로&nbsp;조회하려면&nbsp;primary&nbsp;key를&nbsp;전부&nbsp;조회해야함<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;modify&nbsp;한줄만&nbsp;변경<br />
+*&nbsp;it&nbsp;가&nbsp;지정되어&nbsp;있는&nbsp;key&nbsp;field를&nbsp;검색해서&nbsp;맨&nbsp;처음&nbsp;검색된(&nbsp;조건에&nbsp;맞는&nbsp;첫&nbsp;행&nbsp;)&nbsp;data&nbsp;를&nbsp;수정<br />
+   </div>
+   <div class="code">
+MODIFY GT_FLIGHTS FROM GS_FLIGHT INDEX 1.<br />
+MODIFY TABLE GT_FLIGHTS FROM GS_FLIGHT .<br />
+MODIFY GT_FLIGHTS FROM GS_FLIGHT INDEX 1 TRANSPORTING CONNID CARRID. " TRANSPORTING 특정 필드의 데이터만 변경<br />
+<br />
+" Collect는 it에 신규 행을 추가하거나, 기존 행의 숫자필드와 누적합산한다.<br />
+" 신규나 기존이냐 판별방법은, 문자열 필드를 기준으로 검색하여 검색한다.<br />
+" 문자열 필드를 검색하여 존재하면 기존행에 기존행의 숫자 필드 끼리 합산, 존재하지 않으면 신규행으로 추가한다.<br />
+COLLECT GS_FLIGHT INTO  GT_FLIGHTS.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;&nbsp;set&nbsp;of&nbsp;record<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+LOOP AT GT_FLIGHTS INTO GS_FLIGHT. " GT_FLIGHTS 의 N 번쨰 행을 GS_FLIGHT 에 복사한다.<br />
+&nbsp;&nbsp;"&nbsp;GT_FLIGHTS&nbsp;의&nbsp;행&nbsp;만큼&nbsp;반복&nbsp;실행<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;WRITE:&nbsp;/&nbsp;SY-TABIX.&nbsp;"&nbsp;몇번째&nbsp;행이&nbsp;실행중인지&nbsp;출력<br />
+*&nbsp;SY-INDEX.&nbsp;"&nbsp;0&nbsp;이&nbsp;출력됨&nbsp;table&nbsp;반복이&nbsp;아님으로<br />
+   </div>
+   <div class="code">
+ENDLOOP.<br />
+<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+BREAK-POINT.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

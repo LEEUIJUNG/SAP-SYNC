@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>YC15_TEST_06</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: YC15_TEST_06</h2>
+<h3> Description: Collect 문법 연습</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;YC15_TEST_06<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Collection&nbsp;Practice<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT YC15_TEST_06.<br />
+<br />
+" 학번과 성적점수를 다루는 structure<br />
+DATA: BEGIN OF GS_DATA,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STDNO&nbsp;TYPE&nbsp;N&nbsp;LENGTH&nbsp;6,&nbsp;"&nbsp;&lt;-----&nbsp;dafult&nbsp;key&nbsp;field&nbsp;문자여서<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCORE&nbsp;TYPE&nbsp;I,&nbsp;"&nbsp;정수여서&nbsp;key&nbsp;field&nbsp;아님<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;GS_DATA.<br />
+<br />
+<br />
+" structre type이 아닌, structure 변수를 사용하여 standrad it 선언<br />
+" key field 는 생략되어 default key로 설정( structure line type에서 문자열에 해당하는 모든 필드를 key field 로 지정 )<br />
+DATA GT_DATA LIKE TABLE OF GS_DATA.<br />
+<br />
+CLEAR GS_DATA. " clear 하는 습관을 들이면 좋다.<br />
+GS_DATA-STDNO = '202501'.<br />
+GS_DATA-SCORE = 100.<br />
+<br />
+APPEND GS_DATA TO GT_DATA. " 한 줄 추가<br />
+<br />
+<br />
+CLEAR GS_DATA.<br />
+GS_DATA-STDNO = '202502'.<br />
+GS_DATA-SCORE = 200.<br />
+INSERT GS_DATA INTO TABLE GT_DATA. " 한 줄 추가<br />
+<br />
+BREAK-POINT.<br />
+<br />
+" 문제. '2025001' 학생의 점수를 200점을 더 증가시키고 싶다.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*"&nbsp;방법1.&nbsp;it&nbsp;에서&nbsp;'202501&nbsp;학생을&nbsp;찾아서&nbsp;가지고&nbsp;있는&nbsp;100점에&nbsp;200점을&nbsp;한다.&nbsp;그리고&nbsp;it에&nbsp;해당&nbsp;내용을&nbsp;덮어씌운다.<br />
+*READ&nbsp;TABLE&nbsp;GT_DATA&nbsp;INTO&nbsp;GS_DATA&nbsp;WITH&nbsp;KEY&nbsp;STDNO&nbsp;=&nbsp;'202501'.&nbsp;"&nbsp;with&nbsp;table&nbsp;key&nbsp;에서&nbsp;table&nbsp;을&nbsp;빼면&nbsp;아무&nbsp;필드(key&nbsp;field&nbsp;아니여도)&nbsp;검색가능<br />
+*"&nbsp;with&nbsp;table&nbsp;key&nbsp;,&nbsp;key&nbsp;field&nbsp;만&nbsp;검색가능&nbsp;+&nbsp;빠르다<br />
+*"&nbsp;with&nbsp;key&nbsp;,&nbsp;아무필드나&nbsp;검색가능&nbsp;+&nbsp;느리다.<br />
+*<br />
+*"&nbsp;read&nbsp;table은&nbsp;sy-subrc&nbsp;와&nbsp;sy-tabix도&nbsp;설정된다.<br />
+*"&nbsp;sy-tabix는&nbsp;it&nbsp;에서&nbsp;찾은&nbsp;index를&nbsp;의미<br />
+*IF&nbsp;SY-SUBRC&nbsp;EQ&nbsp;0.<br />
+**&nbsp;ADD&nbsp;200&nbsp;TO&nbsp;GS_DATA-SCORE.&nbsp;이렇게&nbsp;사용해도&nbsp;됨<br />
+*&nbsp;&nbsp;GS_DATA-SCORE&nbsp;+=&nbsp;200.<br />
+*<br />
+*&nbsp;&nbsp;MODIFY&nbsp;GT_DATA&nbsp;FROM&nbsp;GS_DATA&nbsp;INDEX&nbsp;SY-TABIX.&nbsp;"&nbsp;위의&nbsp;read&nbsp;table&nbsp;에서&nbsp;찾기가&nbsp;성공한&nbsp;첫번째&nbsp;줄에&nbsp;덮어&nbsp;씌운다.<br />
+*<br />
+**&nbsp;tranporting에&nbsp;명시된&nbsp;field만&nbsp;값을&nbsp;변경하는대&nbsp;변경할&nbsp;값을&nbsp;from&nbsp;절에&nbsp;기록한&nbsp;wa&nbsp;에서&nbsp;가져온다.<br />
+**&nbsp;&nbsp;MODIFY&nbsp;GT_DATA&nbsp;FROM&nbsp;GS_DATA<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TRANSPORTING&nbsp;SCORE<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;STDNO&nbsp;=&nbsp;'202501'.<br />
+*<br />
+*ENDIF.<br />
+*<br />
+*BREAK-POINT.<br />
+<br />
+*&nbsp;방법2.&nbsp;Collect&nbsp;문법을&nbsp;통해&nbsp;'202501'&nbsp;학생의&nbsp;점수를&nbsp;증가&nbsp;시킨다.<br />
+   </div>
+   <div class="code">
+CLEAR GS_DATA.<br />
+GS_DATA-STDNO = '202501'. " 문자열 &lt;--- 문자열을 기준으로 검색<br />
+GS_DATA-SCORE = 200. " 숫자열 &lt;--- 문자열이 존재하면, 문쟈열 기준으로 숫자 필드 끼리 합산<br />
+COLLECT GS_DATA INTO  GT_DATA.<br />
+<br />
+" Collect는 it에 신규 행을 추가하거나, 기존 행의 숫자필드와 누적합산한다.<br />
+" 신규나 기존이냐 판별방법은, 문자열 필드를 기준으로 검색하여 검색한다.<br />
+" 문자열 필드를 검색하여 존재하면 기존행에 기존행의 숫자 필드 끼리 합산, 존재하지 않으면 신규행으로 추가한다.<br />
+<br />
+BREAK-POINT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;기존에&nbsp;2줄(&nbsp;'202501',&nbsp;'202502'&nbsp;)의&nbsp;데이터가&nbsp;존재했다&nbsp;가정을하자.<br />
+   </div>
+   <div class="code">
+CLEAR GS_DATA.<br />
+GS_DATA-STDNO = '202503'. " 기존에 없었던 학번<br />
+GS_DATA-SCORE = 500.<br />
+COLLECT GS_DATA INTO  GT_DATA. " 기존에 없었던 문자열임으로 신규행으로 추가, 마지막 행에 추가됨<br />
+COLLECT GS_DATA INTO  GT_DATA. " 첫번쨰만 신규행이고 '202503'이 존재함으로, 기존 '202503' 행에 숫자 필드끼리 합산<br />
+<br />
+BREAK-POINT.<br />
+<br />
+"It를 기준으로 작동하는 반복문 LOOP<br />
+" 현재 GT_DATA에는 총 3줄이 있다.<br />
+LOOP AT GT_DATA INTO GS_DATA. " it 에 있는 값을 한 줄씩 structure 로 넣어서 출력함<br />
+&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;'&nbsp;학번&nbsp;',&nbsp;GS_DATA-STDNO.<br />
+&nbsp;&nbsp;WRITE:&nbsp;'&nbsp;점수&nbsp;',&nbsp;GS_DATA-SCORE.<br />
+<br />
+ENDLOOP.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

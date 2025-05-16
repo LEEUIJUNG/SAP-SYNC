@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>YTEST_BASIC_3</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: YTEST_BASIC_3</h2>
+<h3> Description: aa</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;YTEST_BASIC_3<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT YTEST_BASIC_3.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;Authorization&nbsp;Check<br />
+*&---------------------------------------------------------------------*<br />
+*PARAMETERS&nbsp;CARRID&nbsp;TYPE&nbsp;S_CARR_ID.&nbsp;"&nbsp;직접&nbsp;Data&nbsp;element&nbsp;지정<br />
+*PARAMETERS&nbsp;ACTIVITY&nbsp;TYPE&nbsp;ACTIV_AUTH.&nbsp;"&nbsp;structure-component&nbsp;구조로&nbsp;지정<br />
+*<br />
+*AUTHORITY-CHECK&nbsp;OBJECT&nbsp;'S_CARRID'<br />
+*&nbsp;ID&nbsp;'CARRID'&nbsp;FIELD&nbsp;CARRID<br />
+*&nbsp;ID&nbsp;'ACTVT'&nbsp;FIELD&nbsp;ACTIVITY.<br />
+*<br />
+*IF&nbsp;SY-SUBRC&nbsp;&lt;&gt;&nbsp;0.<br />
+*&nbsp;&nbsp;RAISE&nbsp;NO_AUTH.<br />
+*ELSEIF&nbsp;ACTIVITY&nbsp;&nbsp;&lt;&gt;&nbsp;'01'&nbsp;"&nbsp;생성<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;ACTIVITY&nbsp;&nbsp;&lt;&gt;&nbsp;'02'&nbsp;"&nbsp;수정<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;ACTIVITY&nbsp;&nbsp;&lt;&gt;&nbsp;'03'.&nbsp;"&nbsp;조회<br />
+*&nbsp;&nbsp;RAISE&nbsp;WRONG_ACITIVITY.<br />
+*ENDIF.<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;Parameters&nbsp;선언&nbsp;방법<br />
+*&---------------------------------------------------------------------*<br />
+**&nbsp;Structure&nbsp;-&nbsp;Compnent&nbsp;구조로&nbsp;Type&nbsp;을&nbsp;선언&nbsp;하는&nbsp;것이&nbsp;좋다<br />
+**&nbsp;이렇게&nbsp;해야&nbsp;어느&nbsp;table&nbsp;에서&nbsp;어떠한&nbsp;변수를&nbsp;입력&nbsp;받는지&nbsp;알기&nbsp;쉽다.<br />
+*PARAMETERS:&nbsp;PA_CAR&nbsp;&nbsp;TYPE&nbsp;SCARR-CARRID,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PA_CON&nbsp;&nbsp;TYPE&nbsp;SPFLI-CONNID,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PA_DATE&nbsp;TYPE&nbsp;SFLIGHT-FLDATE.<br />
+*<br />
+**&nbsp;PARAMETERS&nbsp;pa_car2&nbsp;TYPE&nbsp;s_carr_id.&nbsp;이런식으로&nbsp;선언이&nbsp;가능하긴&nbsp;하다<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;Selection-Options<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&nbsp;Selection&nbsp;Options&nbsp;는<br />
+   </div>
+   <div class="code">
+DATA:<br />
+&nbsp;&nbsp;GT_SPFLIS&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;SPFLI,<br />
+&nbsp;&nbsp;GS_SPFLI&nbsp;&nbsp;TYPE&nbsp;SPFLI.<br />
+<br />
+SELECT-OPTIONS SO_CON FOR GS_spfli-CONNID. " Selection option 은 for 을 사용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;SO_CON&nbsp;는&nbsp;header&nbsp;라&nbsp;같은&nbsp;이름의&nbsp;Structure0&nbsp;도&nbsp;생성됨<br />
+<br />
+   </div>
+   <div class="codeComment">
+*SELECT&nbsp;*&nbsp;FROM&nbsp;SPFLI<br />
+*&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;GT_SPFLIS<br />
+*&nbsp;&nbsp;WHERE&nbsp;CONNID&nbsp;IN&nbsp;SO_CON.&nbsp;"&nbsp;Select&nbsp;Options&nbsp;에서는&nbsp;Where&nbsp;In&nbsp;을&nbsp;사용<br />
+*&nbsp;&nbsp;"&nbsp;SO_CON&nbsp;에&nbsp;있는&nbsp;요소를&nbsp;찾는거니<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECT&nbsp;*&nbsp;FROM&nbsp;SPFLI<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;GS_SPFLI<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;CONNID&nbsp;IN&nbsp;SO_CON.&nbsp;"&nbsp;Select&nbsp;Options&nbsp;에서는&nbsp;Where&nbsp;In&nbsp;을&nbsp;사용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;SO_CON&nbsp;에&nbsp;있는&nbsp;요소를&nbsp;찾는거니<br />
+&nbsp;&nbsp;ENDSELECT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

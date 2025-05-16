@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>YC15_TEST_19_2</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: YC15_TEST_19_2</h2>
+<h3> Description: 필드 심블 예제3</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;YC15_TEST_19<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT YC15_TEST_19_2.<br />
+<br />
+DATA: GS_SPFLI TYPE SPFLI.<br />
+<br />
+SELECT SINGLE * FROM SPFLI INTO GS_SPFLI<br />
+&nbsp;&nbsp;WHERE&nbsp;CARRID&nbsp;=&nbsp;'AA'<br />
+&nbsp;&nbsp;AND&nbsp;CONNID&nbsp;=&nbsp;0017.<br />
+<br />
+<br />
+FIELD-SYMBOLS &lt;FS&gt;.<br />
+<br />
+DO.<br />
+&nbsp;&nbsp;ASSIGN&nbsp;COMPONENT&nbsp;SY-INDEX&nbsp;OF&nbsp;STRUCTURE&nbsp;GS_SPFLI&nbsp;TO&nbsp;&lt;FS&gt;.&nbsp;"&nbsp;STRUCT&nbsp;의&nbsp;SY-INDEX&nbsp;번째&nbsp;필드의&nbsp;값을&nbsp;가리킨다.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;&lt;FS&gt;.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXIT.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDDO.<br />
+<br />
+DATA: LT_FIELDS TYPE TABLE OF DFIES,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LS_FIELDS&nbsp;TYPE&nbsp;&nbsp;DFIES,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LT_SPFLI&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;SPFLI.<br />
+<br />
+<br />
+<br />
+CALL FUNCTION 'DDIF_FIELDINFO_GET'<br />
+&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TABLEname&nbsp;=&nbsp;LT_SPFLI<br />
+&nbsp;&nbsp;TABLES<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DFIES_TAB&nbsp;=&nbsp;LT_FIELDS<br />
+&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1.<br />
+<br />
+IF SY-SUBRC = 0.<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;LT_FIELDS&nbsp;INTO&nbsp;LS_FIELDS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;LS_FIELDS-FIELDNAME.&nbsp;&nbsp;"&nbsp;필드&nbsp;명을&nbsp;순차적으로&nbsp;출력<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+ELSE.<br />
+&nbsp;&nbsp;WRITE:&nbsp;'구조체&nbsp;정보&nbsp;가져오기&nbsp;실패'.<br />
+ENDIF.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>
