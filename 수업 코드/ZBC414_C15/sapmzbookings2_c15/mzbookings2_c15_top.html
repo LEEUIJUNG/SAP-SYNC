@@ -1,0 +1,156 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>MZBOOKINGS2_C15_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: MZBOOKINGS2_C15_TOP</h2>
+<h3> Description: </h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;MBC414_BOOK_TTOP<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+PROGRAM sapmbc414_book_t MESSAGE-ID bc414.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;*****************************&nbsp;TYPES&nbsp;**********************************<br />
+   </div>
+   <div class="code">
+TYPES BEGIN OF gty_s_bookings.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE&nbsp;TYPE&nbsp;sbook.<br />
+TYPES   name TYPE s_custname.<br />
+TYPES   mark TYPE c LENGTH 1.<br />
+TYPES END OF gty_s_bookings.<br />
+<br />
+TYPES gty_t_bookings TYPE STANDARD TABLE OF gty_s_bookings<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;NON-UNIQUE&nbsp;DEFAULT&nbsp;KEY.<br />
+TYPES gty_t_cd       TYPE STANDARD TABLE OF sbook<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;NON-UNIQUE&nbsp;KEY&nbsp;carrid&nbsp;connid&nbsp;fldate&nbsp;bookid&nbsp;customid.<br />
+TYPES gty_t_sbook    TYPE STANDARD TABLE OF sbook<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;NON-UNIQUE&nbsp;DEFAULT&nbsp;KEY.<br />
+   </div>
+   <div class="codeComment">
+*<br />
+*&nbsp;*****************************&nbsp;VARIABLES&nbsp;*******************************<br />
+*&nbsp;transporting&nbsp;fields&nbsp;to/from&nbsp;screen<br />
+   </div>
+   <div class="code">
+TABLES: sdyn_conn, sdyn_book.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;work&nbsp;area&nbsp;and&nbsp;internal&nbsp;table&nbsp;used&nbsp;to&nbsp;display&nbsp;bookings&nbsp;in&nbsp;table&nbsp;control<br />
+   </div>
+   <div class="code">
+DATA gs_bookings TYPE gty_s_bookings.<br />
+DATA gt_bookings TYPE gty_t_bookings.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;bookings&nbsp;to&nbsp;be&nbsp;modified&nbsp;on&nbsp;database&nbsp;table<br />
+   </div>
+   <div class="code">
+DATA gt_bookings_mod TYPE gty_t_sbook.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;change&nbsp;documents:&nbsp;bookings&nbsp;before&nbsp;changes&nbsp;are&nbsp;performed<br />
+   </div>
+   <div class="code">
+DATA gt_cd TYPE gty_t_cd.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;transport&nbsp;function&nbsp;codes&nbsp;from&nbsp;screens<br />
+   </div>
+   <div class="code">
+DATA ok_code TYPE sy-ucomm.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;define&nbsp;subscreen&nbsp;screen&nbsp;number&nbsp;on&nbsp;tabstrip,&nbsp;screen&nbsp;300<br />
+   </div>
+   <div class="code">
+DATA gv_screen_no TYPE sy-dynnr.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;flags<br />
+   </div>
+   <div class="code">
+DATA gv_read_bookings TYPE c.<br />
+DATA gv_init_booking  TYPE c.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*<br />
+*&nbsp;*****************************&nbsp;CONTROLS&nbsp;********************************<br />
+*&nbsp;table&nbsp;control&nbsp;declaration&nbsp;(display&nbsp;bookings),<br />
+   </div>
+   <div class="code">
+CONTROLS tc_sbook TYPE TABLEVIEW USING SCREEN '0200'.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;tabstrip&nbsp;declaration&nbsp;(create&nbsp;booking)<br />
+   </div>
+   <div class="code">
+CONTROLS tab      TYPE TABSTRIP.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>
