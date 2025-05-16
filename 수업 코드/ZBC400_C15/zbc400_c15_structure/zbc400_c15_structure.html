@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC400_C15_STRUCTURE</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC400_C15_STRUCTURE</h2>
+<h3> Description: Exercise13 Use Structure Data Object</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZBC400_C15_STRUCTURE<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Exercise13&nbsp;Use&nbsp;Structure&nbsp;Data&nbsp;Object<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZBC400_C15_STRUCTURE.<br />
+<br />
+<br />
+PARAMETERS: PA_CAR  TYPE BC400_S_FLIGHT-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PA_CON&nbsp;&nbsp;TYPE&nbsp;BC400_S_FLIGHT-CONNID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PA_Date&nbsp;TYPE&nbsp;BC400_S_FLIGHT-FLDATE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;PARAMETERS&nbsp;PA_CAR&nbsp;&nbsp;TYPE&nbsp;BC400_S_FLIGHT-CARRID.&nbsp;"&nbsp;technical&nbsp;+&nbsp;semantic&nbsp;부가적인&nbsp;정보를더&nbsp;가지고&nbsp;있음(&nbsp;semantic&nbsp;정보를&nbsp;가지고&nbsp;있는&nbsp;dictonary를&nbsp;사용하여&nbsp;변수를&nbsp;만듬&nbsp;)&nbsp;"<br />
+*&nbsp;PARAMETERS&nbsp;PA_CAR2&nbsp;&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;3.&nbsp;"&nbsp;only&nbsp;technical&nbsp;type&nbsp;"<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+DATA: GS_CARRIER TYPE BC400_S_CARRIER,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FLIGHT&nbsp;&nbsp;TYPE&nbsp;BC400_S_FLIGHT.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Task2<br />
+   </div>
+   <div class="code">
+TYPES: BEGIN OF GS_t,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;BC400_S_CARRIER-CARRID,&nbsp;"&nbsp;가장&nbsp;좋은&nbsp;방법이다&nbsp;"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRNAME&nbsp;&nbsp;&nbsp;LIKE&nbsp;GS_CARRIER-CARRNAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CURRCODE&nbsp;&nbsp;&nbsp;TYPE&nbsp;S_CURRCODE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;URL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;S_CARRURL,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;S_CONN_ID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLDATE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;S_DATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSMAX&nbsp;&nbsp;&nbsp;TYPE&nbsp;S_SEATSMAX,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSOCC&nbsp;&nbsp;&nbsp;TYPE&nbsp;S_SEATSOCC,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERCENTAGE&nbsp;TYPE&nbsp;S_FLGHTOCC,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;GS_t.<br />
+<br />
+DATA GS_CARRIERFLIGHT TYPE GS_t.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Task3<br />
+   </div>
+   <div class="code">
+TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;입력한&nbsp;항공사에&nbsp;대한&nbsp;정보조회&nbsp;"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;CL_BC400_FLIGHTMODEL=&gt;GET_CARRIER<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_CARRID&nbsp;&nbsp;=&nbsp;PA_CAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Airline&nbsp;Code<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ES_CARRIER&nbsp;=&nbsp;GS_CARRIER.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Airline&nbsp;Carrier<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;해당&nbsp;항공사에&nbsp;대한&nbsp;비행정보&nbsp;조회&nbsp;"<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;CL_BC400_FLIGHTMODEL=&gt;GET_FLIGHT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_CARRID&nbsp;=&nbsp;PA_CAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Airline&nbsp;Code<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_CONNID&nbsp;=&nbsp;PA_CON&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Flight&nbsp;Connection&nbsp;Number<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_FLDATE&nbsp;=&nbsp;PA_DATE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Flight&nbsp;Date<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ES_FLIGHT&nbsp;=&nbsp;GS_FLIGHT.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Flight&nbsp;time<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MOVE-CORRESPONDING:&nbsp;GS_carrier&nbsp;TO&nbsp;GS_CARRIERFLIGHT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_flight&nbsp;TO&nbsp;GS_CARRIERFLIGHT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/(30)&nbsp;'&nbsp;항공사&nbsp;:&nbsp;',&nbsp;GS_CARRIERFLIGHT-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/(30)&nbsp;'&nbsp;항공사명&nbsp;:&nbsp;',&nbsp;GS_CARRIERFLIGHT-CARRNAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/(30)&nbsp;'&nbsp;통화코드&nbsp;:&nbsp;',&nbsp;GS_CARRIERFLIGHT-CURRCODE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/(30)&nbsp;'&nbsp;웹주소&nbsp;:&nbsp;',&nbsp;(50)&nbsp;GS_CARRIERFLIGHT-URL,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/(30)&nbsp;'&nbsp;항공편번호&nbsp;:&nbsp;',&nbsp;GS_CARRIERFLIGHT-CONNID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/(30)&nbsp;'&nbsp;비행일자&nbsp;:&nbsp;',&nbsp;GS_CARRIERFLIGHT-FLDATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/(30)&nbsp;'&nbsp;최대좌석수&nbsp;:&nbsp;',&nbsp;GS_CARRIERFLIGHT-SEATSMAX,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/(30)&nbsp;'&nbsp;예약좌석수&nbsp;:&nbsp;',&nbsp;GS_CARRIERFLIGHT-SEATSOCC,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/(30)&nbsp;'&nbsp;예약율&nbsp;:&nbsp;',&nbsp;GS_CARRIERFLIGHT-PERCENTAGE.<br />
+<br />
+&nbsp;&nbsp;CATCH&nbsp;CX_BC400_NO_DATA.&nbsp;"&nbsp;No&nbsp;Data&nbsp;for&nbsp;Selection<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;PA_CAR&nbsp;,&nbsp;(50)'&nbsp;해당항공사는&nbsp;존재하지&nbsp;않습니다&nbsp;'(E01).<br />
+<br />
+&nbsp;&nbsp;CATCH&nbsp;CX_BC400_NO_AUTH.&nbsp;"&nbsp;No&nbsp;Authorization&nbsp;for&nbsp;Airline<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;PA_CAR&nbsp;,&nbsp;'&nbsp;해당항공사에&nbsp;대한&nbsp;조회권한이&nbsp;없습니다.&nbsp;'(E02).<br />
+<br />
+<br />
+ENDTRY.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;E01&nbsp;&nbsp;해당항공사는&nbsp;존재하지&nbsp;않습니다<br />
+*&nbsp;E02&nbsp;&nbsp;해당항공사에&nbsp;대한&nbsp;조회권한이&nbsp;없습니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

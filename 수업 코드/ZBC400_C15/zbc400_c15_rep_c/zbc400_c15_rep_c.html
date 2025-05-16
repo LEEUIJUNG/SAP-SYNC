@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC400_C15_REP_C</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC400_C15_REP_C</h2>
+<h3> Description: Exercise 25. Use SAP LIST Viewr in an ABAP Report</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZBC400_C15_REP_C<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Exercise&nbsp;25.&nbsp;Use&nbsp;SAP&nbsp;LIST&nbsp;Viewr&nbsp;in&nbsp;an&nbsp;ABAP&nbsp;Report<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZBC400_C15_REP_C.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;선언관련&nbsp;Include<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+include <a href ="zbc400_c15_rep_c_top.html">ZBC400_C15_REP_C_TOP</a>. " 전역변수<br />
+include <a href ="zbc400_c15_rep_c_scr.html">ZBC400_C15_REP_C_SCR</a>. " Selection Screen 선언<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;구현관련&nbsp;Include<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+include <a href ="zbc400_c15_rep_pbo.html">ZBC400_C15_REP_PBO</a>. " Process Before Output ( O01 ) Modules<br />
+include <a href ="zbc400_c15_rep_pai.html">ZBC400_C15_REP_PAI</a>. " Process Afert Input ( I01 ) Modules<br />
+include <a href ="zbc400_c15_rep_f01.html">ZBC400_C15_REP_F01</a>. " Subroutines<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;ABAP&nbsp;Events<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&nbsp;Selection&nbsp;Screen&nbsp;이&nbsp;출력되기&nbsp;전에&nbsp;가장&nbsp;먼저최초로&nbsp;실행되는&nbsp;1회성&nbsp;이벤트<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+<br />
+&nbsp;&nbsp;PA_CAR&nbsp;=&nbsp;'LH'.&nbsp;"&nbsp;기본값&nbsp;설정<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Selection&nbsp;Screen&nbsp;에서&nbsp;입력값을&nbsp;점검&nbsp;또는&nbsp;권한&nbsp;점검을&nbsp;목적으로&nbsp;두는&nbsp;이벤트<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;항공사&nbsp;ID&nbsp;입력값을&nbsp;점검해서&nbsp;실제로&nbsp;TAB&nbsp;에&nbsp;존재하는&nbsp;항공사인지&nbsp;확인<br />
+&nbsp;&nbsp;PERFORM&nbsp;CHECK_INPUT_CARRID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;USING&nbsp;PA_CAR.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Selection&nbsp;Screen&nbsp;에서&nbsp;실행&nbsp;버튼을&nbsp;누른후&nbsp;입력&nbsp;값에&nbsp;따른&nbsp;로직처리&nbsp;이벤트<br />
+*&nbsp;주로&nbsp;데이터&nbsp;조회&nbsp;및&nbsp;출력하는&nbsp;과정을&nbsp;작성한다.<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;데이터&nbsp;조회<br />
+&nbsp;&nbsp;PERFORM&nbsp;SELECT_DATA.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;검색된&nbsp;데이터를&nbsp;수정<br />
+&nbsp;&nbsp;PERFORM&nbsp;MODIFY_DATA.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;데이터&nbsp;출력<br />
+&nbsp;&nbsp;PERFORM&nbsp;DISPLAY_DATA.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*GUI&nbsp;Texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;T0100&nbsp;--&gt;&nbsp;비행일정&nbsp;조회결과&nbsp;-&nbsp;&&nbsp;&&nbsp;&<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;E01&nbsp;항공사ID는&nbsp;필수&nbsp;입니다.<br />
+*&nbsp;E02&nbsp;입력하신&nbsp;항공사는&nbsp;존재하지&nbsp;않습니다.<br />
+*&nbsp;M01&nbsp;검색된&nbsp;데이터가&nbsp;없습니다.<br />
+*&nbsp;T01&nbsp;검색조건<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PA_CAR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_CON&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;Hard&nbsp;coded<br />
+*&nbsp;&nbsp;&nbsp;항공사ID는&nbsp;필수&nbsp;입니다.&nbsp;(E01)<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

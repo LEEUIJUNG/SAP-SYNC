@@ -1,0 +1,148 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC400_C15_REP_PBO</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC400_C15_REP_PBO</h2>
+<h3> Description: PBO</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZBC400_C15_REP_PBO<br />
+*&---------------------------------------------------------------------*<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;STATUS_0100&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE STATUS_0100 OUTPUT.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;뒤로가기&nbsp;버튼에&nbsp;대한&nbsp;Function&nbsp;설정<br />
+&nbsp;&nbsp;SET&nbsp;PF-STATUS&nbsp;'S0100'.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;비행일정&nbsp;조회결과&nbsp;-&nbsp;&&nbsp;&&nbsp;&<br />
+&nbsp;&nbsp;SET&nbsp;TITLEBAR&nbsp;'T0100'&nbsp;&nbsp;WITH&nbsp;SY-DATUM&nbsp;&nbsp;"&nbsp;오늘날짜<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SY-UZEIT&nbsp;&nbsp;"&nbsp;현재시간<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SY-UNAME.&nbsp;"&nbsp;현재&nbsp;사용자&nbsp;ID<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;CLEAR_OK_CODE&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE CLEAR_OK_CODE OUTPUT.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;OK_CODE&nbsp;값을&nbsp;초기화&nbsp;한다.<br />
+&nbsp;&nbsp;CLEAR&nbsp;OK_CODE.<br />
+<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;INIT_ALV_0100&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE INIT_ALV_0100 OUTPUT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;화면에서&nbsp;AREA&nbsp;에&nbsp;등장할&nbsp;도화지<br />
+*&nbsp;그런데&nbsp;그&nbsp;도화지가&nbsp;PBO&nbsp;실해될&nbsp;떄마다&nbsp;생성시키면&nbsp;안되기&nbsp;때문에<br />
+*&nbsp;&nbsp;단&nbsp;하나의&nbsp;도화지만&nbsp;만들&nbsp;수&nbsp;있도록,&nbsp;IF&nbsp;문으로&nbsp;Initial&nbsp;상태&nbsp;체크<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;IF&nbsp;GO_CONTAINER&nbsp;IS&nbsp;INITIAL.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Create&nbsp;Object를&nbsp;통해서&nbsp;생성과정이&nbsp;발생할떄&nbsp;클래스의&nbsp;Constructor(생성자)&nbsp;메소드가&nbsp;자동으로&nbsp;호출<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;이&nbsp;생성자는&nbsp;클래스마다&nbsp;다르지만,&nbsp;대부분의&nbsp;생성자는&nbsp;생성당시&nbsp;필요한&nbsp;정보를&nbsp;요구<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_CONTAINER<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONTAINER_NAME&nbsp;=&nbsp;'CCON'.&nbsp;"&nbsp;100번&nbsp;화면에서&nbsp;내가&nbsp;만든&nbsp;컨테이너&nbsp;에리어&nbsp;이름<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_ALV_GRID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_PARENT&nbsp;=&nbsp;GO_CONTAINER.&nbsp;"&nbsp;Parent&nbsp;Container<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;GO_ALV_GRID&nbsp;가&nbsp;가지고&nbsp;있는&nbsp;기능중&nbsp;데이터를&nbsp;화면에&nbsp;출력하는&nbsp;기능을&nbsp;사용한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;GO_ALV_GRID-&gt;SET_TABLE_FOR_FIRST_DISPLAY<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_STRUCTURE_NAME&nbsp;=&nbsp;'ZSMY_fLIGHT_C15'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;SE11&nbsp;ABAP에&nbsp;선언된&nbsp;Struct&nbsp;만&nbsp;입력<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Output&nbsp;Tab&nbsp;으로&nbsp;전달한&nbsp;ITAB&nbsp;에서&nbsp;출력하고&nbsp;싶은&nbsp;필드들을&nbsp;가진&nbsp;Struct가능<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_OUTTAB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GT_FLIGHTS.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Output&nbsp;Table<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;GO_CONTAINER&nbsp;가&nbsp;IS&nbsp;INITIAL&nbsp;상태가&nbsp;아닐떄&nbsp;ALV&nbsp;가&nbsp;이미&nbsp;만들어져&nbsp;있다&nbsp;생각<br />
+&nbsp;&nbsp;&nbsp;&nbsp;call&nbsp;METHOD&nbsp;GO_ALV_GRID-&gt;REFRESH_TABLE_DISPLAY.<br />
+<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+<br />
+ENDMODULE.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

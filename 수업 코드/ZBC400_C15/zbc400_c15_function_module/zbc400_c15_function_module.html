@@ -1,0 +1,209 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC400_C15_FUNCTION_MODULE</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC400_C15_FUNCTION_MODULE</h2>
+<h3> Description: Exercise 7 Function Module</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZBC400_C15_FUNCTION_MODULE<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Exercise&nbsp;7&nbsp;FUNCTION_MODULE<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZBC400_C15_FUNCTION_MODULE.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Task2<br />
+   </div>
+   <div class="code">
+PARAMETERS PA_INT1 TYPE I.<br />
+PARAMETERS PA_INT2 TYPE I.<br />
+PARAMETERS PA_OP TYPE C. "명시가 되어있지 않으면 C 는 1 자리로 취급한다 숫자 특수기호도 취급가능"<br />
+<br />
+TYPES TY_PERC TYPE P LENGTH 16 DECIMALS 2. "subroutines 를 위한 local type 설정"<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Task3<br />
+*Task3-1<br />
+   </div>
+   <div class="code">
+DATA GV_RESULT TYPE P LENGTH 16 DECIMALS 2. "31자리(16*2 - 1) + 부호 한자리 총 32 자리, 그중 소수점이 2자리를 차지함으로 정수는 29자리 "<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Task3-2&nbsp;산술기호에&nbsp;따라&nbsp;로직을&nbsp;분기<br />
+   </div>
+   <div class="code">
+CASE PA_OP.<br />
+&nbsp;&nbsp;WHEN&nbsp;'+'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GV_RESULT&nbsp;=&nbsp;PA_INT1&nbsp;+&nbsp;PA_INT2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;TEXT-M01,&nbsp;GV_RESULT.<br />
+<br />
+&nbsp;&nbsp;WHEN&nbsp;'-'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GV_RESULT&nbsp;=&nbsp;PA_INT1&nbsp;-&nbsp;PA_INT2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;TEXT-M02,&nbsp;GV_RESULT.<br />
+<br />
+&nbsp;&nbsp;WHEN&nbsp;'*'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GV_RESULT&nbsp;=&nbsp;PA_INT1&nbsp;*&nbsp;PA_INT2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;TEXT-M03,&nbsp;GV_RESULT.<br />
+<br />
+&nbsp;&nbsp;WHEN&nbsp;'/'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;PA_INT2&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;/&nbsp;'0으로&nbsp;나눌&nbsp;수&nbsp;없습니다.'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_RESULT&nbsp;=&nbsp;PA_INT1&nbsp;/&nbsp;PA_INT2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;TEXT-M04,&nbsp;GV_RESULT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;WHEN&nbsp;'%'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;CALC_PERCENTAGE&nbsp;"프로그램&nbsp;이름이&nbsp;pattern을&nbsp;통해&nbsp;만들면&nbsp;작성이&nbsp;되는데&nbsp;지우는거&nbsp;추천"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING&nbsp;PA_INT1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PA_INT2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;GV_RESULT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;'백분률&nbsp;결과&nbsp;:'(M05),&nbsp;GV_RESULT.&nbsp;"백분률&nbsp;결과&nbsp;:"<br />
+<br />
+&nbsp;&nbsp;WHEN&nbsp;'P'.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;function&nbsp;module&nbsp;빠르게&nbsp;입력하는&nbsp;방법&nbsp;call&nbsp;function&nbsp;"어쩌고&nbsp;-&gt;&nbsp;까지&nbsp;입력하고&nbsp;control&nbsp;space&nbsp;를&nbsp;눌러&nbsp;내가&nbsp;사용할&nbsp;함수를&nbsp;찾음<br />
+*&nbsp;그다음&nbsp;shift&nbsp;space&nbsp;를&nbsp;사용하여&nbsp;함수를&nbsp;입력하면&nbsp;주석처리까지&nbsp;되어&nbsp;있는&nbsp;함수가&nbsp;입력됨.&nbsp;필수&nbsp;요소는&nbsp;주석처리가&nbsp;안되어&nbsp;있음<br />
+*&nbsp;함수를&nbsp;입력할떄&nbsp;'bc400_mos_power'&nbsp;처럼&nbsp;따음표로&nbsp;끝마추고&nbsp;shift&nbsp;space&nbsp;를&nbsp;하면&nbsp;함수가&nbsp;생성이&nbsp;안됨.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'BC400_MOS_POWER'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_BASE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;PA_INT1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Base&nbsp;Number&nbsp;for&nbsp;Exponent&nbsp;Calculation<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_POWER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;PA_INT2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Exponent&nbsp;for&nbsp;Power&nbsp;Calculation<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EV_RESULT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;GV_RESULT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Result&nbsp;of&nbsp;Calculation&nbsp;with&nbsp;Two&nbsp;Decimal&nbsp;Places<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;POWER_VALUE_TOO_HIGH&nbsp;&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Exponent&nbsp;too&nbsp;hight&nbsp;(&gt;4)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESULT_VALUE_TOO_HIGH&nbsp;=&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Result&nbsp;too&nbsp;high<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;3.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CASE&nbsp;SY-SUBRC.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;'제곱수&nbsp;결과:&nbsp;'(M06),&nbsp;GV_RESULT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;'승수가&nbsp;너무&nbsp;큽니다&nbsp;(&nbsp;1&nbsp;~&nbsp;4&nbsp;사이로&nbsp;설정해&nbsp;주세요)'(E03).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;'결과가&nbsp;너무&nbsp;큽니다.&nbsp;'(E04).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;OTHERS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;'Unkown&nbsp;error&nbsp;'(E05).<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;&lt;&gt;&nbsp;0.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;ID&nbsp;SY-MSGID&nbsp;TYPE&nbsp;SY-MSGTY&nbsp;NUMBER&nbsp;SY-MSGNO<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;SY-MSGV1&nbsp;SY-MSGV2&nbsp;SY-MSGV3&nbsp;SY-MSGV4.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;WHEN&nbsp;OTHERS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;/&nbsp;TEXT-E01.<br />
+ENDCASE.<br />
+<br />
+FORM CALC_PERCENTAGE<br />
+&nbsp;&nbsp;USING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;VALUE(PV_ACT)&nbsp;TYPE&nbsp;I&nbsp;"call&nbsp;by&nbsp;value"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PV_MAX&nbsp;TYPE&nbsp;I&nbsp;"call&nbsp;by&nbsp;reference"<br />
+&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;VALUE(CV_RESULT)&nbsp;TYPE&nbsp;TY_PERC.&nbsp;"call&nbsp;by&nbsp;value&nbsp;and&nbsp;result"<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;PV_MAX&nbsp;=&nbsp;0.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;0으로&nbsp;나눌수&nbsp;없습니다&nbsp;부분을&nbsp;더블클릭해서&nbsp;text&nbsp;element&nbsp;생성&nbsp;가능<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;'0으로&nbsp;나눌수&nbsp;없습니다'(E02).&nbsp;"붙혀서&nbsp;작성해야함&nbsp;띄어&nbsp;쓰기&nbsp;하면&nbsp;안됨&nbsp;()사이도&nbsp;붙혀서&nbsp;작성해야함"<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CV_RESULT&nbsp;=&nbsp;(&nbsp;PV_ACT&nbsp;*&nbsp;100&nbsp;)&nbsp;/&nbsp;PV_MAX&nbsp;.&nbsp;"가로안에는&nbsp;붙히면&nbsp;에러가난다&nbsp;한칸이상&nbsp;띄어&nbsp;줘야한다"<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;E01&nbsp;산술기호가&nbsp;올바르지&nbsp;않습니다.<br />
+*&nbsp;E02&nbsp;0으로&nbsp;나눌수&nbsp;없습<br />
+*&nbsp;E03&nbsp;승수가&nbsp;너무&nbsp;큽니다&nbsp;(&nbsp;1&nbsp;~&nbsp;4&nbsp;사이로&nbsp;설정해&nbsp;주세요)<br />
+*&nbsp;E04&nbsp;결과가&nbsp;너무&nbsp;큽니다.<br />
+*&nbsp;E05&nbsp;Unkown&nbsp;error<br />
+*&nbsp;M01&nbsp;더하기&nbsp;결과&nbsp;:<br />
+*&nbsp;M02&nbsp;빼기&nbsp;결과&nbsp;:<br />
+*&nbsp;M03&nbsp;곱하기&nbsp;결과&nbsp;:<br />
+*&nbsp;M04&nbsp;나누기&nbsp;결과&nbsp;:<br />
+*&nbsp;M05&nbsp;백분률&nbsp;결과&nbsp;:<br />
+*&nbsp;M06&nbsp;제곱수&nbsp;결과:<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

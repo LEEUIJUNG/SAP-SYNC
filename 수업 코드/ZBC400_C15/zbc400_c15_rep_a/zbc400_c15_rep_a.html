@@ -1,0 +1,166 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC400_C15_REP_A</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC400_C15_REP_A</h2>
+<h3> Description: Exercise 20 Create Selection a Screen and a Classic ABAP List</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;&nbsp;BC400_RPT_REP_A<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Exercise&nbsp;20&nbsp;Create&nbsp;Selection&nbsp;a&nbsp;Screen&nbsp;and&nbsp;a&nbsp;Classic&nbsp;ABAP&nbsp;List<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT  ZBC400_C15_REP_A.<br />
+<br />
+BREAK-POINT.<br />
+<br />
+DATA:<br />
+&nbsp;&nbsp;GT_FLIGHTS&nbsp;TYPE&nbsp;BC400_T_FLIGHTS,<br />
+&nbsp;&nbsp;GS_FLIGHT&nbsp;&nbsp;TYPE&nbsp;BC400_S_FLIGHT.<br />
+<br />
+PARAMETERS:<br />
+&nbsp;&nbsp;PA_CAR&nbsp;TYPE&nbsp;BC400_S_FLIGHT-CARRID.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;PA_CON&nbsp;TYPE&nbsp;BC400_S_FLIGHT-CONNID.<br />
+<br />
+*&nbsp;Select-options&nbsp;은&nbsp;선언할때&nbsp;반드시&nbsp;변수로만&nbsp;선언해야&nbsp;한다.<br />
+*&nbsp;변수는&nbsp;단일값(single&nbsp;value)의&nbsp;형태로만&nbsp;가능하다.<br />
+*&nbsp;간단히&nbsp;말해서&nbsp;한&nbsp;칸&nbsp;짜리&nbsp;변수를&nbsp;의미한다.<br />
+<br />
+   </div>
+   <div class="code">
+SELECT-OPTIONS SO_CON FOR GS_FLIGHT-CONNID.<br />
+<br />
+TRY.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;CL_BC400_FLIGHTMODEL=&gt;GET_FLIGHTS<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_CARRID&nbsp;&nbsp;=&nbsp;PA_CAR<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_CONNID&nbsp;&nbsp;=&nbsp;PA_CON<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ET_FLIGHTS&nbsp;=&nbsp;GT_FLIGHTS.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;CL_BC400_FLIGHTMODEL=&gt;GET_FLIGHTS_RANGE<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;IV_CARRID,&nbsp;IT_CONNID&nbsp;처음&nbsp;자동&nbsp;완성시&nbsp;주석&nbsp;없음&nbsp;-&gt;&nbsp;필수&nbsp;요소,&nbsp;ET_FLIGHTS&nbsp;주석&nbsp;있음으로&nbsp;필수&nbsp;요소아님.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_CARRID&nbsp;&nbsp;=&nbsp;PA_CAR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_CONNID&nbsp;&nbsp;=&nbsp;SO_CON[]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;SELECT-OPTIONS는&nbsp;header&nbsp;line&nbsp;을&nbsp;가지고&nbsp;있어서&nbsp;[]&nbsp;를&nbsp;붙혀줘야함,&nbsp;[]&nbsp;안&nbsp;붙히면&nbsp;structure&nbsp;로&nbsp;취급함.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ET_FLIGHTS&nbsp;=&nbsp;GT_FLIGHTS.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Flight&nbsp;times<br />
+<br />
+&nbsp;&nbsp;CATCH&nbsp;CX_BC400_NO_DATA.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;문자열&nbsp;만들지&nbsp;말고&nbsp;text-symbol로&nbsp;만들어주자,&nbsp;다른개발자가&nbsp;번역할&nbsp;수&nbsp;있는&nbsp;메세지로&nbsp;만들어&nbsp;주기&nbsp;위해<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;/&nbsp;'No&nbsp;flights&nbsp;for&nbsp;the&nbsp;specified&nbsp;connection'(M01).<br />
+ENDTRY.<br />
+<br />
+LOOP AT GT_FLIGHTS INTO GS_FLIGHT.<br />
+<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;GS_FLIGHT-PERCENTAGE&nbsp;&gt;=&nbsp;90.&nbsp;"&nbsp;GS_FLIGHT-PERCENTAGE&nbsp;GE&nbsp;90.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;GREEN&nbsp;예약&nbsp;잘된경우<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/(10)&nbsp;ICON_GREEN_LIGHT&nbsp;AS&nbsp;ICON.&nbsp;"&nbsp;(숫자)&nbsp;를&nbsp;적으면&nbsp;숫자만큼&nbsp;떨어져서&nbsp;다음&nbsp;글자가&nbsp;시작<br />
+<br />
+&nbsp;&nbsp;ELSEIF&nbsp;&nbsp;GS_FLIGHT-PERCENTAGE&nbsp;&gt;&nbsp;10.&nbsp;"&nbsp;GS_FLIGHT-PERCENTAGE&nbsp;GT&nbsp;10.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;YELLOW&nbsp;적당히&nbsp;예약&nbsp;된&nbsp;경우<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/(10)&nbsp;ICON_YELLOW_LIGHT&nbsp;AS&nbsp;ICON.<br />
+<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;RED&nbsp;예약이&nbsp;잘&nbsp;안된경우<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/(10)&nbsp;ICON_RED_LIGHT&nbsp;AS&nbsp;ICON.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;20&nbsp;GS_FLIGHT-CARRID&nbsp;COLOR&nbsp;&nbsp;COL_HEADING,&nbsp;"&nbsp;숫자를&nbsp;적으면&nbsp;줄의&nbsp;맨&nbsp;처음&nbsp;기준으로&nbsp;숫자만큼&nbsp;띄어서&nbsp;시작함<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FLIGHT-CONNID&nbsp;COLOR&nbsp;&nbsp;COL_HEADING,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FLIGHT-FLDATE&nbsp;COLOR&nbsp;&nbsp;COL_HEADING,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FLIGHT-SEATSMAX,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FLIGHT-SEATSOCC,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FLIGHT-PERCENTAGE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;WRITE:&nbsp;ICON_FLIGHT&nbsp;as&nbsp;icon.<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;M01&nbsp;No&nbsp;flights&nbsp;for&nbsp;the&nbsp;specified&nbsp;connection<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PA_CAR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_CON&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC400_C15_REP_C_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC400_C15_REP_C_TOP</h2>
+<h3> Description: 전역변수를 다룬다</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZBC400_C15_REP_C_TOP<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+" 데이터를 보관하고 출력하기 위한 ITAB<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;DATA&nbsp;GT_FLIGHTS&nbsp;TYPE&nbsp;BC400_T_FLIGHTS.<br />
+   </div>
+   <div class="code">
+DATA GT_FLIGHTS TYPE ZTTMY_FLIGHT_C15.<br />
+<br />
+<br />
+" ITAB 을 보조를 위한 작업공간<br />
+   </div>
+   <div class="codeComment">
+*DATA&nbsp;GS_FLIGHT&nbsp;TYPE&nbsp;BC400_S_FLIGHT.<br />
+*&nbsp;DATA&nbsp;GS_FLIGHT&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;GT_FLIGHTS.<br />
+   </div>
+   <div class="code">
+DATA GS_FLIGHT TYPE ZSMY_FLIGHT_C15.<br />
+<br />
+<br />
+<br />
+" 화면에서 Function Code 를 전달 받기 위한 변수<br />
+DATA OK_CODE TYPE SY-UCOMM.<br />
+<br />
+" 화면에 ALV 를 출력하기 위한 참조 변수 선언<br />
+DATA GO_CONTAINER TYPE REF TO CL_GUI_CUSTOM_CONTAINER.<br />
+DATA GO_ALV_GRID TYPE REF TO CL_GUI_ALV_GRID.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

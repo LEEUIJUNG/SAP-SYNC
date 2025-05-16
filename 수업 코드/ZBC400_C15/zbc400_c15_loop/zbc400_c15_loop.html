@@ -1,0 +1,131 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZBC400_C15_LOOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZBC400_C15_LOOP</h2>
+<h3> Description: Exercise14 Use Internal Table</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZBC400_C15_LOOP<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Exercise14&nbsp;Use&nbsp;Internal&nbsp;Table<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZBC400_C15_LOOP.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Task1<br />
+   </div>
+   <div class="code">
+DATA GT_CONNECTIONS TYPE TABLE OF BC400_S_CONNECTION<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;KEY&nbsp;CARRID&nbsp;CONNID.&nbsp;"Internal&nbsp;Table<br />
+DATA GS_CONNECTIONS TYPE BC400_S_CONNECTION. " Structure( 동일한 Line Type 이라서 WA)<br />
+DATA GS_CONNECTIONS2 LIKE LINE OF GT_CONNECTIONS. "Internal Table 의 한 줄의 모양<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Task2<br />
+<br />
+   </div>
+   <div class="code">
+TRY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;1.&nbsp;비행편&nbsp;정보를&nbsp;조회하기&nbsp;위해&nbsp;클래스&nbsp;CL_BC400_FLIGHTMODEL의&nbsp;메소드&nbsp;GET_CONNECTIONS를&nbsp;호출해서&nbsp;나의&nbsp;IT에&nbsp;복사<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;class&nbsp;method를&nbsp;포함&nbsp;모든&nbsp;modulization은&nbsp;동일한&nbsp;타입끼리만<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;데이터의&nbsp;교류를&nbsp;허욯한다.&nbsp;다른&nbsp;모양일&nbsp;경우&nbsp;오류가&nbsp;발생할&nbsp;수&nbsp;있다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;key&nbsp;값을&nbsp;안보고&nbsp;작성을&nbsp;하여&nbsp;좀&nbsp;해맸다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;CL_BC400_FLIGHTMODEL=&gt;GET_CONNECTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ET_CONNECTIONS&nbsp;=&nbsp;GT_CONNECTIONS.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Flight&nbsp;Connections<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;4.&nbsp;출력하기&nbsp;전에&nbsp;출발시간을&nbsp;오름차순으로&nbsp;정렬해서&nbsp;출력하도록&nbsp;해라<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SORT&nbsp;GT_CONNECTIONS&nbsp;BY&nbsp;DEPTIME&nbsp;ASCENDING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;2.&nbsp;찾은&nbsp;비행편&nbsp;정보가&nbsp;없으면&nbsp;짧은&nbsp;메시지를&nbsp;적적학&nbsp;출력해라<br />
+&nbsp;&nbsp;CATCH&nbsp;CX_BC400_NO_DATA.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;'찾은&nbsp;비행정보가&nbsp;없습니다'(E01).<br />
+<br />
+ENDTRY.<br />
+<br />
+" 3. LOOP 문을 사용해서 가져온 비행편 번호를 출력해라<br />
+LOOP AT GT_CONNECTIONS  INTO GS_CONNECTIONS.<br />
+&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;'항공사:&nbsp;'&nbsp;,&nbsp;GS_CONNECTIONS-CARRID,<br />
+&nbsp;&nbsp;/&nbsp;'항공사:&nbsp;'&nbsp;,&nbsp;GS_CONNECTIONS-CARRID,<br />
+&nbsp;&nbsp;/&nbsp;'비행번호:&nbsp;'&nbsp;,&nbsp;GS_CONNECTIONS-CONNID,<br />
+&nbsp;&nbsp;/&nbsp;'출발공항:&nbsp;'&nbsp;,&nbsp;GS_CONNECTIONS-AIRPFROM,<br />
+&nbsp;&nbsp;'출발도시:&nbsp;'&nbsp;,&nbsp;GS_CONNECTIONS-CITYFROM,<br />
+&nbsp;&nbsp;/'도착공항:&nbsp;'&nbsp;,&nbsp;GS_CONNECTIONS-AIRPTO,<br />
+&nbsp;&nbsp;&nbsp;'도착도시:&nbsp;'&nbsp;,&nbsp;GS_CONNECTIONS-CITYTO,<br />
+&nbsp;&nbsp;/'비행일자:&nbsp;'&nbsp;,&nbsp;GS_CONNECTIONS-FLTIME,<br />
+&nbsp;&nbsp;/'도착시간:&nbsp;'&nbsp;,&nbsp;GS_CONNECTIONS-DEPTIME,<br />
+&nbsp;&nbsp;'출발시간:&nbsp;'&nbsp;,&nbsp;GS_CONNECTIONS-ARRTIME.<br />
+&nbsp;&nbsp;ULINE.<br />
+<br />
+ENDLOOP.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;E01&nbsp;찾은&nbsp;비행정보가&nbsp;없습니다<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>
