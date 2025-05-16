@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZEX_3_2_CC15</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZEX_3_2_CC15</h2>
+<h3> Description: 3-2 항공사 예약 정보를 출력한다</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZEX_C_1_CC15<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZEX_3_2_CC15.<br />
+<br />
+<br />
+include <a href ="zex_3_2_cc15_top.html">ZEX_3_2_CC15_TOP</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZEX_3_1_CC15_TOP.&nbsp;"&nbsp;전역변수<br />
+   </div>
+   <div class="code">
+include <a href ="zex_3_2_cc15_scr.html">ZEX_3_2_CC15_SCR</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZEX_3_1_CC15_SCR.&nbsp;"&nbsp;Selection&nbsp;Screen&nbsp;선언<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;구현관련&nbsp;Include<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+include <a href ="zex_3_2_cc15_pbo.html">ZEX_3_2_CC15_PBO</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZEX_3_1_CC15_PBO.&nbsp;"&nbsp;Process&nbsp;Before&nbsp;Output&nbsp;(&nbsp;O01&nbsp;)&nbsp;Modules<br />
+   </div>
+   <div class="code">
+include <a href ="zex_3_2_cc15_pai.html">ZEX_3_2_CC15_PAI</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZEX_3_1_CC15_PAI.&nbsp;"&nbsp;Process&nbsp;Afert&nbsp;Input&nbsp;(&nbsp;I01&nbsp;)&nbsp;Modules<br />
+   </div>
+   <div class="code">
+include <a href ="zex_3_2_cc15_f01.html">ZEX_3_2_CC15_F01</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZEX_3_1_CC15_F01.&nbsp;"&nbsp;Subroutines<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+<br />
+AT SELECTION-SCREEN.<br />
+&nbsp;&nbsp;PERFORM&nbsp;CHECK_INPUT<br />
+&nbsp;&nbsp;USING&nbsp;PA_CAR&nbsp;PA_CON&nbsp;PA_DATE.<br />
+<br />
+START-OF-SELECTION.<br />
+&nbsp;&nbsp;PERFORM&nbsp;CHECK_RADIO.<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;DISPLAY_TABLE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*GUI&nbsp;Texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;T0100&nbsp;--&gt;&nbsp;예약정보&nbsp;&&nbsp;&&nbsp;&&nbsp;&<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;001&nbsp;검색조건<br />
+*&nbsp;002&nbsp;고객정보<br />
+*&nbsp;E01&nbsp;항공사&nbsp;정보를&nbsp;모두&nbsp;입력해주세요.<br />
+*&nbsp;E02&nbsp;존재하지&nbsp;않는&nbsp;항공편&nbsp;입니다.<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;GV_RADI1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;All&nbsp;Booking<br />
+*&nbsp;GV_RADI2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Valid&nbsp;Booking<br />
+*&nbsp;GV_RADI3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cancelled&nbsp;Booking<br />
+*&nbsp;PA_CAR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;PA_CON&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;PA_DATE&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_CUSTN&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;Hard&nbsp;coded<br />
+*&nbsp;&nbsp;&nbsp;항공사&nbsp;정보를&nbsp;모두&nbsp;입력해주세요.&nbsp;(E01)<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

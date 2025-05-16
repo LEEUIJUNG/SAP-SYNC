@@ -1,0 +1,261 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZEX_4_1_CC15_CLS</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZEX_4_1_CC15_CLS</h2>
+<h3> Description: Include ZEX_4_1_CC15_CLS</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZEX_4_1_CC15_CLS<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+CLASS LCL_PRODUCT DEFINITION.<br />
+<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;CONSTRUCTOR&nbsp;IMPORTING&nbsp;LV_PRODUCT_ID&nbsp;&nbsp;&nbsp;TYPE&nbsp;INT4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_PRODUCT_NAME&nbsp;TYPE&nbsp;TEXT40.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;DISPLAY_PRODUCT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS&nbsp;GET_PRODUCT_COUNT&nbsp;RETURNING&nbsp;VALUE(RE_COUNT)&nbsp;TYPE&nbsp;INT4.<br />
+<br />
+<br />
+&nbsp;&nbsp;PROTECTED&nbsp;SECTION.<br />
+<br />
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;PRODUCT_ID&nbsp;&nbsp;&nbsp;TYPE&nbsp;INT4,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRODUCT_NAME&nbsp;TYPE&nbsp;TEXT40.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA&nbsp;TOTAL_PRODUCT&nbsp;TYPE&nbsp;INT4.<br />
+<br />
+<br />
+ENDCLASS.<br />
+<br />
+<br />
+CLASS LCL_PRODUCT IMPLEMENTATION.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;CONSTRUCTOR.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PRODUCT_ID&nbsp;=&nbsp;LV_PRODUCT_ID.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PRODUCT_NAME&nbsp;=&nbsp;LV_PRODUCT_NAME.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;TOTAL_PRODUCT&nbsp;+=&nbsp;1.<br />
+<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_PRODUCT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;'상품ID&nbsp;:&nbsp;'&nbsp;&&&nbsp;PRODUCT_ID&nbsp;,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/'상품이름&nbsp;:&nbsp;'&nbsp;&&&nbsp;PRODUCT_NAME.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;GET_PRODUCT_COUNT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;RE_COUNT&nbsp;=&nbsp;TOTAL_PRODUCT.<br />
+<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+ENDCLASS.<br />
+<br />
+<br />
+CLASS LCL_ELECTRONICS DEFINITION INHERITING FROM LCL_PRODUCT.<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;CONSTRUCTOR&nbsp;IMPORTING&nbsp;LV_PRODUCT_ID&nbsp;&nbsp;&nbsp;TYPE&nbsp;INT4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_PRODUCT_NAME&nbsp;TYPE&nbsp;TEXT40.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;GET_VOLTAGE&nbsp;EXPORTING&nbsp;VALUE(EV_VOLTAGE)&nbsp;TYPE&nbsp;INT4.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;SET_VOLTAGE&nbsp;IMPORTING&nbsp;VALUE(IV_VOLTAGE)&nbsp;TYPE&nbsp;INT4.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;DISPLAY_PRODUCT&nbsp;REDEFINITION.<br />
+<br />
+<br />
+&nbsp;&nbsp;PROTECTED&nbsp;SECTION.<br />
+<br />
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;VOLTAGE&nbsp;TYPE&nbsp;INT4.<br />
+<br />
+ENDCLASS.<br />
+<br />
+CLASS LCL_ELECTRONICS IMPLEMENTATION.<br />
+&nbsp;&nbsp;METHOD&nbsp;CONSTRUCTOR.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SUPER-&gt;CONSTRUCTOR(&nbsp;LV_PRODUCT_ID&nbsp;=&nbsp;LV_PRODUCT_ID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_PRODUCT_NAME&nbsp;=&nbsp;LV_PRODUCT_NAME&nbsp;).<br />
+<br />
+<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_PRODUCT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SUPER-&gt;DISPLAY_PRODUCT(&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/'VOLTAGE&nbsp;:&nbsp;'&nbsp;&&&nbsp;VOLTAGE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;GET_VOLTAGE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EV_VOLTAGE&nbsp;=&nbsp;VOLTAGE.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;SET_VOLTAGE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;VOLTAGE&nbsp;=&nbsp;IV_VOLTAGE.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+<br />
+ENDCLASS.<br />
+<br />
+CLASS LCL_CLOTHES DEFINITION INHERITING FROM LCL_PRODUCT.<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;CONSTRUCTOR&nbsp;IMPORTING&nbsp;LV_PRODUCT_ID&nbsp;&nbsp;&nbsp;TYPE&nbsp;INT4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_PRODUCT_NAME&nbsp;TYPE&nbsp;TEXT40.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;GET_SIZE&nbsp;EXPORTING&nbsp;EV_SIZE&nbsp;TYPE&nbsp;CHAR10.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;SET_SIZE&nbsp;IMPORTING&nbsp;IV_SIZE&nbsp;TYPE&nbsp;CHAR10.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;DISPLAY_PRODUCT&nbsp;REDEFINITION.<br />
+<br />
+<br />
+&nbsp;&nbsp;PROTECTED&nbsp;SECTION.<br />
+<br />
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;SIZE&nbsp;TYPE&nbsp;CHAR10.<br />
+<br />
+ENDCLASS.<br />
+<br />
+CLASS LCL_CLOTHES IMPLEMENTATION.<br />
+&nbsp;&nbsp;METHOD&nbsp;CONSTRUCTOR.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SUPER-&gt;CONSTRUCTOR(&nbsp;LV_PRODUCT_ID&nbsp;=&nbsp;LV_PRODUCT_ID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_PRODUCT_NAME&nbsp;=&nbsp;LV_PRODUCT_NAME&nbsp;).<br />
+<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_PRODUCT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SUPER-&gt;DISPLAY_PRODUCT(&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/'SIZE&nbsp;:&nbsp;'&nbsp;&&&nbsp;SIZE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;GET_SIZE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EV_SIZE&nbsp;=&nbsp;SIZE.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;SET_SIZE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SIZE&nbsp;=&nbsp;IV_SIZE.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+<br />
+ENDCLASS.<br />
+<br />
+CLASS LCL_FOODS DEFINITION INHERITING FROM LCL_PRODUCT.<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;CONSTRUCTOR&nbsp;IMPORTING&nbsp;LV_PRODUCT_ID&nbsp;&nbsp;&nbsp;TYPE&nbsp;INT4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_PRODUCT_NAME&nbsp;TYPE&nbsp;TEXT40.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;GET_EXPIRE_DATE&nbsp;EXPORTING&nbsp;VALUE(EV_EXPIRE_DATE)&nbsp;TYPE&nbsp;DATUM.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;SET_EXPIRE_DATE&nbsp;IMPORTING&nbsp;IV_EXPIRE_DATE&nbsp;TYPE&nbsp;DATUM.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS&nbsp;DISPLAY_PRODUCT&nbsp;REDEFINITION.<br />
+<br />
+<br />
+&nbsp;&nbsp;PROTECTED&nbsp;SECTION.<br />
+<br />
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;EXPIRE_DATE&nbsp;TYPE&nbsp;DATUM.<br />
+<br />
+ENDCLASS.<br />
+<br />
+CLASS LCL_FOODS IMPLEMENTATION.<br />
+&nbsp;&nbsp;METHOD&nbsp;CONSTRUCTOR.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SUPER-&gt;CONSTRUCTOR(&nbsp;LV_PRODUCT_ID&nbsp;=&nbsp;LV_PRODUCT_ID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_PRODUCT_NAME&nbsp;=&nbsp;LV_PRODUCT_NAME&nbsp;).<br />
+<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_PRODUCT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SUPER-&gt;DISPLAY_PRODUCT(&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/'EXPIRE_DATE&nbsp;:&nbsp;'&nbsp;&&&nbsp;EXPIRE_DATE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;GET_EXPIRE_DATE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EV_EXPIRE_DATE&nbsp;=&nbsp;EXPIRE_DATE.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;SET_EXPIRE_DATE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPIRE_DATE&nbsp;=&nbsp;IV_EXPIRE_DATE.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+<br />
+ENDCLASS.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

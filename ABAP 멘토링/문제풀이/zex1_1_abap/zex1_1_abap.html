@@ -1,0 +1,151 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZEX1_1_ABAP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZEX1_1_ABAP</h2>
+<h3> Description: 구구단을 출력하는 ABAP Program</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZEX1_1_ABAP_A<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;구구단을&nbsp;출력하는&nbsp;ABAP&nbsp;Program을&nbsp;작성한다.<br />
+*&<br />
+*&&nbsp;5단을&nbsp;입력했을&nbsp;경우&nbsp;2단부터&nbsp;5단까지&nbsp;출력한다.<br />
+*&&nbsp;2단&nbsp;미만을&nbsp;입력하거나&nbsp;9단&nbsp;이상을&nbsp;입력&nbsp;할&nbsp;경우&nbsp;에러&nbsp;메시지를&nbsp;출력한다.<br />
+*&&nbsp;2단&nbsp;미만&nbsp;입력&nbsp;시:&nbsp;2단&nbsp;이상을&nbsp;입력하세요.<br />
+*&&nbsp;9단&nbsp;초과&nbsp;입력&nbsp;시:&nbsp;9단&nbsp;이하를&nbsp;입력하세요.<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+REPORT ZEX1_1_ABAP.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;TEXT-001&nbsp;=&nbsp;'단수'.&nbsp;"&nbsp;data&nbsp;element&nbsp;001&nbsp;단수를&nbsp;생성&nbsp;"<br />
+<br />
+*&nbsp;selection&nbsp;을&nbsp;설정<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF LINE. " begin of line 을 사용 하면 1줄로 적용 "<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;1(10)&nbsp;TEXT-001&nbsp;FOR&nbsp;FIELD&nbsp;PA_NUM.&nbsp;"&nbsp;pa_num을&nbsp;data&nbsp;element&nbsp;text_001&nbsp;로&nbsp;selection&nbsp;화면에&nbsp;표시&nbsp;"<br />
+&nbsp;&nbsp;PARAMETERS&nbsp;PA_NUM&nbsp;TYPE&nbsp;I.<br />
+<br />
+SELECTION-SCREEN END OF LINE.<br />
+<br />
+DATA: GV_INNER_IDX TYPE I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_OUTER_IDX&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_TIMES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;I.<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;문제에&nbsp;주어진&nbsp;조건에&nbsp;따라&nbsp;오류메세지&nbsp;출력<br />
+   </div>
+   <div class="code">
+IF PA_NUM &lt; 2 .<br />
+&nbsp;&nbsp;MESSAGE&nbsp;'&nbsp;2단&nbsp;이상을&nbsp;입력하세요.&nbsp;'&nbsp;TYPE&nbsp;'S'&nbsp;DISPLAY&nbsp;LIKE&nbsp;'I'.<br />
+&nbsp;&nbsp;EXIT.<br />
+<br />
+ELSEIF PA_NUM &gt; 9.<br />
+&nbsp;&nbsp;MESSAGE&nbsp;'&nbsp;9단&nbsp;이하를&nbsp;입력하세요.&nbsp;'&nbsp;TYPE&nbsp;'S'&nbsp;DISPLAY&nbsp;LIKE&nbsp;'I'.<br />
+&nbsp;&nbsp;EXIT.<br />
+<br />
+ELSE.<br />
+&nbsp;&nbsp;GV_TIMES&nbsp;=&nbsp;PA_NUM&nbsp;-&nbsp;1&nbsp;.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;구구단&nbsp;출력을&nbsp;진행<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;DO&nbsp;GV_TIMES&nbsp;&nbsp;TIMES.&nbsp;"&nbsp;구구단이&nbsp;2단부터&nbsp;출력이&nbsp;됨으로&nbsp;입력&nbsp;받은&nbsp;pa_num&nbsp;에&nbsp;-&nbsp;1&nbsp;을&nbsp;함<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GV_OUTER_IDX&nbsp;=&nbsp;SY-INDEX&nbsp;+&nbsp;1.&nbsp;"&nbsp;처음&nbsp;받는&nbsp;단수는&nbsp;2단부터&nbsp;임으로&nbsp;외부&nbsp;반복문의&nbsp;index에&nbsp;+&nbsp;1&nbsp;을&nbsp;함<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DO&nbsp;9&nbsp;TIMES.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_INNER_IDX&nbsp;=&nbsp;GV_OUTER_IDX&nbsp;*&nbsp;SY-INDEX.&nbsp;"&nbsp;내부&nbsp;반복문의&nbsp;index를&nbsp;사용하여&nbsp;구구단의&nbsp;곱샘을&nbsp;수행<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:/&nbsp;GV_OUTER_IDX&nbsp;,&nbsp;'&nbsp;*&nbsp;'&nbsp;,&nbsp;SY-INDEX&nbsp;,&nbsp;'&nbsp;=&nbsp;'&nbsp;,&nbsp;GV_INNER_IDX.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDDO.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+<br />
+&nbsp;&nbsp;ENDDO.<br />
+<br />
+ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;001&nbsp;단수<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;Hard&nbsp;coded<br />
+*&nbsp;&nbsp;&nbsp;2단&nbsp;이상을&nbsp;입력하세요.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

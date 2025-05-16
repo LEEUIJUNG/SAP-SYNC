@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZEX_3_4_CC15_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZEX_3_4_CC15_TOP</h2>
+<h3> Description: 전역변수</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZEX_3_1_CC15_TOP<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+TABLES: SCUSTOM.<br />
+<br />
+DATA: GV_CUSTN TYPE SBOOK-CUSTOMID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_CUSTOM&nbsp;TYPE&nbsp;SCUSTOM,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_BOOK&nbsp;&nbsp;TYPE&nbsp;SBOOK,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_BOOK&nbsp;&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;SBOOK.<br />
+<br />
+<br />
+DATA: BEGIN OF GS_CHECK_INPUT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRID&nbsp;TYPE&nbsp;SBOOK-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID&nbsp;TYPE&nbsp;SBOOK-CONNID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLDATE&nbsp;TYPE&nbsp;SBOOK-FLDATE,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;GS_CHECK_INPUT.<br />
+<br />
+DATA: BEGIN OF GS_RESULT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;include&nbsp;structure&nbsp;<a&nbsp;href&nbsp;="zsbooking_cc15/dictionary-zsbooking_cc15.html">ZSBOOKING_CC15</a>.<br />
+DATA :  LIGHT      TYPE C LENGTH 1, " 신호등<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ROW_COLOR&nbsp;&nbsp;TYPE&nbsp;C&nbsp;LENGTH&nbsp;4,&nbsp;"&nbsp;줄&nbsp;색<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ICON&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ICON-ID,&nbsp;"&nbsp;ICON<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CELL_COLOR&nbsp;TYPE&nbsp;LVC_T_SCOL,&nbsp;"&nbsp;단일색&nbsp;색<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;GS_RESULT.<br />
+<br />
+DATA: GT_RESULT LIKE TABLE OF GS_RESULT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;screen&nbsp;120의&nbsp;fast5에&nbsp;사용<br />
+*&nbsp;get&nbsp;from&nbsp;dictionary&nbsp;가&nbsp;아니라&nbsp;get&nbsp;from&nbsp;program&nbsp;에서&nbsp;가져옴<br />
+   </div>
+   <div class="code">
+DATA: GS_FAST1 LIKE GS_RESULT.<br />
+DATA: GS_FAST2 LIKE GS_RESULT.<br />
+DATA: GS_FAST3 LIKE GS_RESULT.<br />
+DATA: GS_FAST4 LIKE GS_RESULT.<br />
+DATA: GS_FAST5 LIKE GS_RESULT.<br />
+<br />
+<br />
+<br />
+" 화면에 ALV 를 출력하기 위한 참조 변수 선언<br />
+DATA: GO_CONTAINER TYPE REF TO CL_GUI_CUSTOM_CONTAINER.<br />
+DATA: GO_ALV_GRID TYPE REF TO CL_GUI_ALV_GRID.<br />
+<br />
+DATA: OK_CODE TYPE SY-UCOMM.<br />
+<br />
+" ALV LAYO 설정 변수<br />
+DATA: GS_LAYOUT TYPE LVC_S_LAYO.<br />
+<br />
+" ALV FCAT 설정 변수<br />
+DATA: GS_FIELD_CAT TYPE LVC_S_FCAT.<br />
+DATA: GT_FIELD_CAT TYPE LVC_T_FCAT.<br />
+<br />
+" ALV SORT 설정 변수<br />
+DATA: GS_SORT TYPE LVC_S_SORT.<br />
+DATA: GT_SORT TYPE LVC_T_SORT.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

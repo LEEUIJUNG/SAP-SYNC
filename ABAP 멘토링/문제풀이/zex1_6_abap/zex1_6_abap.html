@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZEX1_6_ABAP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZEX1_6_ABAP</h2>
+<h3> Description: 1_4 문제 2번</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZEX1_6_ABAP<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZEX1_6_ABAP.<br />
+<br />
+SELECTION-SCREEN BEGIN OF BLOCK BLOCK1 WITH FRAME.<br />
+&nbsp;&nbsp;PARAMETERS&nbsp;:&nbsp;GV_CAR&nbsp;TYPE&nbsp;SPFLI-CARRID&nbsp;DEFAULT&nbsp;'AA',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_CON&nbsp;&nbsp;&nbsp;TYPE&nbsp;SPFLI-CONNID&nbsp;DEFAULT&nbsp;17.<br />
+SELECTION-SCREEN END OF BLOCK BLOCK1.<br />
+<br />
+<br />
+DATA :GT_PFLI LIKE TABLE OF SPFLI.<br />
+DATA :GS_PFLI TYPE SPFLI.<br />
+<br />
+SELECT *<br />
+&nbsp;&nbsp;FROM&nbsp;SPFLI<br />
+&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;GT_PFLI<br />
+&nbsp;&nbsp;WHERE&nbsp;CARRID&nbsp;=&nbsp;GV_CAR<br />
+&nbsp;&nbsp;AND&nbsp;CONNID&nbsp;=&nbsp;GV_CON.<br />
+<br />
+&nbsp;&nbsp;WRITE&nbsp;:&nbsp;'Schedule&nbsp;Information'.<br />
+&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;GT_PFLI&nbsp;INTO&nbsp;GS_PFLI.<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;GS_PFLI-CARRID,&nbsp;GS_PFLI-CONNID,&nbsp;GS_PFLI-COUNTRYFR,&nbsp;GS_PFLI-COUNTRYTO,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_PFLI-CITYFROM,&nbsp;&nbsp;GS_PFLI-CITYTO,&nbsp;&nbsp;GS_PFLI-AIRPFROM,&nbsp;&nbsp;GS_PFLI-AIRPTO.<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;GV_CAR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;GV_CON&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

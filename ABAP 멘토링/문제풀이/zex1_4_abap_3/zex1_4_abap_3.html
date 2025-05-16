@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZEX1_4_ABAP_3</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZEX1_4_ABAP_3</h2>
+<h3> Description: 항공 정보를 출력하는 ABAP Program</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZEX1_4_ABAP<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;항공&nbsp;정보를&nbsp;출력하는&nbsp;ABAP&nbsp;Program<br />
+*&&nbsp;&nbsp;1.&nbsp;다음과&nbsp;같이&nbsp;Selection&nbsp;Screen을&nbsp;통하여&nbsp;항공사&nbsp;코드와&nbsp;항공편을&nbsp;입력&nbsp;받아&nbsp;추가&nbsp;정보를&nbsp;출력한다.<br />
+*&&nbsp;&nbsp;&nbsp;-&nbsp;Airline:&nbsp;SFLIGHT-CARRID<br />
+*&&nbsp;&nbsp;&nbsp;-&nbsp;Connection&nbsp;Number:&nbsp;SFLIGHT-CONNID<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZEX1_4_ABAP_COLLCECT.<br />
+<br />
+PARAMETERS: PA_CAR TYPE SFLIGHT-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PA_CON&nbsp;TYPE&nbsp;SFLIGHT-CONNID.<br />
+<br />
+DATA: GT_SCARR   TYPE TABLE OF SCARR,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_SFLIGHT&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;SFLIGHT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA_SCARR&nbsp;&nbsp;&nbsp;TYPE&nbsp;SCARR,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA_SFLIGHT&nbsp;TYPE&nbsp;SFLIGHT.<br />
+<br />
+<br />
+DATA: GV_SEATSDIF TYPE SFLIGHT-SEATSMAX,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_RSEATMAX&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_RSEATOCC&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_PRIVATE&nbsp;&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_BUSINESS&nbsp;TYPE&nbsp;I.<br />
+<br />
+<br />
+TYPES: BEGIN OF TY_SBOOK,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLDATE&nbsp;&nbsp;&nbsp;TYPE&nbsp;SBOOK-FLDATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CUSTTYPE&nbsp;TYPE&nbsp;SBOOK-CUSTTYPE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRIVATE&nbsp;&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BUSINESS&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;TY_SBOOK.<br />
+<br />
+TYPES: BEGIN OF TY_SBOOK2,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLDATE&nbsp;&nbsp;&nbsp;TYPE&nbsp;SBOOK-FLDATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRIVATE&nbsp;&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BUSINESS&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;TY_SBOOK2.<br />
+<br />
+DATA: GT_SBOOK1 TYPE TABLE OF TY_SBOOK,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_SBOOK2&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;TY_SBOOK2,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA_SBOOK1&nbsp;TYPE&nbsp;TY_SBOOK,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA_SBOOK2&nbsp;TYPE&nbsp;TY_SBOOK2.<br />
+<br />
+<br />
+DATA: BEGIN OF GS_RESULT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRID&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;&nbsp;SFLIGHT-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRNAME&nbsp;TYPE&nbsp;SCARR-CARRNAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-CONNID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLDATE&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-FLDATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSMAX&nbsp;TYPE&nbsp;SFLIGHT-SEATSMAX,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSOCC&nbsp;TYPE&nbsp;SFLIGHT-SEATSOCC,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSDIF&nbsp;TYPE&nbsp;SFLIGHT-SEATSMAX,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PRIVATE&nbsp;&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BUSINESS&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;GS_RESULT.<br />
+<br />
+DATA GT_RESULT LIKE TABLE OF GS_RESULT.<br />
+<br />
+<br />
+SELECT SF~CARRID SC~CARRNAME SF~CONNID SF~FLDATE SF~SEATSMAX SF~SEATSOCC<br />
+&nbsp;&nbsp;FROM&nbsp;SFLIGHT&nbsp;AS&nbsp;SF<br />
+&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;SCARR&nbsp;AS&nbsp;SC<br />
+&nbsp;&nbsp;ON&nbsp;SF~CARRID&nbsp;=&nbsp;SC~CARRID<br />
+&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;GT_RESULT<br />
+&nbsp;&nbsp;WHERE&nbsp;SF~CARRID&nbsp;=&nbsp;PA_CAR&nbsp;AND&nbsp;SF~CONNID&nbsp;=&nbsp;PA_CON.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;뉴&nbsp;신택스로는&nbsp;&nbsp;쿼리에서&nbsp;계산을&nbsp;수행하는&nbsp;것이&nbsp;가능해&nbsp;한번에&nbsp;가져&nbsp;오는&nbsp;것이&nbsp;가능<br />
+*&nbsp;하지면&nbsp;지금&nbsp;교육중인&nbsp;이전&nbsp;문법에서는&nbsp;한번에&nbsp;쿼리에서&nbsp;계산을&nbsp;수행하는&nbsp;것이&nbsp;불가능<br />
+*&nbsp;그럼으로&nbsp;과거&nbsp;문법&nbsp;기준으로는&nbsp;따로&nbsp;loop&nbsp;를&nbsp;돌려서&nbsp;diff&nbsp;를&nbsp;계산해서&nbsp;넣어줘야&nbsp;한다.<br />
+*SELECT<br />
+*&nbsp;&nbsp;SF~CARRID,<br />
+*&nbsp;&nbsp;SC~CARRNAME,<br />
+*&nbsp;&nbsp;SF~CONNID,<br />
+*&nbsp;&nbsp;SF~FLDATE,<br />
+*&nbsp;&nbsp;SF~SEATSMAX&nbsp;,<br />
+*&nbsp;&nbsp;SF~SEATSOCC,<br />
+*&nbsp;&nbsp;(&nbsp;(&nbsp;SF~SEATSMAX&nbsp;+&nbsp;SF~SEATSMAX_B&nbsp;+&nbsp;SF~SEATSMAX_F&nbsp;)&nbsp;-&nbsp;(&nbsp;SF~SEATSOCC&nbsp;+&nbsp;SF~SEATSOCC_B&nbsp;+&nbsp;SF~SEATSOCC_F&nbsp;)&nbsp;)&nbsp;AS&nbsp;SEATSDIF<br />
+*<br />
+*&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;@GT_RESULT<br />
+*&nbsp;&nbsp;FROM&nbsp;SFLIGHT&nbsp;AS&nbsp;SF<br />
+*&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;SCARR&nbsp;AS&nbsp;SC<br />
+*&nbsp;&nbsp;ON&nbsp;SF~CARRID&nbsp;=&nbsp;SC~CARRID<br />
+*&nbsp;&nbsp;WHERE&nbsp;SF~CARRID&nbsp;=&nbsp;@PA_CAR<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;SF~CONNID&nbsp;=&nbsp;@PA_CON.<br />
+<br />
+   </div>
+   <div class="code">
+SELECT *<br />
+&nbsp;&nbsp;FROM&nbsp;SFLIGHT<br />
+&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;GT_SFLIGHT<br />
+&nbsp;&nbsp;WHERE&nbsp;CARRID&nbsp;=&nbsp;PA_CAR&nbsp;AND&nbsp;CONNID&nbsp;=&nbsp;PA_CON.<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;고려사항:&nbsp;SBOOK테이블에는&nbsp;취소된&nbsp;정보(필드명:&nbsp;CANCELLED)&nbsp;도&nbsp;같이&nbsp;관리하고&nbsp;있다.&nbsp;현재&nbsp;프로그램에서는<br />
+*&nbsp;예약된&nbsp;건수&nbsp;에&nbsp;대해서만&nbsp;유효하므로&nbsp;취소된&nbsp;예약은&nbsp;데이터&nbsp;취득&nbsp;시&nbsp;필터링&nbsp;해야한다.(CANCELLED&nbsp;=&nbsp;SPACE)<br />
+   </div>
+   <div class="code">
+SELECT FLDATE CUSTTYPE<br />
+&nbsp;&nbsp;FROM&nbsp;SBOOK<br />
+&nbsp;&nbsp;INTO&nbsp;TABLE&nbsp;GT_SBOOK1<br />
+&nbsp;&nbsp;WHERE&nbsp;CARRID&nbsp;=&nbsp;PA_CAR&nbsp;AND&nbsp;CONNID&nbsp;=&nbsp;PA_CON&nbsp;AND&nbsp;CANCELLED&nbsp;=&nbsp;''.<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*항공사별,&nbsp;항공편,&nbsp;비행일&nbsp;별&nbsp;CUSTTYPE를&nbsp;SBOOK테이블로부터&nbsp;취득하여&nbsp;B와&nbsp;P&nbsp;값의&nbsp;카운트를<br />
+*&nbsp;BUSINESS고객&nbsp;수,&nbsp;PRIVATE&nbsp;고객&nbsp;수&nbsp;필드에&nbsp;넣어준다.&nbsp;(Collect&nbsp;구문&nbsp;사용&nbsp;권장)<br />
+   </div>
+   <div class="code">
+LOOP AT GT_SBOOK1 INTO WA_SBOOK1.<br />
+&nbsp;&nbsp;IF&nbsp;WA_SBOOK1-CUSTTYPE&nbsp;=&nbsp;'P'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WA_SBOOK2-PRIVATE&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;ELSEIF&nbsp;WA_SBOOK1-CUSTTYPE&nbsp;=&nbsp;'B'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WA_SBOOK2-BUSINESS&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;WA_SBOOK2-FLDATE&nbsp;=&nbsp;WA_SBOOK1-FLDATE.<br />
+<br />
+&nbsp;&nbsp;COLLECT&nbsp;WA_SBOOK2&nbsp;INTO&nbsp;GT_SBOOK2.<br />
+<br />
+&nbsp;&nbsp;CLEAR:&nbsp;WA_SBOOK1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA_SBOOK2.<br />
+<br />
+ENDLOOP.<br />
+<br />
+<br />
+<br />
+LOOP AT GT_RESULT INTO GS_RESULT .<br />
+<br />
+<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;GT_SFLIGHT&nbsp;INTO&nbsp;WA_SFLIGHT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;KEY&nbsp;CARRID&nbsp;=&nbsp;GS_RESULT-CARRID&nbsp;CONNID&nbsp;=&nbsp;GS_RESULT-CONNID&nbsp;&nbsp;FLDATE&nbsp;=&nbsp;GS_RESULT-FLDATE&nbsp;.<br />
+<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;GT_SBOOK2&nbsp;INTO&nbsp;WA_SBOOK2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;KEY&nbsp;FLDATE&nbsp;=&nbsp;GS_RESULT-FLDATE.<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;-&nbsp;좌석수<br />
+*&nbsp;&nbsp;&nbsp;SFLIGHT테이블에는&nbsp;이코노미(SEATSMAX),&nbsp;비즈니스(SEATSMAX_B),&nbsp;퍼스트(SEATSMAX_F)&nbsp;3개의&nbsp;필드로<br />
+*&nbsp;&nbsp;&nbsp;관리되지만&nbsp;3개의&nbsp;필드를&nbsp;모두&nbsp;더한&nbsp;값을&nbsp;좌석수로&nbsp;출력한다.<br />
+*&nbsp;&nbsp;&nbsp;-&nbsp;예약&nbsp;좌석수<br />
+*&nbsp;&nbsp;&nbsp;SFLIGHT테이블에는&nbsp;이코노미(SEATSOCC),&nbsp;비즈니스(SEATSOCC_B),&nbsp;퍼스트(SEATSOCC_F)&nbsp;3개의&nbsp;필드로<br />
+*&nbsp;&nbsp;&nbsp;관리되지만&nbsp;3개의&nbsp;필드를&nbsp;모두&nbsp;더한&nbsp;값을&nbsp;예약&nbsp;좌석수로&nbsp;출력한다.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;GV_RSEATMAX&nbsp;=&nbsp;WA_SFLIGHT-SEATSMAX&nbsp;+&nbsp;&nbsp;WA_SFLIGHT-SEATSMAX_B&nbsp;+&nbsp;&nbsp;WA_SFLIGHT-SEATSMAX_F.<br />
+&nbsp;&nbsp;GV_RSEATOCC&nbsp;=&nbsp;WA_SFLIGHT-SEATSOCC&nbsp;+&nbsp;WA_SFLIGHT-SEATSOCC_B&nbsp;+&nbsp;WA_SFLIGHT-SEATSOCC_F.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*-&nbsp;남은&nbsp;좌석수&nbsp;=&nbsp;SEATSMAX&nbsp;–&nbsp;SEATSOCC<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;GV_SEATSDIF&nbsp;=&nbsp;GV_RSEATMAX&nbsp;-&nbsp;GV_RSEATOCC.<br />
+<br />
+<br />
+&nbsp;&nbsp;GS_RESULT-SEATSMAX&nbsp;=&nbsp;GV_RSEATMAX.<br />
+&nbsp;&nbsp;GS_RESULT-SEATSOCC&nbsp;=&nbsp;GV_RSEATOCC.<br />
+&nbsp;&nbsp;GS_RESULT-SEATSDIF&nbsp;=&nbsp;GV_SEATSDIF.<br />
+&nbsp;&nbsp;GS_RESULT-PRIVATE&nbsp;&nbsp;=&nbsp;WA_SBOOK2-PRIVATE.<br />
+&nbsp;&nbsp;GS_RESULT-BUSINESS&nbsp;=&nbsp;WA_SBOOK2-BUSINESS.<br />
+<br />
+&nbsp;&nbsp;MODIFY&nbsp;GT_RESULT&nbsp;FROM&nbsp;GS_RESULT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;MODIFY&nbsp;GT_RESULT&nbsp;FROM&nbsp;GS_RESULT&nbsp;INDEX&nbsp;SY-TABIX.<br />
+<br />
+<br />
+*&nbsp;남은&nbsp;좌석수가&nbsp;20석&nbsp;이하인경우는&nbsp;붉은색으로&nbsp;표시(WRITE구문의&nbsp;COLOR&nbsp;Addtion사용)<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;IF&nbsp;GS_RESULT-SEATSDIF&nbsp;&lt;&nbsp;20.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;GS_RESULT-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_RESULT-CARRNAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_RESULT-CONNID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_RESULT-FLDATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_RESULT-SEATSMAX,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_RESULT-SEATSOCC,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_RESULT-SEATSDIF&nbsp;COLOR&nbsp;=&nbsp;6,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_RESULT-PRIVATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_RESULT-BUSINESS.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;GS_RESULT-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_RESULT-CARRNAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_RESULT-CONNID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_RESULT-FLDATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_RESULT-SEATSMAX,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_RESULT-SEATSOCC,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_RESULT-SEATSDIF,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_RESULT-PRIVATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_RESULT-BUSINESS.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;CLEAR:&nbsp;WA_SFLIGHT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA_SCARR,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WA_SBOOK2,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_RESULT.<br />
+<br />
+ENDLOOP.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

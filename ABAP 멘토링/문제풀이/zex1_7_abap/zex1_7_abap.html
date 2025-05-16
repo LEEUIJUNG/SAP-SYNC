@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZEX1_7_ABAP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZEX1_7_ABAP</h2>
+<h3> Description: 1_4 문제 3번</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZEX1_67_ABAP<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZEX1_7_ABAP.<br />
+<br />
+DATA: GV_FDATE TYPE SBOOK-FLDATE.<br />
+<br />
+SELECTION-SCREEN BEGIN OF BLOCK BLOCK1 WITH FRAME.<br />
+&nbsp;&nbsp;PARAMETERS&nbsp;:&nbsp;GV_CAR&nbsp;TYPE&nbsp;SBOOK-CARRID&nbsp;DEFAULT&nbsp;'AA',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_CON&nbsp;TYPE&nbsp;SBOOK-CONNID&nbsp;DEFAULT&nbsp;17.<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;SO_FDATE&nbsp;FOR&nbsp;GV_FDATE.<br />
+SELECTION-SCREEN END OF BLOCK BLOCK1.<br />
+<br />
+<br />
+DATA : BEGIN OF GS_BOOK,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRID&nbsp;&nbsp;&nbsp;TYPE&nbsp;SBOOK-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID&nbsp;&nbsp;&nbsp;TYPE&nbsp;SBOOK-CONNID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLDATE&nbsp;&nbsp;&nbsp;TYPE&nbsp;SBOOK-FLDATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BOOKID&nbsp;&nbsp;&nbsp;TYPE&nbsp;SBOOK-BOOKID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CUSTOMID&nbsp;TYPE&nbsp;SBOOK-CUSTOMID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CUSTTYPE&nbsp;TYPE&nbsp;SBOOK-CUSTTYPE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SCUSTOM-NAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;GS_BOOK.<br />
+<br />
+DATA :GT_BOOK LIKE TABLE OF GS_BOOK.<br />
+<br />
+<br />
+SELECT SB~CARRID<br />
+&nbsp;&nbsp;SB~CONNID<br />
+&nbsp;&nbsp;SB~FLDATE<br />
+&nbsp;&nbsp;SB~BOOKID<br />
+&nbsp;&nbsp;SB~CUSTOMID<br />
+&nbsp;&nbsp;SB~CUSTTYPE<br />
+&nbsp;&nbsp;SC~NAME<br />
+&nbsp;&nbsp;&nbsp;FROM&nbsp;SBOOK&nbsp;AS&nbsp;SB<br />
+&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;SCUSTOM&nbsp;AS&nbsp;SC<br />
+&nbsp;&nbsp;ON&nbsp;SB~CUSTOMID&nbsp;=&nbsp;SC~ID<br />
+&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;GT_BOOK<br />
+&nbsp;&nbsp;WHERE&nbsp;SB~CARRID&nbsp;=&nbsp;GV_CAR<br />
+&nbsp;&nbsp;AND&nbsp;SB~CONNID&nbsp;=&nbsp;GV_CON<br />
+&nbsp;&nbsp;AND&nbsp;SB~FLDATE&nbsp;IN&nbsp;SO_FDATE.<br />
+<br />
+WRITE : 'Booking Information'.<br />
+ULINE.<br />
+LOOP AT GT_BOOK INTO GS_BOOK.<br />
+<br />
+<br />
+&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;GS_BOOK-CARRID,&nbsp;GS_BOOK-CONNID,&nbsp;GS_BOOK-FLDATE,&nbsp;GS_BOOK-BOOKID,<br />
+&nbsp;&nbsp;&nbsp;GS_BOOK-CUSTOMID,&nbsp;&nbsp;GS_BOOK-CUSTTYPE,&nbsp;&nbsp;GS_BOOK-NAME.<br />
+<br />
+ENDLOOP.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;GV_CAR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;GV_CON&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

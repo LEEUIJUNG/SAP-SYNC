@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZEX_4_3_CC15</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZEX_4_3_CC15</h2>
+<h3> Description: 4-3 gloabl class</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZEX_4_3_CC15<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;작성&nbsp;방법<br />
+*&nbsp;EVENT&nbsp;HANDLER&nbsp;를&nbsp;RAISE&nbsp;하기&nbsp;위해서는&nbsp;EVENT_HANDLER&nbsp;METHOD&nbsp;를&nbsp;정의한후<br />
+*&nbsp;PROPERTY&nbsp;에서&nbsp;EVENT&nbsp;HANDLER&nbsp;를&nbsp;설정<br />
+*<br />
+*&nbsp;CLASS&nbsp;를&nbsp;상속을&nbsp;하려면&nbsp;POPOERTY&nbsp;에서&nbsp;SUBCLASS&nbsp;를&nbsp;할당<br />
+*<br />
+*&nbsp;REDEFINED&nbsp;은&nbsp;REDEFINE할&nbsp;METHOD&nbsp;를&nbsp;클릭해두고&nbsp;REDEFINE&nbsp;METHOD&nbsp;버튼을&nbsp;클릭하고&nbsp;작성<br />
+*<br />
+*&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;를&nbsp;설정하기&nbsp;위해서는&nbsp;ATRTRIBUTE&nbsp;나&nbsp;PARM&nbsp;에서&nbsp;DIRECT&nbsp;TYPE&nbsp;ENTRY리&nbsp;영역에서&nbsp;작성을&nbsp;한다.<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZEX_4_3_CC15.<br />
+<br />
+DATA: GR_STORE TYPE REF TO ZCL_STORE_CC15.<br />
+DATA: GT_PRODUCT TYPE TABLE OF REF TO ZCL_PRODUCT_CC15.<br />
+DATA: GR_PRODUCT LIKE LINE OF GT_PRODUCT.<br />
+DATA: GR_ELECTRONICS TYPE REF TO ZCL_ELECTRONICS_CC15.<br />
+DATA: GR_CLOTHS TYPE REF TO ZCL_CLOTHES_CC15.<br />
+DATA: GR_FOOD TYPE REF TO ZCL_FOOD_CC15.<br />
+<br />
+START-OF-SELECTION.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GR_STORE&nbsp;EXPORTING&nbsp;IV_NAME&nbsp;=&nbsp;'SAMSUNG&nbsp;SDS'.<br />
+<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GR_ELECTRONICS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PRODUCT_ID&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PRODUCT_NAME&nbsp;=&nbsp;'LCD&nbsp;TV'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_VOLTAGE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;220.<br />
+<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GR_CLOTHS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PRODUCT_ID&nbsp;&nbsp;&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PRODUCT_NAME&nbsp;=&nbsp;'Outter'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_SIZE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'XL'.<br />
+<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GR_FOOD<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PRODUCT_ID&nbsp;&nbsp;&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PRODUCT_NAME&nbsp;=&nbsp;'Noddle'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_EXPIRE_DATE&nbsp;&nbsp;=&nbsp;'20160101'.<br />
+<br />
+&nbsp;&nbsp;GR_STORE-&gt;DISPLAY_PRODUCT(&nbsp;).<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

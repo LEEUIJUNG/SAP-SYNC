@@ -1,0 +1,124 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZEX_4_2_CC15_2</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZEX_4_2_CC15_2</h2>
+<h3> Description: 4_2 class event (instance event handler 만 사용)</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZEX4_2_CC15<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZEX4_2_CC15.<br />
+<br />
+include <a href ="zex4_2_cc15_2_cls.html">ZEX4_2_CC15_2_CLS</a>.<br />
+   </div>
+   <div class="codeComment">
+*INCLUDE&nbsp;ZEX4_2_CC15_CLS.<br />
+<br />
+*------*<br />
+*&nbsp;static&nbsp;event&nbsp;handler&nbsp;와&nbsp;instance&nbsp;event&nbsp;hanlder&nbsp;차이<br />
+*&nbsp;static&nbsp;event&nbsp;는&nbsp;함수의&nbsp;초기&nbsp;세팅을&nbsp;할떄&nbsp;가끔&nbsp;사용을&nbsp;한다.&nbsp;그러나&nbsp;실무에서는&nbsp;instance&nbsp;event&nbsp;만을&nbsp;거의&nbsp;사용함으로&nbsp;instance&nbsp;로&nbsp;event를&nbsp;선언해라<br />
+*&nbsp;static&nbsp;event&nbsp;는&nbsp;obj&nbsp;를&nbsp;받지&nbsp;않음으로&nbsp;set&nbsp;handler&nbsp;를&nbsp;setting&nbsp;할떄&nbsp;for&nbsp;all&nbsp;instance&nbsp;를&nbsp;적지&nbsp;않는다.<br />
+*&nbsp;만약&nbsp;handler&nbsp;method&nbsp;가&nbsp;instance&nbsp;인&nbsp;경우&nbsp;함수&nbsp;내부가&nbsp;아닌&nbsp;함수&nbsp;외부에&nbsp;obj&nbsp;를&nbsp;생성하고&nbsp;set&nbsp;handler&nbsp;를&nbsp;선언해야한다.&nbsp;그래야&nbsp;hadler&nbsp;등록&nbsp;가능<br />
+*&nbsp;static&nbsp;method&nbsp;는&nbsp;instance&nbsp;method&nbsp;를&nbsp;호출&nbsp;불가능.&nbsp;instance&nbsp;객첵가&nbsp;생성되지&nbsp;전에&nbsp;호출이&nbsp;될&nbsp;수&nbsp;있기&nbsp;떄문이다.<br />
+*------*<br />
+<br />
+   </div>
+   <div class="code">
+DATA: LR_STORE TYPE REF TO LCL_STORE.<br />
+DATA: LT_PRODUCT TYPE TABLE OF REF TO LCL_PRODUCT.<br />
+DATA: LR_PRODUCT LIKE LINE OF LT_PRODUCT.<br />
+DATA: LR_ELECTRONICS TYPE REF TO LCL_ELECTRONICS.<br />
+DATA: LR_CLOTHS TYPE REF TO LCL_CLOTHES.<br />
+DATA: LR_FOOD TYPE REF TO LCL_FOODS.<br />
+<br />
+START-OF-SELECTION.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;LR_STORE&nbsp;EXPORTING&nbsp;IV_NAME&nbsp;=&nbsp;'SAMSUNG&nbsp;SDS'.<br />
+<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;LR_ELECTRONICS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PRODUCT_ID&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PRODUCT_NAME&nbsp;=&nbsp;'LCD&nbsp;TV'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_VOLTAGE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;220.<br />
+<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;LR_CLOTHS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PRODUCT_ID&nbsp;&nbsp;&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PRODUCT_NAME&nbsp;=&nbsp;'Outter'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_SIZE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'XL'.<br />
+<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;LR_FOOD<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PRODUCT_ID&nbsp;&nbsp;&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_PRODUCT_NAME&nbsp;=&nbsp;'Noddle'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_EXPIRE_DATE&nbsp;&nbsp;=&nbsp;'20160101'.<br />
+<br />
+<br />
+&nbsp;&nbsp;LR_STORE-&gt;DISPLAY_PRODUCT(&nbsp;).<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

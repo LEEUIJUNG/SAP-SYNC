@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZEX1_5_ABAP_2</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZEX1_5_ABAP_2</h2>
+<h3> Description: SS-OUPTUPT 적용</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZEX1_5_ABAP<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZEX1_5_ABAP_COLLCECT.<br />
+<br />
+SELECTION-SCREEN BEGIN OF BLOCK BLOCK1 WITH FRAME.<br />
+   </div>
+   <div class="codeComment">
+*---------&nbsp;test15&nbsp;SS-OUTPUT&nbsp;USER-COMMAND&nbsp;적용&nbsp;---------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;"&nbsp;USER&nbsp;COMMAND&nbsp;는&nbsp;RADIO&nbsp;GROUP&nbsp;에&nbsp;적용한다.<br />
+&nbsp;&nbsp;"&nbsp;USER&nbsp;COMMAND를&nbsp;적용해야&nbsp;SS-OUPUT&nbsp;에서&nbsp;인식을&nbsp;한다.<br />
+&nbsp;&nbsp;PARAMETERS&nbsp;:&nbsp;GV_RADI1&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;RADI&nbsp;USER-COMMAND&nbsp;UC1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_RADI2&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;RADI,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_RADI3&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;RADI,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_RADI4&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;RADI.<br />
+<br />
+SELECTION-SCREEN END OF BLOCK BLOCK1 .<br />
+<br />
+SELECTION-SCREEN BEGIN OF BLOCK BLOCK2 WITH FRAME.<br />
+   </div>
+   <div class="codeComment">
+*---------&nbsp;test15&nbsp;&nbsp;TXT를&nbsp;통해&nbsp;USER-COMMAND&nbsp;적용&nbsp;확인&nbsp;---------*<br />
+*&nbsp;BUTTOM&nbsp;에&nbsp;따라서&nbsp;해당&nbsp;COMMENT&nbsp;가&nbsp;보이게&nbsp;출력한다.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;"&nbsp;SS&nbsp;COMMENT&nbsp;는&nbsp;위치를&nbsp;지정해야&nbsp;액티브가&nbsp;가능함<br />
+&nbsp;&nbsp;"&nbsp;SS&nbsp;COMMENT&nbsp;의&nbsp;위치가&nbsp;겹치면&nbsp;ACTIVE&nbsp;가&nbsp;안됨<br />
+&nbsp;&nbsp;"&nbsp;MODIFY&nbsp;ID&nbsp;를&nbsp;지정하여&nbsp;SS-OUPUT&nbsp;에서&nbsp;해당&nbsp;COMMENT를&nbsp;찾을&nbsp;수&nbsp;있게&nbsp;한다.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;:&nbsp;SKIP&nbsp;1,<br />
+&nbsp;&nbsp;COMMENT&nbsp;5(10)&nbsp;&nbsp;TEXT-001&nbsp;MODIF&nbsp;ID&nbsp;T1,&nbsp;"&nbsp;버튼&nbsp;1"<br />
+&nbsp;&nbsp;SKIP&nbsp;1,<br />
+&nbsp;&nbsp;COMMENT&nbsp;5(10)&nbsp;TEXT-002&nbsp;MODIF&nbsp;ID&nbsp;T2,&nbsp;"&nbsp;버튼&nbsp;2"<br />
+&nbsp;&nbsp;SKIP&nbsp;1,<br />
+&nbsp;&nbsp;COMMENT&nbsp;5(10)&nbsp;TEXT-003&nbsp;MODIF&nbsp;ID&nbsp;T3.&nbsp;"&nbsp;버튼&nbsp;3"<br />
+<br />
+SELECTION-SCREEN END OF BLOCK BLOCK2 .<br />
+<br />
+<br />
+SELECTION-SCREEN BEGIN OF SCREEN 101 AS SUBSCREEN.<br />
+&nbsp;&nbsp;PARAMETERS:&nbsp;PA_CAR1&nbsp;TYPE&nbsp;SFLIGHT-CARRID.<br />
+<br />
+SELECTION-SCREEN END OF SCREEN 101.<br />
+<br />
+SELECTION-SCREEN BEGIN OF SCREEN 102 AS SUBSCREEN.<br />
+&nbsp;&nbsp;PARAMETERS:&nbsp;PA_CAR2&nbsp;TYPE&nbsp;SFLIGHT-CARRID.<br />
+<br />
+SELECTION-SCREEN END OF SCREEN 102.<br />
+<br />
+<br />
+SELECTION-SCREEN BEGIN OF TABBED BLOCK BLOCK3  FOR 5 LINES.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;TAB&nbsp;(10)&nbsp;TAB1&nbsp;USER-COMMAND&nbsp;UC2&nbsp;DEFAULT&nbsp;SCREEN&nbsp;101&nbsp;MODIF&nbsp;ID&nbsp;T4.<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;TAB&nbsp;(10)&nbsp;TAB2&nbsp;USER-COMMAND&nbsp;UC3&nbsp;DEFAULT&nbsp;SCREEN&nbsp;102&nbsp;MODIF&nbsp;ID&nbsp;T4.<br />
+SELECTION-SCREEN END OF  BLOCK BLOCK3 .<br />
+<br />
+<br />
+DATA: GT_SLFIGHT TYPE TABLE OF SFLIGHT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_SFLIGHT&nbsp;TYPE&nbsp;SFLIGHT.<br />
+<br />
+INITIALIZATION.<br />
+<br />
+SELECT SINGLE * FROM SFLIGHT INTO GS_SFLIGHT.<br />
+<br />
+PA_CAR1 = GS_SFLIGHT-CARRID.<br />
+<br />
+<br />
+<br />
+AT SELECTION-SCREEN.<br />
+<br />
+<br />
+<br />
+AT SELECTION-SCREEN OUTPUT.<br />
+   </div>
+   <div class="codeComment">
+*---------&nbsp;test15&nbsp;SS-OUTPUT&nbsp;적용&nbsp;---------*<br />
+*&nbsp;SS-OUPUT&nbsp;은&nbsp;사용자가&nbsp;SCREEN1000&nbsp;에서&nbsp;동작을&nbsp;하였을때&nbsp;이를&nbsp;반영한다.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;"&nbsp;해당&nbsp;RADIO&nbsp;BUTTON&nbsp;이&nbsp;눌렀을떄를&nbsp;기준으로&nbsp;한다<br />
+&nbsp;&nbsp;"&nbsp;SCREEN의&nbsp;LOOP&nbsp;를&nbsp;돌려&nbsp;위에&nbsp;지정한&nbsp;MODIFY&nbsp;ID&nbsp;를&nbsp;찾는다.<br />
+&nbsp;&nbsp;"&nbsp;찾은&nbsp;MODIFY&nbsp;ID&nbsp;(&nbsp;MODIFY&nbsp;iD&nbsp;는&nbsp;SCREEN-GROUP1&nbsp;로&nbsp;지정이됨)&nbsp;기준으로&nbsp;SCREEN&nbsp;의&nbsp;COMPONENT&nbsp;를&nbsp;변경한다<br />
+&nbsp;&nbsp;"&nbsp;INVISIBLE&nbsp;,&nbsp;ACTIVATE,&nbsp;INPUT&nbsp;등등&nbsp;이&nbsp;가능하다<br />
+&nbsp;&nbsp;"&nbsp;그후&nbsp;MODIFY&nbsp;SCREEN&nbsp;을&nbsp;사용하여&nbsp;화면에&nbsp;반영을&nbsp;한다.<br />
+&nbsp;&nbsp;IF&nbsp;GV_RADI1&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;SCREEN-GROUP1&nbsp;=&nbsp;'T1'.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCREEN-INVISIBLE&nbsp;=&nbsp;0.&nbsp;"&nbsp;화면이&nbsp;초기화&nbsp;되면&nbsp;기본&nbsp;값인&nbsp;0으로&nbsp;다시&nbsp;돌아와서&nbsp;작성필요&nbsp;없음<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;SCREEN-GROUP1&nbsp;=&nbsp;'T2'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCREEN-INVISIBLE&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;SCREEN-GROUP1&nbsp;=&nbsp;'T3'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCREEN-INVISIBLE&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;ELSEIF&nbsp;&nbsp;GV_RADI2&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;SCREEN-GROUP1&nbsp;=&nbsp;'T1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCREEN-INVISIBLE&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;SCREEN-GROUP1&nbsp;=&nbsp;'T2'.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCREEN-INVISIBLE&nbsp;=&nbsp;0.&nbsp;"&nbsp;화면이&nbsp;초기화&nbsp;되면&nbsp;기본&nbsp;값인&nbsp;0으로&nbsp;다시&nbsp;돌아와서&nbsp;작성필요&nbsp;없음<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;SCREEN-GROUP1&nbsp;=&nbsp;'T3'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCREEN-INVISIBLE&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;ELSEIF&nbsp;&nbsp;GV_RADI3&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;SCREEN-GROUP1&nbsp;=&nbsp;'T1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCREEN-INVISIBLE&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;SCREEN-GROUP1&nbsp;=&nbsp;'T2'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCREEN-INVISIBLE&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;SCREEN-GROUP1&nbsp;=&nbsp;'T3'.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCREEN-INVISIBLE&nbsp;=&nbsp;0.&nbsp;"&nbsp;화면이&nbsp;초기화&nbsp;되면&nbsp;기본&nbsp;값인&nbsp;0으로&nbsp;다시&nbsp;돌아와서&nbsp;작성필요&nbsp;없음<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PA_CAR1&nbsp;=&nbsp;'TEST'.&nbsp;"&nbsp;FIELD&nbsp;에&nbsp;값을&nbsp;수동으로&nbsp;넣을&nbsp;수&nbsp;있다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;ELSEIF&nbsp;&nbsp;GV_RADI4&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;SCREEN&nbsp;BLCOK&nbsp;전체를&nbsp;가리려면&nbsp;모든&nbsp;구성&nbsp;요소들을&nbsp;INVISILBE&nbsp;해야한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;SCREEN-GROUP1&nbsp;=&nbsp;'T4'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PA_CAR1&nbsp;=&nbsp;SPACE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCREEN-ACTIVE&nbsp;=&nbsp;0.&nbsp;"&nbsp;FILED&nbsp;는&nbsp;ACTIVE&nbsp;로&nbsp;가린다<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*---------&nbsp;---------*<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;001&nbsp;버튼&nbsp;1<br />
+*&nbsp;002&nbsp;버튼&nbsp;2<br />
+*&nbsp;003&nbsp;버튼&nbsp;3<br />
+*&nbsp;004&nbsp;스크린&nbsp;&nbsp;블록도&nbsp;가능하다<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;GV_RADI1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flight&nbsp;Information<br />
+*&nbsp;GV_RADI2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Schedule&nbsp;Information<br />
+*&nbsp;GV_RADI3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Booking&nbsp;Information<br />
+*&nbsp;GV_RADI4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ScreenBlock&nbsp;Information<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

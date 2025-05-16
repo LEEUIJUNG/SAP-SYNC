@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZEX1_3_ABAP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZEX1_3_ABAP</h2>
+<h3> Description: 인사 기본정보를 출력하는 ABAP Program</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZEX1_3_ABAP<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;인사&nbsp;기본정보를&nbsp;출력하는&nbsp;ABAP&nbsp;Program<br />
+*&<br />
+*&&nbsp;1.&nbsp;다음과&nbsp;같이&nbsp;Selection&nbsp;Screen을&nbsp;통하여&nbsp;인사기본정보를&nbsp;입력&nbsp;받아&nbsp;추가&nbsp;정보를&nbsp;출력한다.<br />
+*&&nbsp;&nbsp;&nbsp;-&nbsp;사번:&nbsp;Type&nbsp;N&nbsp;,&nbsp;Length&nbsp;8<br />
+*&&nbsp;&nbsp;&nbsp;-&nbsp;성명:&nbsp;Type&nbsp;C,&nbsp;Length&nbsp;10<br />
+*&&nbsp;&nbsp;&nbsp;-&nbsp;생년월일:&nbsp;Type&nbsp;DATS<br />
+*&&nbsp;&nbsp;&nbsp;-&nbsp;직위:&nbsp;Type&nbsp;N,&nbsp;Length&nbsp;1<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1:&nbsp;사장,&nbsp;2:&nbsp;이사,&nbsp;3:&nbsp;부장,&nbsp;4:&nbsp;차장,&nbsp;5:&nbsp;과장,&nbsp;6:&nbsp;대리,&nbsp;7:&nbsp;사원<br />
+*&&nbsp;&nbsp;&nbsp;-&nbsp;입사일:&nbsp;Type:&nbsp;DATS<br />
+*&<br />
+*&&nbsp;-&nbsp;생년월일,&nbsp;입사일&nbsp;출력&nbsp;시&nbsp;XXXX년&nbsp;XX월&nbsp;XX일&nbsp;형식으로&nbsp;출력<br />
+*&&nbsp;-&nbsp;나이와&nbsp;만나이는&nbsp;생년월일을&nbsp;사용하여&nbsp;계산한다.<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;REPORT&nbsp;ZEX1_3_ABAP.<br />
+<br />
+<br />
+<br />
+&nbsp;PARAMETERS:&nbsp;PA_EMP&nbsp;&nbsp;&nbsp;TYPE&nbsp;N&nbsp;LENGTH&nbsp;8&nbsp;OBLIGATORY,&nbsp;"&nbsp;사번<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PA_NAME&nbsp;&nbsp;TYPE&nbsp;C&nbsp;LENGTH&nbsp;10&nbsp;OBLIGATORY,&nbsp;"&nbsp;이름<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PA_BIRTH&nbsp;TYPE&nbsp;DATS&nbsp;OBLIGATORY,&nbsp;"&nbsp;생년월일<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PA_JIKWI&nbsp;TYPE&nbsp;N&nbsp;LENGTH&nbsp;1&nbsp;OBLIGATORY,&nbsp;"&nbsp;직위<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PA_EDAT&nbsp;&nbsp;TYPE&nbsp;DATS&nbsp;OBLIGATORY.&nbsp;"&nbsp;입사일<br />
+<br />
+<br />
+&nbsp;DATA:&nbsp;GV_BIRTH_CONVERT&nbsp;TYPE&nbsp;CHAR40,&nbsp;"&nbsp;날짜&nbsp;변환을&nbsp;위한&nbsp;변수<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_R_AGE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;I,&nbsp;"&nbsp;실제&nbsp;나이<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_M_AGE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;I,&nbsp;"&nbsp;만&nbsp;나이<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_JIKWI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;CHAR40,&nbsp;"&nbsp;직위&nbsp;text&nbsp;symbol<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_DAYS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;I.&nbsp;"&nbsp;연차<br />
+<br />
+&nbsp;TYPES&nbsp;TY_CV_DATE&nbsp;TYPE&nbsp;C&nbsp;LENGTH&nbsp;40.<br />
+&nbsp;TYPES&nbsp;TY_CV_JIKWI&nbsp;TYPE&nbsp;C&nbsp;LENGTH&nbsp;40.<br />
+&nbsp;TYPES&nbsp;TY_PV_JIKWI&nbsp;TYPE&nbsp;N&nbsp;LENGTH&nbsp;1.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;날짜&nbsp;양식을&nbsp;변환하기&nbsp;위한&nbsp;subroutine<br />
+   </div>
+   <div class="code">
+&nbsp;PERFORM&nbsp;GET_DATE_FORMAT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;USING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PA_BIRTH<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_BIRTH_CONVERT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;나이를&nbsp;계산하는&nbsp;function&nbsp;module&nbsp;실행<br />
+*&nbsp;Function&nbsp;Group&nbsp;Name:&nbsp;ZEX_FG<br />
+*&nbsp;Function&nbsp;Module&nbsp;Name:&nbsp;Z_GET_AGE_SOL00<br />
+   </div>
+   <div class="code">
+&nbsp;call&nbsp;function&nbsp;<a&nbsp;href&nbsp;="z_get_age_soloo/z_get_age_soloo.html">'Z_GET_AGE_SOLOO'</a><br />
+&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_DOB&nbsp;&nbsp;=&nbsp;PA_BIRTH<br />
+&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EV_AGE1&nbsp;=&nbsp;GV_R_AGE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EV_AGE2&nbsp;=&nbsp;GV_M_AGE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;직책번호를&nbsp;직책으로&nbsp;변환하기&nbsp;위한&nbsp;subroutine<br />
+   </div>
+   <div class="code">
+&nbsp;PERFORM&nbsp;GET_JIKWI_TEXT<br />
+&nbsp;&nbsp;&nbsp;USING&nbsp;PA_JIKWI<br />
+&nbsp;&nbsp;&nbsp;CHANGING&nbsp;GV_JIKWI.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;연차&nbsp;계산을&nbsp;위한&nbsp;GLOBAL&nbsp;CALSS<br />
+*&nbsp;&nbsp;Class&nbsp;Name:&nbsp;ZCL_EX<br />
+*&nbsp;&nbsp;Method&nbsp;Name:&nbsp;GET_LEAVE_DATE(Static&nbsp;Method)<br />
+   </div>
+   <div class="code">
+&nbsp;CALL&nbsp;METHOD&nbsp;ZCL_EX=&gt;GET_LEAVE_DATE<br />
+&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_EDAT&nbsp;&nbsp;=&nbsp;PA_EDAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;입사일<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_JIKWI&nbsp;=&nbsp;PA_JIKWI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;직위<br />
+&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EV_DAYS&nbsp;&nbsp;=&nbsp;GV_DAYS.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;연차<br />
+<br />
+<br />
+&nbsp;WRITE&nbsp;:&nbsp;/&nbsp;'사번&nbsp;:&nbsp;'&nbsp;,&nbsp;PA_EMP&nbsp;NO-ZERO,&nbsp;&nbsp;"NO-ZERO&nbsp;는&nbsp;숫자&nbsp;앞의&nbsp;0들을&nbsp;제거한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'성명&nbsp;:&nbsp;'&nbsp;,&nbsp;PA_NAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'생년월일&nbsp;:&nbsp;'&nbsp;,&nbsp;GV_BIRTH_CONVERT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'나이&nbsp;:&nbsp;'&nbsp;,&nbsp;GV_R_AGE&nbsp;&nbsp;,&nbsp;'&nbsp;세&nbsp;'&nbsp;,&nbsp;'&nbsp;(&nbsp;만&nbsp;'&nbsp;,&nbsp;GV_M_AGE&nbsp;,&nbsp;'&nbsp;세&nbsp;)',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'직위&nbsp;:&nbsp;'&nbsp;,&nbsp;GV_JIKWI,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'연차&nbsp;:&nbsp;'&nbsp;,&nbsp;GV_DAYS.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;subroutine을&nbsp;이용하여&nbsp;DATS&nbsp;양식을&nbsp;변경<br />
+*&nbsp;DATS&nbsp;양식은&nbsp;2025-01-01&nbsp;과&nbsp;같이&nbsp;반환함<br />
+   </div>
+   <div class="code">
+&nbsp;FORM&nbsp;GET_DATE_FORMAT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE(PV_DATE)&nbsp;TYPE&nbsp;DATS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE(CV_DATE)&nbsp;TYPE&nbsp;TY_CV_DATE.&nbsp;"&nbsp;TYPE&nbsp;C&nbsp;LENGTH&nbsp;40&nbsp;이&nbsp;안되서&nbsp;이렇게&nbsp;넣음<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;DATS+a(b)&nbsp;양식으로&nbsp;데이터를&nbsp;가져오면&nbsp;-&nbsp;표시는&nbsp;제외하고&nbsp;가지고옴&nbsp;a는&nbsp;가져올&nbsp;데이터의&nbsp;첫&nbsp;위치&nbsp;b는&nbsp;a&nbsp;위치부터&nbsp;몇&nbsp;글자를&nbsp;가져오나<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;CV_DATE&nbsp;=&nbsp;PV_DATE+0(4)&nbsp;&&&nbsp;'년&nbsp;'&nbsp;&&&nbsp;PV_DATE+4(2)&nbsp;&&&nbsp;'월&nbsp;'&nbsp;&&&nbsp;PV_DATE+6(2)&nbsp;&&&nbsp;'일'.<br />
+&nbsp;ENDFORM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;subroutine을&nbsp;이용하여&nbsp;직위의&nbsp;Text&nbsp;Symbol&nbsp;를&nbsp;가져옴<br />
+   </div>
+   <div class="code">
+&nbsp;FORM&nbsp;GET_JIKWI_TEXT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE(PV_JIKWI)&nbsp;TYPE&nbsp;TY_PV_JIKWI&nbsp;"&nbsp;&nbsp;TYPE&nbsp;I&nbsp;LENGTH&nbsp;1&nbsp;이&nbsp;안되서&nbsp;이렇게&nbsp;넣음<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE(CV_JIKWI)&nbsp;TYPE&nbsp;TY_CV_JIKWI.&nbsp;"&nbsp;&nbsp;TYPE&nbsp;C&nbsp;LENGTH&nbsp;40&nbsp;이&nbsp;안되서&nbsp;이렇게&nbsp;넣음<br />
+<br />
+&nbsp;&nbsp;&nbsp;CASE&nbsp;PV_JIKWI.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CV_JIKWI&nbsp;=&nbsp;TEXT-J01.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'2'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CV_JIKWI&nbsp;=&nbsp;TEXT-J02.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'3'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CV_JIKWI&nbsp;=&nbsp;TEXT-J03.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'4'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CV_JIKWI&nbsp;=&nbsp;TEXT-J04.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'5'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CV_JIKWI&nbsp;=&nbsp;TEXT-J05.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'6'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CV_JIKWI&nbsp;=&nbsp;TEXT-J06.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'7'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CV_JIKWI&nbsp;=&nbsp;TEXT-J07.<br />
+&nbsp;&nbsp;&nbsp;ENDCASE.<br />
+<br />
+&nbsp;ENDFORM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;001&nbsp;사번<br />
+*&nbsp;002&nbsp;이름<br />
+*&nbsp;003&nbsp;생년월일<br />
+*&nbsp;004&nbsp;작위<br />
+*&nbsp;005&nbsp;입사일<br />
+*&nbsp;J01&nbsp;사장<br />
+*&nbsp;J02&nbsp;이사<br />
+*&nbsp;J03&nbsp;부장<br />
+*&nbsp;J04&nbsp;차장<br />
+*&nbsp;J05&nbsp;과장<br />
+*&nbsp;J06&nbsp;대리<br />
+*&nbsp;J07&nbsp;사원<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PA_BIRTH&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;생년월일<br />
+*&nbsp;PA_EDAT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;입사년월일<br />
+*&nbsp;PA_EMP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;사번<br />
+*&nbsp;PA_JIKWI&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;직위<br />
+*&nbsp;PA_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이름<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

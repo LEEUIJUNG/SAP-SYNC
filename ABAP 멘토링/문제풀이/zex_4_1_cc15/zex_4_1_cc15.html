@@ -1,0 +1,130 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZEX_4_1_CC15</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZEX_4_1_CC15</h2>
+<h3> Description: 4_1 class inheritance</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZEX_4_1_CC15<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZEX_4_1_CC15.<br />
+<br />
+include <a href ="zex_4_1_cc15_cls.html">ZEX_4_1_CC15_CLS</a>.<br />
+<br />
+<br />
+DATA: LT_PRODUCT TYPE TABLE OF REF TO LCL_PRODUCT.<br />
+DATA: LR_PRODUCT LIKE LINE OF LT_PRODUCT.<br />
+DATA: LR_ELECTRONICS TYPE REF TO LCL_ELECTRONICS.<br />
+DATA: LR_CLOTHS TYPE REF TO LCL_CLOTHES.<br />
+DATA: LR_FOOD TYPE REF TO LCL_FOODS.<br />
+<br />
+START-OF-SELECTION.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;LR_ELECTRONICS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_PRODUCT_NAME&nbsp;=&nbsp;'LCD&nbsp;TV'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_PRODUCT_ID&nbsp;&nbsp;&nbsp;=&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;LR_ELECTRONICS-&gt;SET_VOLTAGE(&nbsp;220&nbsp;).<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;LR_ELECTRONICS&nbsp;TO&nbsp;LT_PRODUCT.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;LR_CLOTHS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_PRODUCT_NAME&nbsp;=&nbsp;'OUTTER'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_PRODUCT_ID&nbsp;&nbsp;&nbsp;=&nbsp;2.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;LR_CLOTHS-&gt;SET_SIZE(&nbsp;IV_SIZE&nbsp;=&nbsp;'XL'&nbsp;).&nbsp;"&nbsp;아래와&nbsp;같음<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;LR_CLOTHS-&gt;SET_SIZE(&nbsp;'XL'&nbsp;).<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;LR_CLOTHS&nbsp;TO&nbsp;LT_PRODUCT.<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;LR_FOOD<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_PRODUCT_NAME&nbsp;=&nbsp;'NODDLE'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_PRODUCT_ID&nbsp;&nbsp;&nbsp;=&nbsp;3.<br />
+<br />
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;LR_FOOD-&gt;SET_EXPIRE_DATE(&nbsp;'20160101'&nbsp;).<br />
+<br />
+&nbsp;&nbsp;APPEND&nbsp;LR_FOOD&nbsp;TO&nbsp;LT_PRODUCT.<br />
+<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;LT_PRODUCT&nbsp;INTO&nbsp;LR_PRODUCT.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;LR_PRODUCT-&gt;DISPLAY_PRODUCT.&nbsp;"&nbsp;CALL&nbsp;METHOD&nbsp;를&nbsp;붙히면&nbsp;METHOD&nbsp;임을&nbsp;알려줌으로&nbsp;()&nbsp;적을&nbsp;필요&nbsp;없음<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;LR_PRODUCT-&gt;DISPLAY_PRODUCT(&nbsp;).&nbsp;"&nbsp;CALL&nbsp;METHOD&nbsp;가&nbsp;없음으로&nbsp;()&nbsp;사용하여&nbsp;METHOD&nbsp;임을&nbsp;알려준다.<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;WRITE:/&nbsp;'TOTAL&nbsp;PRODUCT&nbsp;COUNT&nbsp;:&nbsp;'&nbsp;&&&nbsp;LCL_PRODUCT=&gt;GET_PRODUCT_COUNT(&nbsp;).<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>
