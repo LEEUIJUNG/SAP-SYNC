@@ -1,0 +1,243 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+<title>ZCB_FI_GET_DOCUMENT</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for function ZCB_FI_GET_DOCUMENT</h2>
+<h3> Description: 회계전표의 전표유형 결정 FUNCTION</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="code">
+FUNCTION zcb_fi_get_document.<br />
+   </div>
+   <div class="codeComment">
+*"----------------------------------------------------------------------<br />
+*"*"Local Interface:<br />
+*"  IMPORTING<br />
+*"     REFERENCE(I_BLART) TYPE  ZCB_BLART<br />
+*"     REFERENCE(I_BLDAT) TYPE  ZCB_BLDAT<br />
+*"     REFERENCE(I_BUKRS) TYPE  ZCB_BUKRS<br />
+*"  CHANGING<br />
+*"     REFERENCE(CS_HEAD) TYPE  ZCB_FIT020<br />
+*"     REFERENCE(CT_ITEM) TYPE  ZCB_FI_ITEM<br />
+*"----------------------------------------------------------------------<br />
+
+<div class="codeComment">*       <a href ="global-zcb_fi_get_document.html">Global data declarations</a></div><br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;DATA&nbsp;:&nbsp;lv_nr_no&nbsp;TYPE&nbsp;zcb_nr_no,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BEGIN&nbsp;OF&nbsp;ls_date,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;from_date&nbsp;TYPE&nbsp;zcb_dats,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;to_date&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_dats,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gjahr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_gjahr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;monat&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_monat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;week&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_week,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ls_date,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_item&nbsp;TYPE&nbsp;zcb_fit030.<br />
+<br />
+&nbsp;&nbsp;cs_head-blart&nbsp;=&nbsp;I_BLART.<br />
+&nbsp;&nbsp;cs_head-bukrs&nbsp;=&nbsp;I_BUKRS.<br />
+&nbsp;&nbsp;cs_head-bldat&nbsp;=&nbsp;I_BLDAT.<br />
+&nbsp;&nbsp;cs_head-budat&nbsp;=&nbsp;sy-datum.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*"----------------------------------------------------------------------<br />
+*  "통화키 추출<br />
+*"----------------------------------------------------------------------<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;waers<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;cs_head-waers<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;zcb_fit130<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;bukrs&nbsp;EQ&nbsp;I_BUKRS.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*"----------------------------------------------------------------------<br />
+*" 전표유형에 따른 SNRO 번호 추출<br />
+*"----------------------------------------------------------------------<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;nr_no<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;zcb_fit360<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;lv_nr_no<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;blart&nbsp;EQ&nbsp;I_BLART.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*"----------------------------------------------------------------------<br />
+*" SNRO 번호에 따른 전표 번호 추출<br />
+*"----------------------------------------------------------------------<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'NUMBER_GET_NEXT'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nr_range_nr&nbsp;=&nbsp;lv_nr_no<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;object&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'ZCB_BELNR'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;cs_head-belnr.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*"----------------------------------------------------------------------<br />
+*" 회계기간(연/월/주)<br />
+*"----------------------------------------------------------------------<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;gjahr&nbsp;week&nbsp;monat<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;ls_date<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;zcb_fit170<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;bukrs&nbsp;=&nbsp;I_BUKRS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;from_date&nbsp;&lt;=&nbsp;I_BLDAT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;to_date&nbsp;&gt;=&nbsp;I_BLDAT.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;EQ&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;cs_head-gjahr&nbsp;=&nbsp;ls_date-gjahr.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;cs_head-monat&nbsp;=&nbsp;ls_date-monat.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;cs_head-week&nbsp;=&nbsp;ls_date-week.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"회계전표&nbsp;아이템&nbsp;별&nbsp;회계기간&nbsp;넣어주기!<br />
+<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;'자본화&nbsp;일자에&nbsp;해당하는&nbsp;회계기간&nbsp;정보를&nbsp;찾을&nbsp;수&nbsp;없습니다.'&nbsp;TYPE&nbsp;'I'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;RETURN.<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*"----------------------------------------------------------------------<br />
+*" TIMESTAMP 설정<br />
+*"----------------------------------------------------------------------<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;DATA(lv_date)&nbsp;=&nbsp;sy-datum.<br />
+&nbsp;&nbsp;DATA(lv_time)&nbsp;=&nbsp;sy-uzeit.<br />
+&nbsp;&nbsp;DATA(lv_user)&nbsp;=&nbsp;sy-uname.<br />
+<br />
+&nbsp;&nbsp;cs_head-erdat&nbsp;=&nbsp;lv_date.<br />
+&nbsp;&nbsp;cs_head-erzet&nbsp;=&nbsp;lv_time.<br />
+&nbsp;&nbsp;cs_head-ernam&nbsp;=&nbsp;lv_user.<br />
+<br />
+&nbsp;&nbsp;DATA&nbsp;lv_index&nbsp;TYPE&nbsp;sy-tabix.<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;ct_item&nbsp;INTO&nbsp;ls_item.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lv_index&nbsp;=&nbsp;sy-tabix.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-erdat&nbsp;=&nbsp;lv_date.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-erzet&nbsp;=&nbsp;lv_time.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-ernam&nbsp;=&nbsp;lv_user.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;ct_item&nbsp;FROM&nbsp;ls_item&nbsp;INDEX&nbsp;lv_index.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*"----------------------------------------------------------------------<br />
+*" ITEM 설정<br />
+*"----------------------------------------------------------------------<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;ct_item&nbsp;INTO&nbsp;ls_item.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-bukrs&nbsp;=&nbsp;cs_head-bukrs.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-belnr&nbsp;=&nbsp;cs_head-belnr.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-gjahr&nbsp;=&nbsp;cs_head-gjahr.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;ct_item&nbsp;FROM&nbsp;ls_item&nbsp;TRANSPORTING&nbsp;bukrs<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;belnr<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gjahr.<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**"----------------------------------------------------------------------<br />
+**" G/L계정 유효성 검증<br />
+**"----------------------------------------------------------------------<br />
+*  SELECT SINGLE saknr koart<br />
+*    INTO CORRESPONDING FIELDS OF LV_ITEM<br />
+*    FROM zcb_fit010<br />
+*    WHERE bukrs = gs_str-bukrs<br />
+*      AND saknr = gs_item-saknr<br />
+*      AND lvorm = space. " 삭제되지 않은 계정<br />
+*<br />
+*  IF sy-subrc &lt;&gt; 0 OR gs_item-saknr IS INITIAL OR gs_item-koart IS INITIAL.<br />
+*    MESSAGE '해당 자산 G/L 계정이 유효하지 않거나 삭제된 상태입니다.' TYPE 'E'.<br />
+*    RETURN.<br />
+*  ENDIF.<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+ENDFUNCTION.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+* Message class: Hard coded<br />
+*   자본화 일자에 해당하는 회계기간 정보를 찾을 수 없습니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 758</td>
+   </tr>
+</table>
+</body>
+</html>

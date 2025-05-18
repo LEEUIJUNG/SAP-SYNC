@@ -1,0 +1,351 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+<title>Dictionary object- ZCB_FIT010</title>
+<style type="text/css">
+  th{text-align:left}
+  .cell{
+     font-family:"Courier New", Courier, monospace;
+     color:#000;
+     font-size:12px;
+     background-color:#F2F4F7;
+  }
+  .cell td { border: thin solid #ccc; }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+  <table class="outerTable">
+    <tr>
+      <td><h2>Table: ZCB_FIT010</h2>
+  <h3>Description: G/L 계정 마스터</h3></td>
+    </tr>
+    <tr>
+      <td><!--This is where our main table begins  -->
+<table class="innerTable">
+<tr>
+  <th>Row</th>
+  <th>Field name</th>
+  <th>Position</th>
+  <th>Key</th>
+  <th>Data element</th>
+  <th>Domain</th>
+  <th>Datatype</th>
+  <th>Length</th>
+  <th>Lowercase</th>
+  <th>Domain text</th>
+</tr>
+<tr class="cell">
+  <td> 1</td>
+  <td>MANDT</td>
+  <td>1</td>
+  <td>X</td>
+  <td>MANDT</td>
+  <td>MANDT</td>
+  <td>CLNT</td>
+  <td>3</td>
+  <td>&nbsp;</td>
+  <td>Client</td>
+</tr>
+<tr class="cell">
+  <td> 2</td>
+  <td>BUKRS</td>
+  <td>2</td>
+  <td>X</td>
+  <td>ZCB_BUKRS</td>
+  <td>ZCB_BUKRS</td>
+  <td>CHAR</td>
+  <td>4</td>
+  <td>&nbsp;</td>
+  <td>회사코드</td>
+</tr>
+<tr class="cell">
+  <td> 3</td>
+  <td>SAKNR</td>
+  <td>3</td>
+  <td>X</td>
+  <td>ZCB_SAKNR</td>
+  <td>ZCB_SAKNR</td>
+  <td>CHAR</td>
+  <td>10</td>
+  <td>&nbsp;</td>
+  <td>G/L 계정번호</td>
+</tr>
+<tr class="cell">
+  <td> 4</td>
+  <td>KTOPL</td>
+  <td>4</td>
+  <td>&nbsp;</td>
+  <td>ZCB_KTOPL</td>
+  <td>ZCB_KTOPL</td>
+  <td>CHAR</td>
+  <td>4</td>
+  <td>&nbsp;</td>
+  <td>계정과목표 ID</td>
+</tr>
+<tr class="cell">
+  <td> 5</td>
+  <td>KTOKS</td>
+  <td>5</td>
+  <td>&nbsp;</td>
+  <td>ZCB_KTOKS</td>
+  <td>ZCB_KTOKS</td>
+  <td>CHAR</td>
+  <td>4</td>
+  <td>&nbsp;</td>
+  <td>G/L 계정 그룹</td>
+</tr>
+<tr class="cell">
+  <td> 6</td>
+  <td>GLCLS</td>
+  <td>6</td>
+  <td>&nbsp;</td>
+  <td>ZCB_GLCLS</td>
+  <td>ZCB_GLCLS</td>
+  <td>CHAR</td>
+  <td>2</td>
+  <td>&nbsp;</td>
+  <td>G/L계정 분류</td>
+</tr>
+<tr class="cell">
+  <td> 7</td>
+  <td>KOART</td>
+  <td>7</td>
+  <td>&nbsp;</td>
+  <td>ZCB_KOART</td>
+  <td>ZCB_KOART</td>
+  <td>CHAR</td>
+  <td>1</td>
+  <td>&nbsp;</td>
+  <td>계정 유형</td>
+</tr>
+<tr class="cell">
+  <td> 8</td>
+  <td>BANKL</td>
+  <td>8</td>
+  <td>&nbsp;</td>
+  <td>ZCB_BANKK</td>
+  <td>ZCB_BANKK</td>
+  <td>CHAR</td>
+  <td>15</td>
+  <td>&nbsp;</td>
+  <td>은행키</td>
+</tr>
+<tr class="cell">
+  <td> 9</td>
+  <td>ZFSIT</td>
+  <td>9</td>
+  <td>&nbsp;</td>
+  <td>ZCB_ZFSIT</td>
+  <td>ZCB_ZFSIT</td>
+  <td>CHAR</td>
+  <td>10</td>
+  <td>&nbsp;</td>
+  <td>아이템 코드</td>
+</tr>
+<tr class="cell">
+  <td>10</td>
+  <td>LVORM</td>
+  <td>10</td>
+  <td>&nbsp;</td>
+  <td>ZCB_LVOCA</td>
+  <td>ZCB_XFELD</td>
+  <td>CHAR</td>
+  <td>1</td>
+  <td>&nbsp;</td>
+  <td>삭제 여부 CL3 2조</td>
+</tr>
+<tr class="cell">
+  <td>11</td>
+  <td>.INCLUDE</td>
+  <td>11</td>
+  <td>&nbsp;</td>
+  <td>ZCB_TIMESTAMP</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>0</td>
+  <td>&nbsp;</td>
+  <td>변경 이력 및 생성 이력</td>
+</tr>
+<tr class="cell">
+  <td>12</td>
+  <td>ERDAT</td>
+  <td>12</td>
+  <td>&nbsp;</td>
+  <td>ZCB_ERDAT</td>
+  <td>ZCB_ERDAT</td>
+  <td>DATS</td>
+  <td>8</td>
+  <td>&nbsp;</td>
+  <td>생성일자</td>
+</tr>
+<tr class="cell">
+  <td>13</td>
+  <td>ERZET</td>
+  <td>13</td>
+  <td>&nbsp;</td>
+  <td>ZCB_ERZET</td>
+  <td>ZCB_ERZET</td>
+  <td>TIMS</td>
+  <td>6</td>
+  <td>&nbsp;</td>
+  <td>생성시간</td>
+</tr>
+<tr class="cell">
+  <td>14</td>
+  <td>ERNAM</td>
+  <td>14</td>
+  <td>&nbsp;</td>
+  <td>ZCB_ERNAM</td>
+  <td>ZCB_ERNAM</td>
+  <td>CHAR</td>
+  <td>12</td>
+  <td>&nbsp;</td>
+  <td>생성자</td>
+</tr>
+<tr class="cell">
+  <td>15</td>
+  <td>AEDAT</td>
+  <td>15</td>
+  <td>&nbsp;</td>
+  <td>ZCB_AEDAT</td>
+  <td>ZCB_AEDAT</td>
+  <td>DATS</td>
+  <td>8</td>
+  <td>&nbsp;</td>
+  <td>변경일자</td>
+</tr>
+<tr class="cell">
+  <td>16</td>
+  <td>AEZET</td>
+  <td>16</td>
+  <td>&nbsp;</td>
+  <td>ZCB_AEZET</td>
+  <td>ZCB_AEZET</td>
+  <td>TIMS</td>
+  <td>6</td>
+  <td>&nbsp;</td>
+  <td>변경시간</td>
+</tr>
+<tr class="cell">
+  <td>17</td>
+  <td>AENAM</td>
+  <td>17</td>
+  <td>&nbsp;</td>
+  <td>ZCB_AENAM</td>
+  <td>ZCB_AENAM</td>
+  <td>CHAR</td>
+  <td>12</td>
+  <td>&nbsp;</td>
+  <td>변경자</td>
+</tr>
+      </table>
+     </td>
+   </tr>
+<br/>
+  <table class="outerTable">
+    <tr>
+      <td><h2>Fixed Domain Values </h2>
+    </tr>
+    <tr>
+      <td><!--This is where our main table begins  -->
+<table class="innerTable">
+<tr>
+  <th>Domain Name</th>
+  <th>Value Low</th>
+  <th>Value High</th>
+  <th>Text</th>
+</tr>
+<tr class="cell">
+  <td>ZCB_KTOPL</td>
+  <td>1000</td>
+  <td>&nbsp;</td>
+  <td>계정과목표</td>
+</tr>
+<tr class="cell">
+  <td>ZCB_GLCLS</td>
+  <td>01</td>
+  <td>&nbsp;</td>
+  <td>자산</td>
+</tr>
+<tr class="cell">
+  <td>ZCB_GLCLS</td>
+  <td>02</td>
+  <td>&nbsp;</td>
+  <td>부채</td>
+</tr>
+<tr class="cell">
+  <td>ZCB_GLCLS</td>
+  <td>03</td>
+  <td>&nbsp;</td>
+  <td>자본</td>
+</tr>
+<tr class="cell">
+  <td>ZCB_GLCLS</td>
+  <td>04</td>
+  <td>&nbsp;</td>
+  <td>수익</td>
+</tr>
+<tr class="cell">
+  <td>ZCB_GLCLS</td>
+  <td>05</td>
+  <td>&nbsp;</td>
+  <td>비용</td>
+</tr>
+<tr class="cell">
+  <td>ZCB_GLCLS</td>
+  <td>06</td>
+  <td>&nbsp;</td>
+  <td>결산전용</td>
+</tr>
+<tr class="cell">
+  <td>ZCB_XFELD</td>
+  <td>X</td>
+  <td>&nbsp;</td>
+  <td>Yes</td>
+</tr>
+<tr class="cell">
+  <td>ZCB_XFELD</td>
+  <td>&nbsp;</td>
+  <td>&nbsp;</td>
+  <td>No</td>
+</tr>
+      </table>
+     </td>
+   </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 758</td>
+   </tr>
+</table>
+</body>
+</html>

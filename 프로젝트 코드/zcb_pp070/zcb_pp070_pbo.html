@@ -1,0 +1,541 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+<title>ZCB_PP070_PBO</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZCB_PP070_PBO</h2>
+<h3> Description: PBO</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZCB_PP070_PBO<br />
+*&---------------------------------------------------------------------*<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;STATUS_0100&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE status_0100 OUTPUT.<br />
+&nbsp;&nbsp;SET&nbsp;PF-STATUS&nbsp;'S0100'.<br />
+&nbsp;&nbsp;SET&nbsp;TITLEBAR&nbsp;'T0100'.<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;INIT_ALV_0100&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE init_alv_0100 OUTPUT.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;go_alv_grid1&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;fcat&nbsp;layo&nbsp;적용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_afko_0100.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;alv&nbsp;obj&nbsp;생성&nbsp;및&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid_0100<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;''<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_variant1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'CCON1'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_afko<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fcat1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_alv_grid1.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;event&nbsp;hanlder&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_event_0100&nbsp;USING&nbsp;go_alv_grid1.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;toolbar&nbsp;적용을&nbsp;위한&nbsp;alv&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid1.<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;go_alv_grid2&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;fcat&nbsp;layo&nbsp;적용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid2_0100.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;alv&nbsp;obj&nbsp;생성&nbsp;및&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid_0100<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;''<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_variant2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'CCON2'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_schedule_log<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fcat2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_alv_grid2.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;event&nbsp;hanlder&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_event_0100&nbsp;USING&nbsp;go_alv_grid2.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;toolbar&nbsp;적용을&nbsp;위한&nbsp;alv&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid2.<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;go_alv_grid3&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;fcat&nbsp;layo&nbsp;적용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid3_0100.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;alv&nbsp;obj&nbsp;생성&nbsp;및&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid_0100<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;''<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_variant3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'CCON3'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_mard_sched<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fcat3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_alv_grid3.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;event&nbsp;hanlder&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_event_0100&nbsp;USING&nbsp;go_alv_grid3.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;toolbar&nbsp;적용을&nbsp;위한&nbsp;alv&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid3.<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;go_alv_grid4&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;fcat&nbsp;layo&nbsp;적용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid4_0100.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;alv&nbsp;obj&nbsp;생성&nbsp;및&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid_0100<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;''<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_variant4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'CCON4'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_mard_sched_finish<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fcat4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_alv_grid4.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;event&nbsp;hanlder&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_event_0100&nbsp;USING&nbsp;go_alv_grid4.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;toolbar&nbsp;적용을&nbsp;위한&nbsp;alv&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid4.<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;go_alv_grid5&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;fcat&nbsp;layo&nbsp;적용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid5_0100.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;alv&nbsp;obj&nbsp;생성&nbsp;및&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid_0100<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;''<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_variant5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'CCON5'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_schedule_tick<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fcat5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_alv_grid5.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;event&nbsp;hanlder&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_event_0100&nbsp;USING&nbsp;go_alv_grid5.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;toolbar&nbsp;적용을&nbsp;위한&nbsp;alv&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid5.<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;CLEAR_OK_CODE&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE clear_ok_code OUTPUT.<br />
+&nbsp;&nbsp;CLEAR&nbsp;ok_code.<br />
+<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;SET_SCR_0100&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;SCR&nbsp;0100&nbsp;화면&nbsp;설정<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE set_scr_0100 OUTPUT.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;생산일자&nbsp;-&nbsp;오늘날짜,&nbsp;플랜트&nbsp;-&nbsp;선택한&nbsp;공장<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;gv_input_plant&nbsp;=&nbsp;pa_werks.<br />
+&nbsp;&nbsp;gv_input_date&nbsp;=&nbsp;sy-datum.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;화면에&nbsp;생산오더&nbsp;상태&nbsp;표시<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;DATA:&nbsp;lv_red&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;i&nbsp;VALUE&nbsp;0,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_yellow&nbsp;TYPE&nbsp;i&nbsp;VALUE&nbsp;0,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_green&nbsp;&nbsp;TYPE&nbsp;i&nbsp;VALUE&nbsp;0.<br />
+<br />
+&nbsp;&nbsp;DATA:&nbsp;ls_afko&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;gt_afko.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;초기화&nbsp;안시키면&nbsp;메모리에&nbsp;값이&nbsp;남아&nbsp;있음.<br />
+&nbsp;&nbsp;lv_red&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;lv_yellow&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;lv_green&nbsp;=&nbsp;0.<br />
+<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;gt_afko&nbsp;INTO&nbsp;ls_afko.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;ls_afko-icon&nbsp;=&nbsp;icon_led_red.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_red&nbsp;+=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;ls_afko-icon&nbsp;=&nbsp;icon_led_yellow.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_yellow&nbsp;+=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;ls_afko-icon&nbsp;=&nbsp;icon_led_green.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_green&nbsp;+=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;gv_input_red&nbsp;=&nbsp;lv_red.<br />
+&nbsp;&nbsp;gv_input_yellow&nbsp;=&nbsp;lv_yellow.<br />
+&nbsp;&nbsp;gv_input_green&nbsp;=&nbsp;lv_green.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;tick&nbsp;순서<br />
+&nbsp;&nbsp;gv_input_tick&nbsp;=&nbsp;gv_process_status.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;생산&nbsp;스캐줄&nbsp;생성&nbsp;완료시<br />
+&nbsp;&nbsp;IF&nbsp;gv_flag_sched&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'ICON_CREATE'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;&nbsp;&nbsp;=&nbsp;'ICON_CHECKED'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Icon&nbsp;name&nbsp;&nbsp;(Name&nbsp;from&nbsp;INCLUDE&nbsp;&lt;ICON&gt;&nbsp;)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;=&nbsp;gv_input_icon1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Icon&nbsp;(enter&nbsp;the&nbsp;screen&nbsp;field&nbsp;here)<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'ICON_CREATE'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;&nbsp;&nbsp;=&nbsp;'ICON_CANCEL'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Icon&nbsp;name&nbsp;&nbsp;(Name&nbsp;from&nbsp;INCLUDE&nbsp;&lt;ICON&gt;&nbsp;)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;=&nbsp;gv_input_icon1.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Icon&nbsp;(enter&nbsp;the&nbsp;screen&nbsp;field&nbsp;here)<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;자재&nbsp;입고&nbsp;완료<br />
+&nbsp;&nbsp;IF&nbsp;gv_flag_mard&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'ICON_CREATE'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;&nbsp;&nbsp;=&nbsp;'ICON_CHECKED'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Icon&nbsp;name&nbsp;&nbsp;(Name&nbsp;from&nbsp;INCLUDE&nbsp;&lt;ICON&gt;&nbsp;)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;=&nbsp;gv_input_icon2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Icon&nbsp;(enter&nbsp;the&nbsp;screen&nbsp;field&nbsp;here)<br />
+<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'ICON_CREATE'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;&nbsp;&nbsp;=&nbsp;'ICON_CANCEL'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Icon&nbsp;name&nbsp;&nbsp;(Name&nbsp;from&nbsp;INCLUDE&nbsp;&lt;ICON&gt;&nbsp;)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;=&nbsp;gv_input_icon2.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Icon&nbsp;(enter&nbsp;the&nbsp;screen&nbsp;field&nbsp;here)<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;자재&nbsp;입고&nbsp;완료<br />
+&nbsp;&nbsp;IF&nbsp;gv_flag_compelte&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'ICON_CREATE'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;&nbsp;&nbsp;=&nbsp;'ICON_CHECKED'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Icon&nbsp;name&nbsp;&nbsp;(Name&nbsp;from&nbsp;INCLUDE&nbsp;&lt;ICON&gt;&nbsp;)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;=&nbsp;gv_input_icon3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Icon&nbsp;(enter&nbsp;the&nbsp;screen&nbsp;field&nbsp;here)<br />
+<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'ICON_CREATE'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;&nbsp;&nbsp;=&nbsp;'ICON_CANCEL'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Icon&nbsp;name&nbsp;&nbsp;(Name&nbsp;from&nbsp;INCLUDE&nbsp;&lt;ICON&gt;&nbsp;)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;result&nbsp;=&nbsp;gv_input_icon3.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Icon&nbsp;(enter&nbsp;the&nbsp;screen&nbsp;field&nbsp;here)<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;SET_SUBA_0100&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;서브스크린&nbsp;제어<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE set_suba_0100 OUTPUT.<br />
+&nbsp;&nbsp;CASE&nbsp;gv_tabstrip1-activetab.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;gc_tab1_btn1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;자재&nbsp;소모&nbsp;현황<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_dynnr1&nbsp;=&nbsp;gc_suba0111.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;gc_tab1_btn2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;생산&nbsp;자재&nbsp;현황<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_dynnr1&nbsp;=&nbsp;gc_suba0112.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;OTHERS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_tabstrip1-activetab&nbsp;=&nbsp;gc_suba0111.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+&nbsp;&nbsp;CASE&nbsp;gv_tabstrip2-activetab.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;gc_tab2_btn1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;예정&nbsp;스케줄<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_dynnr2&nbsp;=&nbsp;gc_suba0121.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;gc_tab2_btn2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;실제&nbsp;진행<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_dynnr2&nbsp;=&nbsp;gc_suba0122.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;OTHERS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_tabstrip1-activetab&nbsp;=&nbsp;gc_suba0121.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+**&---------------------------------------------------------------------*<br />
+**&&nbsp;Module&nbsp;PBO_0111&nbsp;OUTPUT<br />
+**&---------------------------------------------------------------------*<br />
+**&&nbsp;SCR&nbsp;0111&nbsp;SUBA1&nbsp;BTN&nbsp;1<br />
+**&---------------------------------------------------------------------*<br />
+*MODULE&nbsp;pbo_0111&nbsp;OUTPUT.<br />
+*&nbsp;&nbsp;IF&nbsp;go_alv_grid3&nbsp;IS&nbsp;INITIAL.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;fcat&nbsp;layo&nbsp;적용<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid3_0100.<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;alv&nbsp;obj&nbsp;생성&nbsp;및&nbsp;등록<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid_0100<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;''<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_variant3<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save3<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo3<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'CCON3'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_mard_sched<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fcat3<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt3<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort3<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container3<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_alv_grid3.<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;event&nbsp;hanlder&nbsp;등록<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_event_0100&nbsp;USING&nbsp;go_alv_grid3.<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;toolbar&nbsp;적용을&nbsp;위한&nbsp;alv&nbsp;초기화<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid3.<br />
+*<br />
+*&nbsp;&nbsp;ENDIF.<br />
+*ENDMODULE.<br />
+**&---------------------------------------------------------------------*<br />
+**&&nbsp;Module&nbsp;PBO_0121&nbsp;OUTPUT<br />
+**&---------------------------------------------------------------------*<br />
+**&&nbsp;SCR&nbsp;0112&nbsp;SUBA1&nbsp;BTN&nbsp;2<br />
+**&---------------------------------------------------------------------*<br />
+*MODULE&nbsp;pbo_0112&nbsp;OUTPUT.<br />
+*&nbsp;&nbsp;IF&nbsp;go_alv_grid4&nbsp;IS&nbsp;INITIAL.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;fcat&nbsp;layo&nbsp;적용<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid4_0100.<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;alv&nbsp;obj&nbsp;생성&nbsp;및&nbsp;등록<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid_0100<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;''<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_variant4<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save4<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo4<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'CCON4'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_mard_sched_finish<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fcat4<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt4<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort4<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container4<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_alv_grid4.<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;event&nbsp;hanlder&nbsp;등록<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_event_0100&nbsp;USING&nbsp;go_alv_grid4.<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;toolbar&nbsp;적용을&nbsp;위한&nbsp;alv&nbsp;초기화<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid4.<br />
+*<br />
+*&nbsp;&nbsp;ENDIF.<br />
+*ENDMODULE.<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;STATUS_0200&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE status_0200 OUTPUT.<br />
+&nbsp;&nbsp;SET&nbsp;PF-STATUS&nbsp;'S0200'.<br />
+&nbsp;&nbsp;SET&nbsp;TITLEBAR&nbsp;'T0200'.<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;INIT_ALV_0200&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE init_alv_0200 OUTPUT.<br />
+&nbsp;&nbsp;IF&nbsp;go_alv_grid7&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;fcat&nbsp;layo&nbsp;적용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid7_0100.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;alv&nbsp;obj&nbsp;생성&nbsp;및&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid_0100<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;''<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_variant7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'CCON7'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_mard_eban<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fcat7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container7<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_alv_grid7.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;event&nbsp;hanlder&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_event_0100&nbsp;USING&nbsp;go_alv_grid7.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;toolbar&nbsp;적용을&nbsp;위한&nbsp;alv&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid7.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;toolbar&nbsp;적용을&nbsp;위한&nbsp;alv&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid7.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;STATUS_0300&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE status_0300 OUTPUT.<br />
+&nbsp;&nbsp;SET&nbsp;PF-STATUS&nbsp;'S0300'.<br />
+&nbsp;&nbsp;SET&nbsp;TITLEBAR&nbsp;'T0300'.<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;INIT_ALV_0300&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE init_alv_0300 OUTPUT.<br />
+&nbsp;&nbsp;IF&nbsp;go_alv_grid8&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;fcat&nbsp;layo&nbsp;적용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid8_0100.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;alv&nbsp;obj&nbsp;생성&nbsp;및&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid_0100<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;''<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_variant8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'CCON8'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_afko2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fcat8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container8<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_alv_grid8.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;event&nbsp;hanlder&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_event_0100&nbsp;USING&nbsp;go_alv_grid8.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;toolbar&nbsp;적용을&nbsp;위한&nbsp;alv&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid8.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;toolbar&nbsp;적용을&nbsp;위한&nbsp;alv&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid8.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDMODULE.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 758</td>
+   </tr>
+</table>
+</body>
+</html>

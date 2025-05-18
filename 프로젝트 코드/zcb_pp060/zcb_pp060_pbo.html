@@ -1,0 +1,318 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+<title>ZCB_PP060_PBO</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZCB_PP060_PBO</h2>
+<h3> Description: PBO</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZCB_PP060_PBO<br />
+*&---------------------------------------------------------------------*<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;STATUS_0100&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE status_0100 OUTPUT.<br />
+&nbsp;&nbsp;SET&nbsp;PF-STATUS&nbsp;'S0100'.<br />
+&nbsp;&nbsp;SET&nbsp;TITLEBAR&nbsp;'T0100'.<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;INIT_ALV_0100&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;SCR&nbsp;0100에&nbsp;ALV&nbsp;초기설정&nbsp;세팅<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE init_alv_0100 OUTPUT.<br />
+&nbsp;&nbsp;"&nbsp;Conatiner&nbsp;를&nbsp;4등분으로&nbsp;쪼갠다.<br />
+&nbsp;&nbsp;IF&nbsp;go_custom_cont&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_container_0100.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;PLAF(생산계획)&nbsp;ALV&nbsp;TREE&nbsp;가&nbsp;설정되어&nbsp;있지&nbsp;않으면<br />
+&nbsp;&nbsp;IF&nbsp;go_alv_grid_tree&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_tree_0100.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+<br />
+&nbsp;&nbsp;"&nbsp;PLAF(생산계획)&nbsp;ALV&nbsp;가&nbsp;설정되어&nbsp;있지&nbsp;않으면<br />
+&nbsp;&nbsp;IF&nbsp;go_alv_grid1&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;fcat&nbsp;layo&nbsp;적용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_plaf_0100&nbsp;USING&nbsp;'X'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_plaf_icon_0100.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;alv&nbsp;obj&nbsp;생성&nbsp;및&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid_0100<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ZCB_PLAF'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_variant1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_plaf<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fcat1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_alv_grid1.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;event&nbsp;hanlder&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_event_0100&nbsp;USING&nbsp;go_alv_grid1.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;toolbar&nbsp;적용을&nbsp;위한&nbsp;alv&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid1.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid1.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;MRP&nbsp;필요자재&nbsp;계산&nbsp;ALV&nbsp;가&nbsp;설정되어&nbsp;있지&nbsp;않으면<br />
+&nbsp;&nbsp;IF&nbsp;go_alv_grid2&nbsp;IS&nbsp;INITIAL.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_MRPMPS_0100.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;alv&nbsp;obj&nbsp;생성&nbsp;및&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid_0100<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ZCBCDSMRPSGROUP'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_variant2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_mps_mrp_group<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fcat2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_alv_grid2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;event&nbsp;hanlder&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_event_0100&nbsp;USING&nbsp;go_alv_grid2.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;toolbar&nbsp;적용을&nbsp;위한&nbsp;alv&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid2.<br />
+<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid2.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;MRP&nbsp;Header&nbsp;ALV&nbsp;가&nbsp;설정되어&nbsp;있지&nbsp;않으면<br />
+&nbsp;&nbsp;IF&nbsp;go_alv_grid3&nbsp;IS&nbsp;INITIAL.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_MDKP_0100&nbsp;USING&nbsp;'X'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;alv&nbsp;obj&nbsp;생성&nbsp;및&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid_0100<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ZCB_MDKP'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_variant3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_mdkp<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fcat3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_alv_grid3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;event&nbsp;hanlder&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_event_0100&nbsp;USING&nbsp;go_alv_grid3.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;toolbar&nbsp;적용을&nbsp;위한&nbsp;alv&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid3.<br />
+<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid3.<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;MRP&nbsp;Item&nbsp;ALV&nbsp;가&nbsp;설정되어&nbsp;있지&nbsp;않으면<br />
+&nbsp;&nbsp;IF&nbsp;go_alv_grid4&nbsp;IS&nbsp;INITIAL.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_MDTB_0100&nbsp;USING&nbsp;'X'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;alv&nbsp;obj&nbsp;생성&nbsp;및&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid_0100<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ZCB_MDTB'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_variant4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_mdtb<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fcat4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_container4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_alv_grid4<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;event&nbsp;hanlder&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_event_0100&nbsp;USING&nbsp;go_alv_grid4.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;toolbar&nbsp;적용을&nbsp;위한&nbsp;alv&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid4.<br />
+<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid4.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;STATUS_0110&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE status_0110 OUTPUT.<br />
+&nbsp;&nbsp;SET&nbsp;PF-STATUS&nbsp;'S0110'.<br />
+&nbsp;&nbsp;SET&nbsp;TITLEBAR&nbsp;'T0110'.<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;SET_SCR_VALUE_0100&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;SCR&nbsp;0100&nbsp;의&nbsp;화면&nbsp;표시&nbsp;값&nbsp;설정<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE set_scr_value_0100 OUTPUT.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;MRP&nbsp;대상이&nbsp;확정되면&nbsp;배송&nbsp;및&nbsp;안전재고량&nbsp;입력&nbsp;필드&nbsp;잠금<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;screen-group1&nbsp;=&nbsp;'GR2'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;gv_flag_alv1&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen-input&nbsp;=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE..<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;screen-input&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;CLEAR_OK_CODE&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE clear_ok_code OUTPUT.<br />
+&nbsp;&nbsp;CLEAR&nbsp;ok_code.<br />
+ENDMODULE.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Module&nbsp;INIT_ALV_0110&nbsp;OUTPUT<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;SCR&nbsp;0110&nbsp;ALv&nbsp;설정<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+MODULE init_alv_0110 OUTPUT.<br />
+&nbsp;&nbsp;"&nbsp;구매&nbsp;및&nbsp;생산요청&nbsp;&nbsp;ALV&nbsp;가&nbsp;설정되어&nbsp;있지&nbsp;않으면<br />
+&nbsp;&nbsp;IF&nbsp;go_alv_grid_0110&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;fcat&nbsp;layo&nbsp;적용<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_order_0110&nbsp;USING&nbsp;'X'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;alv&nbsp;obj&nbsp;생성&nbsp;및&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_grid_0110<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'ZCB_PP_DATE'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_variant5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_order_split<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_fcat5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort5<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_ccon2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_alv_grid_0110.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;event&nbsp;hanlder&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;set_alv_event_0110&nbsp;USING&nbsp;go_alv_grid_0110.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;toolbar&nbsp;적용을&nbsp;위한&nbsp;alv&nbsp;초기화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid_0110.<br />
+<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;alv_refresh_0100&nbsp;USING&nbsp;go_alv_grid_0110.<br />
+&nbsp;&nbsp;ENDIF.<br />
+ENDMODULE.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 758</td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,544 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+<title>ZCB_PP060_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZCB_PP060_TOP</h2>
+<h3> Description: TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZCB_PP060_TOP<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;사용할&nbsp;Table&nbsp;및&nbsp;Struct<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;SCR&nbsp;EVENT&nbsp;관련&nbsp;변수&nbsp;선언<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+" 화면 EVENT를 위한 변수<br />
+DATA: ok_code TYPE sy-ucomm.<br />
+<br />
+" SCR 0100 에서 사용하는 input field<br />
+DATA: gv_input1 TYPE n LENGTH 2 VALUE 10.            " 안전 재고율<br />
+<br />
+<br />
+" 요일 CHECK BOX<br />
+DATA: gv_check1 TYPE c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_check2&nbsp;TYPE&nbsp;c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_check3&nbsp;TYPE&nbsp;c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_check4&nbsp;TYPE&nbsp;c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_check5&nbsp;TYPE&nbsp;c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_check6&nbsp;TYPE&nbsp;c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_check7&nbsp;TYPE&nbsp;c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_check8&nbsp;TYPE&nbsp;c&nbsp;VALUE&nbsp;'X'.&nbsp;"&nbsp;전체&nbsp;요일&nbsp;선택<br />
+<br />
+" 총 요일 수<br />
+DATA: gv_check_date_sums TYPE n LENGTH 1 VALUE 1.<br />
+<br />
+<br />
+" MRP 상태 아이콘<br />
+DATA: gv_mrp_on TYPE icons-text.<br />
+<br />
+<br />
+" MRP 자재 상태 toolbar row count<br />
+<br />
+DATA: gv_butn_red    TYPE i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_butn_yellow&nbsp;TYPE&nbsp;i,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_butn_green&nbsp;&nbsp;TYPE&nbsp;i.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;사용할&nbsp;Table&nbsp;및&nbsp;Struct<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;PLAF(생산계획)<br />
+*&nbsp;MARD(플랜트별&nbsp;자재&nbsp;현황)<br />
+*&nbsp;MARC(자재의&nbsp;플랜트별&nbsp;관리)<br />
+*&nbsp;MDKP,&nbsp;MDTB&nbsp;(MRP)<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF gs_plaf,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;icon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;1,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;아이콘<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plwrk&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_plwrk,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;계획&nbsp;플랜트<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plnum&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_plnum,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;생산계획&nbsp;아이디<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pyear&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_pyear,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;계획년도<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;pyeek&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_pyeek,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;계획주차<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plmat&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_plmat,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;계획자재<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maktx&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_maktx,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;자재명<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gsmng&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_gsmng,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;계획수량<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meins&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_meins,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;계획&nbsp;단위<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;approval&nbsp;TYPE&nbsp;zcb_approval_plaf,&nbsp;&nbsp;"&nbsp;승인&nbsp;여부<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rowcolor&nbsp;TYPE&nbsp;lvc_t_scol,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;행의&nbsp;색<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_plaf.<br />
+DATA: gt_plaf LIKE TABLE OF gs_plaf.<br />
+DATA: gt_plaf_leaf LIKE TABLE OF gs_plaf. " ALV TREE 에 사용<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*DATA:&nbsp;gt_mard&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;zcb_mard,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_mard&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;gt_mard.<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF gs_mard,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matnr&nbsp;TYPE&nbsp;zcb_matnr,&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;자재번호<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;werks&nbsp;TYPE&nbsp;zcb_werks_d,&nbsp;&nbsp;"&nbsp;플랜트&nbsp;아이디<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lgort&nbsp;TYPE&nbsp;zcb_lgort_d,&nbsp;&nbsp;"&nbsp;저장위치&nbsp;아이디<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;labst&nbsp;TYPE&nbsp;zcb_labst,&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;재고&nbsp;수량<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maktx&nbsp;TYPE&nbsp;zcb_maktx,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;자재명<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_mard.<br />
+DATA: gt_mard LIKE TABLE OF gs_mard.<br />
+<br />
+" 내부 조달 판단여부  " 역 bom 인 경우 원재료 생산에, 역 bom 수량만큼 +<br />
+   </div>
+   <div class="codeComment">
+*DATA:&nbsp;gt_marc&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;zcb_marc,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_marc&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;gt_marc.<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF gs_marc,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matnr&nbsp;TYPE&nbsp;zcb_matnr,&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;자재&nbsp;아이디<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;werks&nbsp;TYPE&nbsp;zcb_werks_d,&nbsp;&nbsp;"&nbsp;플랜트&nbsp;아이디<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beskz&nbsp;TYPE&nbsp;zcb_beskz,&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;조달&nbsp;유형<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dismm&nbsp;TYPE&nbsp;zcb_dismm,&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;MRP&nbsp;유형<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lgpro&nbsp;TYPE&nbsp;zcb_lgort_d,&nbsp;&nbsp;"&nbsp;저장위치&nbsp;아이디<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lgfsb&nbsp;TYPE&nbsp;zcb_lgfsb,&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;외부&nbsp;조달시&nbsp;기본&nbsp;저장&nbsp;위치<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_marc.<br />
+DATA: gt_marc LIKE TABLE OF gs_marc.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;CDS&nbsp;VIEW&nbsp;MPS&nbsp;로&nbsp;필요한&nbsp;BOM&nbsp;수량&nbsp;및&nbsp;자재&nbsp;현황<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF gs_mps_mrp,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dtnum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_dtnum,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;werks&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps-werks,&nbsp;&nbsp;"&nbsp;(&nbsp;DB에&nbsp;없음&nbsp;임시사용)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;week&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps-week,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;플랜트<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matnrtop&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps-matnrtop,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;생산자재<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;top_desc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps-top_desc,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;생산자재명<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;planqty&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps-planqty,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;생산수량<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;planuom&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps-planuom,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;단위<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matnrcomponent&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps-matnrcomponent,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;투입자재<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;component_desc&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps-component_desc,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;투입자재명<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reqqty&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps-reqqty,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;필요수량<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currentstock&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps-currentstock,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;재고수량<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bomu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps-bomu,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;단위<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fresh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps-fresh,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;신선재품&nbsp;구분<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;procurementtype&nbsp;TYPE&nbsp;zcb_cds_mrpmps-procurementtype,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;MRP&nbsp;유형<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ordergap&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;n&nbsp;LENGTH&nbsp;2,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;발주&nbsp;기준일자&nbsp;(ex:&nbsp;기간&nbsp;중&nbsp;&nbsp;몇일)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;orderqty&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;p&nbsp;LENGTH&nbsp;13&nbsp;DECIMALS&nbsp;3&nbsp;,&nbsp;&nbsp;"&nbsp;발주당&nbsp;주문량&nbsp;(&nbsp;생산필요량&nbsp;-&nbsp;보유자재&nbsp;/&nbsp;주기&nbsp;)&nbsp;-&nbsp;일반&nbsp;자재<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;발주당&nbsp;주문량&nbsp;(&nbsp;생산필요량&nbsp;/&nbsp;주기&nbsp;-&nbsp;신선품임으로&nbsp;재고&nbsp;고려&nbsp;안함)&nbsp;-&nbsp;신선&nbsp;자재<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_mps_mrp.<br />
+<br />
+DATA: gt_mps_mrp LIKE TABLE OF gs_mps_mrp.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;CDS&nbsp;VIEW&nbsp;MPS&nbsp;Groupby<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF gs_mps_mrp_group,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;week&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps_group-week,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;주차<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;werks&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps_group-werks,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;플랜트<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matnrcomponent&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps_group-matnrcomponent,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;원재료<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;component_desc&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps_group-component_desc,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;원재료명<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;totalqty&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps_group-totalqty,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;총&nbsp;필요&nbsp;수량<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;currentstock&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps_group-currentstock,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;보유&nbsp;수량<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;bomu&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps_group-bomu,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;단위<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;fresh&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps_group-fresh,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;발주기준<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;procurementtype&nbsp;TYPE&nbsp;zcb_cds_mrpmps_group-procurementtype,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;조달방식<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ordergap&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;n&nbsp;LENGTH&nbsp;2,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;발주&nbsp;기준일자&nbsp;(ex:&nbsp;기간&nbsp;중&nbsp;&nbsp;몇일)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;orderqty&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_cds_mrpmps_group-currentstock&nbsp;,&nbsp;&nbsp;"&nbsp;발주당&nbsp;주문량&nbsp;(&nbsp;생산필요량&nbsp;-&nbsp;보유자재&nbsp;/&nbsp;주기&nbsp;)&nbsp;-&nbsp;일반&nbsp;자재<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;icon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;icon_d,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;아이콘<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;celltab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_t_styl,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;샐&nbsp;설정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cellcolor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_t_scol,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;행의&nbsp;색<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rowcolor&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;c&nbsp;LENGTH&nbsp;4,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;색<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_mps_mrp_group.<br />
+<br />
+DATA: gt_mps_mrp_group LIKE TABLE OF gs_mps_mrp_group.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;MRP&nbsp;Hedaer<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF gs_mdkp,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maktx&nbsp;TYPE&nbsp;zcb_maktx.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;자재명<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;include&nbsp;structure&nbsp;<a&nbsp;href&nbsp;="zcb_mdkp/dictionary-zcb_mdkp.html">zcb_mdkp</a>.<br />
+DATA: END OF gs_mdkp.<br />
+DATA: gt_mdkp LIKE TABLE OF gs_mdkp.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;MRP&nbsp;Item<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF gs_mdtb,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dtnum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;zcb_dtnum,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;MRP&nbsp;ID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dtpos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;zcb_dtpos,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;행번호<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;werks&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;zcb_werks_d,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;플랜트&nbsp;(&nbsp;DB에&nbsp;없음&nbsp;임시사용)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matnr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;zcb_matnr,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;생산자재<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maktx_top&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_maktx,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;생산자재명<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;idnrk&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;zcb_idnrk,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;재료<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maktx_bot&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_maktx,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;자재명<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rqmng&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;zcb_rqmng,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;필요수량<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;klabs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;zcb_klabs,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;가용재고<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sqmng&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;zcb_sqmng,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;부족수량<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meins&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;zcb_meins,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;&nbsp;기본단위<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;reqcomplete&nbsp;TYPE&nbsp;&nbsp;zcb_reqcomplete,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;완료상태<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beskz&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;zcb_beskz,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;조달유형<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;include&nbsp;structure&nbsp;<a&nbsp;href&nbsp;="zcb_timestamp,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;타임스탬프&nbsp;구조&nbsp;포함/dictionary-zcb_timestamp,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;타임스탬프&nbsp;구조&nbsp;포함.html">zcb_timestamp,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;타임스탬프&nbsp;구조&nbsp;포함</a>.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;icon&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;icon_d,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;아이콘<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;celltab&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_t_styl,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;샐&nbsp;설정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cellcolor&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_t_scol,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;행의&nbsp;색<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rowcolor&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;c&nbsp;LENGTH&nbsp;4,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;색<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_mdtb.<br />
+<br />
+DATA: gt_mdtb LIKE TABLE OF gs_mdtb.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;SCR&nbsp;0110&nbsp;관련&nbsp;변수<br />
+*&---------------------------------------------------------------------*<br />
+*<br />
+*&nbsp;구매요청&nbsp;사항&nbsp;TAB<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF gs_order_qty,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;werks&nbsp;TYPE&nbsp;zcb_werks_d,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;플랜트<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;idnrk&nbsp;TYPE&nbsp;zcb_mdtb-idnrk,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;소모자재<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;beskz&nbsp;TYPE&nbsp;zcb_mdtb-beskz,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;날짜<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;sqmng&nbsp;TYPE&nbsp;zcb_mdtb-sqmng,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;수량<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meins&nbsp;TYPE&nbsp;zcb_mdtb-meins,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;단위<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;gs_order_qty.<br />
+<br />
+DATA: gt_order_qty LIKE TABLE OF gs_order_qty.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*DATA:&nbsp;gt_order_split&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;zcb_pp_date,<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_order_split&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;gt_order_split.<br />
+<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF gs_order_split,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maktx&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_maktx,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;자재명<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;rowcolor&nbsp;TYPE&nbsp;&nbsp;c&nbsp;LENGTH&nbsp;4,&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;색<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;celltab&nbsp;&nbsp;TYPE&nbsp;lvc_t_styl.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;include&nbsp;structure&nbsp;<a&nbsp;href&nbsp;="zcb_pp_date/dictionary-zcb_pp_date.html">zcb_pp_date</a>.<br />
+DATA: END OF gs_order_split.<br />
+DATA: gt_order_split LIKE TABLE OF gs_order_split.<br />
+<br />
+DATA: go_ccon2  TYPE REF TO cl_gui_custom_container.<br />
+<br />
+DATA: go_alv_grid_0110  TYPE REF TO cl_gui_alv_grid.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ALV&nbsp;DIALOG<br />
+   </div>
+   <div class="code">
+DATA: gt_fcat5 TYPE lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_fcat5&nbsp;TYPE&nbsp;lvc_s_fcat,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt5&nbsp;TYPE&nbsp;lvc_t_filt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_filt5&nbsp;TYPE&nbsp;lvc_s_filt,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort5&nbsp;TYPE&nbsp;lvc_t_sort,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sort5&nbsp;TYPE&nbsp;lvc_s_sort.<br />
+<br />
+DATA: gs_variant5 TYPE disvariant,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save5&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c&nbsp;VALUE&nbsp;'X',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo5&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_s_layo.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;Flag&nbsp;및&nbsp;CONST&nbsp;선언<br />
+*&---------------------------------------------------------------------*<br />
+*<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;Toolbar&nbsp;관련&nbsp;상수<br />
+   </div>
+   <div class="code">
+CONSTANTS: c_func_toolbar_select_plaf   TYPE syucomm VALUE 'TOOLBAR_SELECT_PLAF',     " 판매계획 확정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_func_toolbar_edit_plaf&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;syucomm&nbsp;VALUE&nbsp;'TOOLBAR_EDIT_PLAF',&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;판매계획&nbsp;수정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_func_toolbar_select_mrpmps&nbsp;TYPE&nbsp;syucomm&nbsp;VALUE&nbsp;'TOOLBAR_SELECT_MRPMPS',&nbsp;&nbsp;"&nbsp;자재소요&nbsp;확정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_func_toolbar_edit_mrpmps&nbsp;&nbsp;&nbsp;TYPE&nbsp;syucomm&nbsp;VALUE&nbsp;'TOOLBAR_EDIT_MRPMPS',&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;자재소요&nbsp;수정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_func_toolbar_select_mdkp&nbsp;&nbsp;&nbsp;TYPE&nbsp;syucomm&nbsp;VALUE&nbsp;'TOOLBAR_SELESCT_MDKP',&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;MRP&nbsp;H&nbsp;확정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_func_toolbar_edit_mdkp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;syucomm&nbsp;VALUE&nbsp;'TOOLBAR_EDIT_MDKP',&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;MRP&nbsp;I&nbsp;확정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_func_toolbar_select_mdtb&nbsp;&nbsp;&nbsp;TYPE&nbsp;syucomm&nbsp;VALUE&nbsp;'TOOLBAR_SELECT_MDTP',&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;MPR&nbsp;확정<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_func_toolbar_mdtb_red&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;syucomm&nbsp;VALUE&nbsp;'TOOLBAR_MDTP_RED',&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;MPR&nbsp;자재&nbsp;부족분&nbsp;갯수&nbsp;표시&nbsp;및&nbsp;필터조회<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_func_toolbar_mdtb_yellow&nbsp;&nbsp;&nbsp;TYPE&nbsp;syucomm&nbsp;VALUE&nbsp;'TOOLBAR_MDTP_YELLOW',&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;MPR&nbsp;자재&nbsp;경고&nbsp;갯수&nbsp;표시&nbsp;및&nbsp;필터조회<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_func_toolbar_mdtb_green&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;syucomm&nbsp;VALUE&nbsp;'TOOLBAR_MDTP_GREEN',&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;MPR&nbsp;자재&nbsp;전체ㄴ&nbsp;갯수&nbsp;표시&nbsp;및&nbsp;필터조회<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_func_toolbar_edit_order&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;syucomm&nbsp;VALUE&nbsp;'TOOLBAR_EDIT_ORDER',&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;구매&nbsp;생산&nbsp;수정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_func_toolbar_select_order&nbsp;&nbsp;TYPE&nbsp;syucomm&nbsp;VALUE&nbsp;'TOOLBAR_SELECT_ORDER'.&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;구매&nbsp;생산&nbsp;확정<br />
+<br />
+<br />
+" BTN CHEKCBOX 상수<br />
+CONSTANTS: c_btn_day     TYPE syucomm VALUE 'CHECK_ALL',        " 요일 관련 _ 전체 요일 선택시 나머지 요일 해제<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_btn_day2&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;syucomm&nbsp;VALUE&nbsp;'CHECK_DAY',&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;요일&nbsp;관련&nbsp;_&nbsp;개별&nbsp;요일&nbsp;선택,&nbsp;전체요일&nbsp;해제<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_btn_select&nbsp;&nbsp;TYPE&nbsp;syucomm&nbsp;VALUE&nbsp;'BTN_SELECT',&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;MRP&nbsp;조건&nbsp;선택&nbsp;BTN<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_btn_refresh&nbsp;TYPE&nbsp;syucomm&nbsp;VALUE&nbsp;'REFRESH',&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;화면&nbsp;초기화&nbsp;BTN<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_btn_mrp&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;syucomm&nbsp;VALUE&nbsp;'MRP_ON'.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;MRP&nbsp;수행&nbsp;BTN<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Color<br />
+   </div>
+   <div class="code">
+CONSTANTS: gc_color_blue1   TYPE  c LENGTH 4 VALUE 'C110',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gc_color_red1&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;&nbsp;c&nbsp;LENGTH&nbsp;4&nbsp;VALUE&nbsp;'C610',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gc_color_green1&nbsp;&nbsp;TYPE&nbsp;&nbsp;c&nbsp;LENGTH&nbsp;4&nbsp;VALUE&nbsp;'C510',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gc_color_yellow2&nbsp;TYPE&nbsp;&nbsp;c&nbsp;LENGTH&nbsp;4&nbsp;VALUE&nbsp;'C310',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gc_color_yellow1&nbsp;TYPE&nbsp;&nbsp;c&nbsp;LENGTH&nbsp;4&nbsp;VALUE&nbsp;'C710'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;FLAG<br />
+   </div>
+   <div class="code">
+DATA: gv_flag_alv1  TYPE c LENGTH 1 VALUE '',                    " ALV1 확정 FLAG<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_flag_alv2&nbsp;&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;1&nbsp;VALUE&nbsp;'',&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;ALV2&nbsp;확정&nbsp;FLAG<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_flag_alv3&nbsp;&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;1&nbsp;VALUE&nbsp;'',&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;ALV3&nbsp;확정&nbsp;FLAG<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_flag_alv4&nbsp;&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;1&nbsp;VALUE&nbsp;'',&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;ALV4&nbsp;확정&nbsp;FLAG<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_flag_tree&nbsp;&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;1&nbsp;VALUE&nbsp;'',&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;tree&nbsp;확정&nbsp;FLAG<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_flag_order&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;1&nbsp;VALUE&nbsp;''.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;order&nbsp;확정&nbsp;FLAG<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;ALV&nbsp;를&nbsp;위한&nbsp;변수&nbsp;선언<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;layout&nbsp;save&nbsp;mode&nbsp;일&nbsp;경우&nbsp;초기값&nbsp;'X'&nbsp;(모두저장&nbsp;허용)<br />
+*&nbsp;ALV&nbsp;GRID&nbsp;+&nbsp;TREE<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;행&nbsp;선택과,&nbsp;색&nbsp;입력을&nbsp;위한&nbsp;변수<br />
+   </div>
+   <div class="code">
+DATA: gt_rows  TYPE lvc_t_row,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_row&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_s_row,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_color&nbsp;TYPE&nbsp;lvc_t_scol,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_color&nbsp;TYPE&nbsp;lvc_s_scol.<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ALV&nbsp;GRID<br />
+   </div>
+   <div class="code">
+DATA: go_custom_cont TYPE REF TO cl_gui_custom_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_dock_cont01&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_docking_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_split&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_splitter_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_left_split&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_splitter_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_right_split&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_splitter_container.<br />
+<br />
+DATA: go_left_cont  TYPE REF TO cl_gui_container,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;go_right_cont&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;cl_gui_container.<br />
+<br />
+DATA: go_container1 TYPE REF TO cl_gui_container.<br />
+DATA: go_alv_grid1  TYPE REF TO cl_gui_alv_grid.<br />
+<br />
+DATA: go_container2 TYPE REF TO cl_gui_container.<br />
+DATA: go_alv_grid2  TYPE REF TO cl_gui_alv_grid.<br />
+<br />
+DATA: go_container3 TYPE REF TO cl_gui_container.<br />
+DATA: go_alv_grid3  TYPE REF TO cl_gui_alv_grid.<br />
+<br />
+DATA: go_container4 TYPE REF TO cl_gui_container.<br />
+DATA: go_alv_grid4  TYPE REF TO cl_gui_alv_grid.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ALV&nbsp;1<br />
+   </div>
+   <div class="code">
+DATA: gt_fcat1 TYPE lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_fcat1&nbsp;TYPE&nbsp;lvc_s_fcat,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt1&nbsp;TYPE&nbsp;lvc_t_filt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_filt1&nbsp;TYPE&nbsp;lvc_s_filt,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort1&nbsp;TYPE&nbsp;lvc_t_sort,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sort1&nbsp;TYPE&nbsp;lvc_s_sort.<br />
+<br />
+DATA: gs_variant1 TYPE disvariant,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save1&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c&nbsp;VALUE&nbsp;'X',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo1&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_s_layo.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ALV&nbsp;2<br />
+   </div>
+   <div class="code">
+DATA: gt_fcat2 TYPE lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_fcat2&nbsp;TYPE&nbsp;lvc_s_fcat,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt2&nbsp;TYPE&nbsp;lvc_t_filt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_filt2&nbsp;TYPE&nbsp;lvc_s_filt,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort2&nbsp;TYPE&nbsp;lvc_t_sort,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sort2&nbsp;TYPE&nbsp;lvc_s_sort.<br />
+<br />
+DATA: gs_variant2 TYPE disvariant,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save2&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c&nbsp;VALUE&nbsp;'X',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo2&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_s_layo.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ALV&nbsp;3<br />
+   </div>
+   <div class="code">
+DATA: gt_fcat3 TYPE lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_fcat3&nbsp;TYPE&nbsp;lvc_s_fcat,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt3&nbsp;TYPE&nbsp;lvc_t_filt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_filt3&nbsp;TYPE&nbsp;lvc_s_filt,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort3&nbsp;TYPE&nbsp;lvc_t_sort,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sort3&nbsp;TYPE&nbsp;lvc_s_sort.<br />
+<br />
+DATA: gs_variant3 TYPE disvariant,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save3&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c&nbsp;VALUE&nbsp;'X',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo3&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_s_layo.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ALV&nbsp;4<br />
+   </div>
+   <div class="code">
+DATA: gt_fcat4 TYPE lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_fcat4&nbsp;TYPE&nbsp;lvc_s_fcat,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt4&nbsp;TYPE&nbsp;lvc_t_filt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_filt4&nbsp;TYPE&nbsp;lvc_s_filt,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort4&nbsp;TYPE&nbsp;lvc_t_sort,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sort4&nbsp;TYPE&nbsp;lvc_s_sort.<br />
+<br />
+DATA: gs_variant4 TYPE disvariant,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save4&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c&nbsp;VALUE&nbsp;'X',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo4&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_s_layo.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ALV&nbsp;TREE<br />
+   </div>
+   <div class="code">
+TYPES: gty_node_table  LIKE TABLE OF mtreesnode.<br />
+DATA: go_container_tree TYPE REF TO cl_gui_custom_container.<br />
+DATA: go_alv_grid_tree TYPE REF TO cl_gui_simple_tree.<br />
+<br />
+" ALV TREE 를 위한 CLASS<br />
+CLASS lcl_application_handler DEFINITION DEFERRED.<br />
+<br />
+DATA: gc_application TYPE REF TO lcl_application_handler.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ALV&nbsp;TREE<br />
+   </div>
+   <div class="code">
+DATA: gt_fcat_tree TYPE lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_fcat_tree&nbsp;TYPE&nbsp;lvc_s_fcat,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt_tree&nbsp;TYPE&nbsp;lvc_t_filt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_filt_tree&nbsp;TYPE&nbsp;lvc_s_filt,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort_tree&nbsp;TYPE&nbsp;lvc_t_sort,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sort_tree&nbsp;TYPE&nbsp;lvc_s_sort.<br />
+<br />
+DATA: gs_variant_tree TYPE disvariant,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save_tree&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c&nbsp;VALUE&nbsp;'X',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo_tree&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_s_layo.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 758</td>
+   </tr>
+</table>
+</body>
+</html>

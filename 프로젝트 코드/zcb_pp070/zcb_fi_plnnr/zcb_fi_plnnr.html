@@ -1,0 +1,317 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+<title>ZCB_FI_PLNNR</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for function ZCB_FI_PLNNR</h2>
+<h3> Description: 생산오더 투입에 따른 회계전표 생성</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="code">
+FUNCTION zcb_fi_plnnr.<br />
+   </div>
+   <div class="codeComment">
+*"----------------------------------------------------------------------<br />
+*"*"Local Interface:<br />
+*"  IMPORTING<br />
+*"     REFERENCE(I_AUFNR) TYPE  ZCB_AUFNR<br />
+*"     REFERENCE(I_STLNR) TYPE  ZCB_STNUM<br />
+*"     REFERENCE(IT_ROUT) TYPE  ZCB_FI_PLNNR<br />
+*"     REFERENCE(I_PLNNR) TYPE  ZCB_PLNNR<br />
+*"     REFERENCE(I_WERKS) TYPE  ZCB_WERKS_D<br />
+*"  EXPORTING<br />
+*"     REFERENCE(E_MSG) TYPE  STRING<br />
+*"----------------------------------------------------------------------<br />
+*----------------------------------------------------------------------<br />
+*  생산오더 기반 회계전표 생성<br />
+*----------------------------------------------------------------------<br />
+*  IMPORTING : I_AUFNR (생산오더번호)<br />
+*----------------------------------------------------------------------<br />
+
+<div class="codeComment">*       <a href ="global-zcb_fi_plnnr.html">Global data declarations</a></div><br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;DATA:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;BEGIN&nbsp;OF&nbsp;ls_rout,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;idnrk&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_stpo-idnrk,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;menge&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_stpo-menge,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matnr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_mard-matnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;saknr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_fit010-saknr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;mtart&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_mara-mtart,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;meins&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_stpo-meins,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dmbtr_sub&nbsp;&nbsp;TYPE&nbsp;zcb_fit030-dmbtr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dmbtr_sub2&nbsp;TYPE&nbsp;bapicurr-bapicurr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;plnkn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_plnkn,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ls_rout,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;BEGIN&nbsp;OF&nbsp;ls_mseg,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;aufnr&nbsp;TYPE&nbsp;zcb_mseg-aufnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;matnr&nbsp;TYPE&nbsp;zcb_mseg-matnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;wrbtr&nbsp;TYPE&nbsp;zcb_mseg-wrbtr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;ls_mseg,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lt_mseg&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;ls_mseg,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lt_rout&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;ls_rout,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lt_mtart&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;zcb_mara,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_mtart&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_mara,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_head&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_fit020,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lt_item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;zcb_fit030,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lv_dmbtr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;bapicurr-bapicurr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lv_bukrs&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_fit020-bukrs&nbsp;VALUE&nbsp;'1000',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lv_blart&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_fit020-blart&nbsp;VALUE&nbsp;'WA',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lv_belnr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_fit020-belnr,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lv_buzei&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_buzei&nbsp;VALUE&nbsp;1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_fit030,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lv_flag&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lv_text&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;8,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lt_mseg_all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;zcb_mseg,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_mseg_all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_mseg,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lv_latest_mblnr&nbsp;TYPE&nbsp;zcb_mseg-mblnr.<br />
+<br />
+&nbsp;&nbsp;MOVE-CORRESPONDING&nbsp;it_rout&nbsp;TO&nbsp;lt_rout.<br />
+<br />
+&nbsp;&nbsp;"자재유형&nbsp;가져오기<br />
+&nbsp;&nbsp;SELECT&nbsp;matnr,&nbsp;mtart<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;zcb_mara<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;@lt_mtart.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+* I_AUFNR(생산오더번호)에 해당하는 자재문서 레코드 조회<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECT&nbsp;aufnr,&nbsp;matnr,&nbsp;erdat,&nbsp;erzet,&nbsp;mblnr,&nbsp;wrbtr,&nbsp;waers<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;zcb_mseg<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;@lt_mseg_all<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;aufnr&nbsp;=&nbsp;@i_aufnr.<br />
+<br />
+&nbsp;&nbsp;SORT&nbsp;lt_mseg_all&nbsp;BY&nbsp;matnr.<br />
+   </div>
+   <div class="codeComment">
+*       erdat DESCENDING erzet DESCENDING. "최신 기준 정렬<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SORT&nbsp;lt_mtart&nbsp;BY&nbsp;matnr.<br />
+&nbsp;&nbsp;SORT&nbsp;lt_mseg&nbsp;BY&nbsp;matnr.<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;lt_rout&nbsp;INTO&nbsp;ls_rout.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;lt_mtart&nbsp;INTO&nbsp;ls_mtart&nbsp;WITH&nbsp;KEY&nbsp;matnr&nbsp;=&nbsp;ls_rout-matnr&nbsp;BINARY&nbsp;SEARCH.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;EQ&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_rout-mtart&nbsp;=&nbsp;ls_mtart-mtart.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;lt_mseg_all&nbsp;INTO&nbsp;ls_mseg_all&nbsp;WITH&nbsp;KEY&nbsp;matnr&nbsp;=&nbsp;ls_rout-matnr&nbsp;BINARY&nbsp;SEARCH.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;EQ&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_rout-dmbtr_sub&nbsp;=&nbsp;ls_mseg_all-wrbtr.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_dmbtr&nbsp;+=&nbsp;ls_rout-dmbtr_sub.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;lt_rout&nbsp;FROM&nbsp;ls_rout&nbsp;TRANSPORTING&nbsp;dmbtr_sub&nbsp;mtart.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;ls_rout.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;ls_head.<br />
+&nbsp;&nbsp;ls_head-bukrs&nbsp;=&nbsp;lv_bukrs.<br />
+&nbsp;&nbsp;ls_head-blart&nbsp;=&nbsp;lv_blart.<br />
+&nbsp;&nbsp;ls_head-bldat&nbsp;=&nbsp;sy-datum.<br />
+&nbsp;&nbsp;ls_head-budat&nbsp;=&nbsp;sy-datum.<br />
+&nbsp;&nbsp;ls_head-bktxt&nbsp;=&nbsp;|생산오더&nbsp;{&nbsp;i_aufnr&nbsp;}에&nbsp;대한&nbsp;{&nbsp;i_plnnr&nbsp;}&nbsp;투입&nbsp;전표|.<br />
+&nbsp;&nbsp;ls_head-xblnr&nbsp;=&nbsp;i_aufnr.<br />
+<br />
+&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;mantr&nbsp;INTO&nbsp;@DATA(lv_matnr)&nbsp;FROM&nbsp;zcb_stko&nbsp;WHERE&nbsp;stlnr&nbsp;=&nbsp;@i_stlnr.<br />
+&nbsp;&nbsp;IF&nbsp;lv_matnr&nbsp;CS&nbsp;'RM1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;lv_flag.&nbsp;"역BOM<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lv_flag&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*  CLEAR lt_item.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;IF&nbsp;lv_flag&nbsp;IS&nbsp;INITIAL.&nbsp;"역BOM<br />
+   </div>
+   <div class="codeComment">
+*    LOOP AT lt_rout INTO ls_rout.<br />
+*      CASE ls_rout-mtart.<br />
+*        WHEN 'ROH' OR 'ZSPK'.<br />
+*          ls_rout-saknr = '0000102003'.<br />
+*        WHEN 'HALB'.<br />
+*          ls_rout-saknr = '0000102004'.<br />
+*        WHEN 'FERT'.<br />
+*          ls_rout-saknr = '0000102005'.<br />
+*        WHEN OTHERS.<br />
+*          CONTINUE.<br />
+*      ENDCASE.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;lv_buzei&nbsp;+=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-buzei&nbsp;=&nbsp;lv_buzei.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-bschl&nbsp;=&nbsp;'40'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-saknr&nbsp;=&nbsp;'0000102004'.&nbsp;"재공품<br />
+   </div>
+   <div class="codeComment">
+*      ls_item-saknr = ls_rout-saknr.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-shkzg&nbsp;=&nbsp;'S'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-dmbtr&nbsp;=&nbsp;ls_rout-dmbtr_sub.<br />
+   </div>
+   <div class="codeComment">
+*    ls_item-waers = 'KRW'.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-bstxt&nbsp;=&nbsp;|자재({&nbsp;ls_rout-matnr&nbsp;})&nbsp;투입|.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;ls_item&nbsp;TO&nbsp;lt_item.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;ls_item.<br />
+   </div>
+   <div class="codeComment">
+*    ENDLOOP.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;lv_buzei&nbsp;+=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-buzei&nbsp;=&nbsp;lv_buzei.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-bschl&nbsp;=&nbsp;'50'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-saknr&nbsp;=&nbsp;'0000102004'.&nbsp;"재공품<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-shkzg&nbsp;=&nbsp;'H'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-dmbtr&nbsp;=&nbsp;lv_dmbtr.<br />
+   </div>
+   <div class="codeComment">
+*    ls_item-waers = 'KRW'.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-bstxt&nbsp;=&nbsp;|역BOM&nbsp;공정&nbsp;투입&nbsp;따른&nbsp;자재유형&nbsp;전환|.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;ls_item&nbsp;TO&nbsp;lt_item.<br />
+<br />
+&nbsp;&nbsp;ELSE.&nbsp;"역BOM&nbsp;아님<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lv_buzei&nbsp;+=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-buzei&nbsp;=&nbsp;lv_buzei.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-bschl&nbsp;=&nbsp;'40'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-saknr&nbsp;=&nbsp;'0000102004'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-shkzg&nbsp;=&nbsp;'S'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-dmbtr&nbsp;=&nbsp;lv_dmbtr.<br />
+   </div>
+   <div class="codeComment">
+*    ls_item-waers = 'KRW'.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;ls_item-bstxt&nbsp;=&nbsp;|공정&nbsp;투입&nbsp;따른&nbsp;자재유형&nbsp;전환|.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;ls_item&nbsp;TO&nbsp;lt_item.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;lt_rout&nbsp;INTO&nbsp;ls_rout.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CASE&nbsp;ls_rout-mtart.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'ROH'&nbsp;OR&nbsp;'ZSPK'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_rout-saknr&nbsp;=&nbsp;'0000102003'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'HALB'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_rout-saknr&nbsp;=&nbsp;'0000102004'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'FERT'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_rout-saknr&nbsp;=&nbsp;'0000102005'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;OTHERS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONTINUE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_buzei&nbsp;+=&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_item-buzei&nbsp;=&nbsp;lv_buzei.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_item-bschl&nbsp;=&nbsp;'50'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_item-saknr&nbsp;=&nbsp;ls_rout-saknr.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_item-shkzg&nbsp;=&nbsp;'H'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_item-dmbtr&nbsp;=&nbsp;ls_rout-dmbtr_sub.<br />
+   </div>
+   <div class="codeComment">
+*      ls_item-waers = 'KRW'.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_item-bstxt&nbsp;=&nbsp;|자재({&nbsp;ls_rout-matnr&nbsp;})&nbsp;투입|.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;ls_item&nbsp;TO&nbsp;lt_item.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;ls_item.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;call&nbsp;function&nbsp;<a&nbsp;href&nbsp;="../zcb_fi_get_document/zcb_fi_get_document.html">'ZCB_FI_GET_DOCUMENT'</a><br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_blart&nbsp;=&nbsp;lv_blart<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_bldat&nbsp;=&nbsp;sy-datum<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;i_bukrs&nbsp;=&nbsp;lv_bukrs<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;cs_head&nbsp;=&nbsp;ls_head<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ct_item&nbsp;=&nbsp;lt_item.<br />
+<br />
+&nbsp;&nbsp;lv_belnr&nbsp;=&nbsp;ls_head-belnr.<br />
+<br />
+&nbsp;&nbsp;INSERT&nbsp;zcb_fit020&nbsp;FROM&nbsp;ls_head.<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;lt_item&nbsp;INTO&nbsp;ls_item.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INSERT&nbsp;zcb_fit030&nbsp;FROM&nbsp;ls_item.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;e_msg&nbsp;=&nbsp;|전표&nbsp;{&nbsp;lv_belnr&nbsp;}&nbsp;생성&nbsp;완료|.<br />
+<br />
+ENDFUNCTION.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+* Message class: Hard coded<br />
+*   자본화 일자에 해당하는 회계기간 정보를 찾을 수 없습니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 758</td>
+   </tr>
+</table>
+</body>
+</html>

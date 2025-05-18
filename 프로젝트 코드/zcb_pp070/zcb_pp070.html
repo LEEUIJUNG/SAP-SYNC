@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+<title>ZCB_PP070</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZCB_PP070</h2>
+<h3> Description: [PP] 공정진행</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZCB_PP070<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;프로그램&nbsp;설명:&nbsp;공정진행<br />
+*&&nbsp;작성자:&nbsp;이의정<br />
+*&&nbsp;작성일:&nbsp;2025-04-29<br />
+*&&nbsp;수정이력:<br />
+*&&nbsp;-&nbsp;2025-04-29&nbsp;:&nbsp;초기&nbsp;버전&nbsp;생성<br />
+*&&nbsp;-&nbsp;2025-04-30&nbsp;:&nbsp;스케쥴링&nbsp;로직&nbsp;추가<br />
+*&&nbsp;-&nbsp;2025-05-01&nbsp;:&nbsp;디자인&nbsp;추가<br />
+*&&nbsp;-&nbsp;2025-05-05&nbsp;:&nbsp;ALV&nbsp;EDIT모드시&nbsp;유효성&nbsp;입력및&nbsp;ITAB&nbsp;반영<br />
+*&nbsp;ALV&nbsp;디자인,&nbsp;SUBA&nbsp;2-2&nbsp;뭐&nbsp;넣을지&nbsp;남음,&nbsp;툴바에&nbsp;확정&nbsp;버튼&nbsp;넣기<br />
+*&&nbsp;(&nbsp;최종&nbsp;완료&nbsp;)<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT zcb_pp070.<br />
+<br />
+include <a href ="zcb_pp070_top.html">zcb_pp070_top</a>.<br />
+include <a href ="zcb_pp070_scr.html">zcb_pp070_scr</a>.<br />
+include <a href ="zcb_pp070_pbo.html">zcb_pp070_pbo</a>.<br />
+include <a href ="zcb_pp070_pai.html">zcb_pp070_pai</a>.<br />
+include <a href ="zcb_pp070_cls.html">zcb_pp070_cls</a>.<br />
+include <a href ="zcb_pp070_f01.html">zcb_pp070_f01</a>.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;프로그램&nbsp;프로세스<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;생산오더&nbsp;조회&nbsp;-&gt;&nbsp;자재&nbsp;점검&nbsp;-&gt;&nbsp;자재수량&nbsp;일치&nbsp;-&gt;&nbsp;생산승인<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&gt;&nbsp;자재수량&nbsp;불일치&nbsp;-&gt;&nbsp;구매요청,&nbsp;생산&nbsp;요청(역&nbsp;BOM&nbsp;시)<br />
+*&nbsp;자재&nbsp;입고요청&nbsp;-&gt;&nbsp;자재&nbsp;입고처리<br />
+*&nbsp;생산진행(역BOM&nbsp;/&nbsp;일반&nbsp;재품&nbsp;나눔)&nbsp;-&gt;&nbsp;공정&nbsp;스캐쥴링&nbsp;-&gt;&nbsp;TICK&nbsp;단위&nbsp;공정&nbsp;진행<br />
+<br />
+*&nbsp;공정진행시&nbsp;자재&nbsp;소모&nbsp;스케쥴에&nbsp;맞춰서&nbsp;자재&nbsp;감소&nbsp;및&nbsp;배치&nbsp;감소,&nbsp;회계&nbsp;문서&nbsp;생성.<br />
+<br />
+*&nbsp;생산완료&nbsp;-&gt;&nbsp;배치&nbsp;등록&nbsp;-&gt;&nbsp;생산실적&nbsp;등록&nbsp;(&nbsp;불량&nbsp;수량을&nbsp;설정)<br />
+*&nbsp;/생산실적&nbsp;승인프로그램&nbsp;/&nbsp;생산실적&nbsp;승인&nbsp;-&gt;&nbsp;완제품&nbsp;입고&nbsp;-&gt;&nbsp;전표처리<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+<br />
+<br />
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR pa_werks.<br />
+&nbsp;&nbsp;"&nbsp;SS&nbsp;에서&nbsp;VLFKZ&nbsp;=&nbsp;'A'&nbsp;공장&nbsp;만&nbsp;검색&nbsp;가능하게<br />
+&nbsp;&nbsp;PERFORM&nbsp;set_parm_werks.<br />
+<br />
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR pa_matnr.<br />
+&nbsp;&nbsp;"&nbsp;RM102&nbsp;와&nbsp;완제품만&nbsp;선택&nbsp;가능하게<br />
+&nbsp;&nbsp;PERFORM&nbsp;set_parm_matnr.<br />
+<br />
+AT SELECTION-SCREEN ON VALUE-REQUEST FOR pa_aufnr.<br />
+&nbsp;&nbsp;"&nbsp;오늘&nbsp;이전&nbsp;생산오더&nbsp;검색&nbsp;못하게<br />
+&nbsp;&nbsp;PERFORM&nbsp;set_parm_aufnr.&nbsp;"&nbsp;f4_aufnr<br />
+<br />
+AT SELECTION-SCREEN.<br />
+&nbsp;&nbsp;"&nbsp;SS&nbsp;검색&nbsp;조건&nbsp;체크<br />
+&nbsp;&nbsp;PERFORM&nbsp;check_select_option.<br />
+&nbsp;&nbsp;"&nbsp;검색&nbsp;조건에&nbsp;맞는&nbsp;DATA&nbsp;가져오기<br />
+&nbsp;&nbsp;PERFORM&nbsp;get_selected_data.<br />
+<br />
+<br />
+START-OF-SELECTION.<br />
+&nbsp;&nbsp;"&nbsp;화면&nbsp;실행<br />
+&nbsp;&nbsp;PERFORM&nbsp;call_scr_0100.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*GUI&nbsp;Texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;T0100&nbsp;--&gt;&nbsp;생산공정&nbsp;진행<br />
+*&nbsp;T0200&nbsp;--&gt;&nbsp;보유자재&nbsp;확인<br />
+*&nbsp;T0300&nbsp;--&gt;&nbsp;생산&nbsp;결과&nbsp;입력<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;001&nbsp;공정&nbsp;진행을&nbsp;위한&nbsp;생산오더&nbsp;검색<br />
+*&nbsp;002&nbsp;생산&nbsp;공장<br />
+*&nbsp;003&nbsp;계획&nbsp;일자<br />
+*&nbsp;004&nbsp;TICK&nbsp;[&nbsp;&&nbsp;]&nbsp;순서&nbsp;공정을&nbsp;진행합니다<br />
+*&nbsp;005&nbsp;생산오더<br />
+*&nbsp;006&nbsp;생산제품<br />
+*&nbsp;E01&nbsp;생산&nbsp;플랜트를&nbsp;입력해주세요.<br />
+*&nbsp;E02&nbsp;계획일자는&nbsp;오늘&nbsp;이후로만&nbsp;입력할&nbsp;수&nbsp;있습니다.<br />
+*&nbsp;E03&nbsp;계획일자&nbsp;범위는&nbsp;오늘&nbsp;이후로만&nbsp;입력해야&nbsp;합니다.<br />
+*&nbsp;E04&nbsp;생산&nbsp;준비를&nbsp;완료해&nbsp;주세요.<br />
+*&nbsp;E05&nbsp;공정&nbsp;스캐줄링이&nbsp;완성되어&nbsp;있습니다.<br />
+*&nbsp;E06&nbsp;공정&nbsp;진행이&nbsp;완료되었습니다.<br />
+*&nbsp;E07&nbsp;창고에&nbsp;원자재가&nbsp;부족합니다.&nbsp;원자재&nbsp;입고후&nbsp;진행하세요.<br />
+*&nbsp;E08&nbsp;구매요청&nbsp;수량을&nbsp;확인해&nbsp;주세요.<br />
+*&nbsp;E09&nbsp;블량수량이&nbsp;음수가&nbsp;나올&nbsp;수&nbsp;없습니다.<br />
+*&nbsp;E10&nbsp;블량수량이&nbsp;계획수량&nbsp;보다&nbsp;많을&nbsp;수&nbsp;없습니다.<br />
+*&nbsp;E11&nbsp;불량수량을&nbsp;확인해&nbsp;주세요.<br />
+*&nbsp;E12&nbsp;ZCB_FI_PLNNR&nbsp;전표&nbsp;생성&nbsp;오류&nbsp;발생<br />
+*&nbsp;E13&nbsp;ZCB_PP_BATCH_CAL&nbsp;배치감소&nbsp;오류&nbsp;발생<br />
+*&nbsp;E14&nbsp;ZCB_PP_BATCH&nbsp;배치생성&nbsp;오류&nbsp;발생<br />
+*&nbsp;E15&nbsp;ZCB_PP_CREATE_AFRU&nbsp;생산실적&nbsp;생성&nbsp;오류&nbsp;발생<br />
+*&nbsp;I01&nbsp;구매요청&nbsp;프로그램으로&nbsp;이동합니다.<br />
+*&nbsp;I02&nbsp;공정&nbsp;스캐줄링을&nbsp;진행합니다.<br />
+*&nbsp;I03&nbsp;자재가&nbsp;충분합니다.&nbsp;생산과정을&nbsp;진행합니다.<br />
+*&nbsp;I04&nbsp;공정&nbsp;진행이&nbsp;완료되었습니다.&nbsp;생산완료&nbsp;버튼을&nbsp;눌러주세요<br />
+*&nbsp;I05&nbsp;생산완료&nbsp;제품이&nbsp;있어&nbsp;실적등록&nbsp;화면으로&nbsp;이동합니다.<br />
+*&nbsp;I06&nbsp;공정&nbsp;진행을&nbsp;완료해주세요<br />
+*&nbsp;I07&nbsp;생산실적&nbsp;등록까지&nbsp;완료되었습니다.<br />
+*&nbsp;I08&nbsp;실적이&nbsp;정상적으로&nbsp;생성되었습니다.<br />
+*&nbsp;S03&nbsp;자재가&nbsp;충분합니다.&nbsp;생산과정을&nbsp;진행합니다.<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;Hard&nbsp;coded<br />
+*&nbsp;&nbsp;&nbsp;MM&nbsp;BDC&nbsp;결과<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;ZCB_MSG<br />
+*001&nbsp;&nbsp;&nbsp;Container&nbsp;객체&nbsp;생성&nbsp;중&nbsp;오류가&nbsp;발생했습니다.<br />
+*002&nbsp;&nbsp;&nbsp;ALV&nbsp;객체&nbsp;생성&nbsp;중&nbsp;오류가&nbsp;발생했습니다.<br />
+*003&nbsp;&nbsp;&nbsp;ALV&nbsp;객체에&nbsp;데이터&nbsp;및&nbsp;화면모양을&nbsp;전달하는&nbsp;과정&nbsp;중&nbsp;오류가&nbsp;발생했습니다.<br />
+*029&nbsp;&nbsp;&nbsp;타임스탬프&nbsp;설정&nbsp;중&nbsp;오류가&nbsp;발생했습니다.&nbsp;코드:&nbsp;&<br />
+*398&nbsp;&nbsp;&nbsp;Alv&nbsp;Event&nbsp;등록에&nbsp;실패했습니다.<br />
+*400&nbsp;&nbsp;&nbsp;&&nbsp;DB에서&nbsp;조회가&nbsp;실패했습니다&nbsp;.<br />
+*401&nbsp;&nbsp;&nbsp;[&nbsp;&&nbsp;]&nbsp;TICK순번&nbsp;공정을&nbsp;진행합니다.<br />
+*402&nbsp;&nbsp;&nbsp;&&nbsp;DB&nbsp;UPDATE에&nbsp;실패하였습니다.<br />
+*404&nbsp;&nbsp;&nbsp;ALV&nbsp;새로고침시&nbsp;오류가&nbsp;발생했습니다.<br />
+*431&nbsp;&nbsp;&nbsp;공정&nbsp;스케줄링이&nbsp;완성되어&nbsp;있습니다.<br />
+*432&nbsp;&nbsp;&nbsp;공정&nbsp;스케줄링을&nbsp;진행합니다.<br />
+*433&nbsp;&nbsp;&nbsp;원자재가&nbsp;부족합니다.&nbsp;구매요청을&nbsp;진행해주세요.<br />
+*434&nbsp;&nbsp;&nbsp;자재가&nbsp;충분합니다.&nbsp;생산과정을&nbsp;진행합니다.<br />
+*435&nbsp;&nbsp;&nbsp;공정&nbsp;진행이&nbsp;완료되었습니다.&nbsp;생산완료&nbsp;버튼을&nbsp;눌러주세요.<br />
+*436&nbsp;&nbsp;&nbsp;생산&nbsp;준비를&nbsp;완료해&nbsp;주세요.<br />
+*437&nbsp;&nbsp;&nbsp;생산실적&nbsp;등록까지&nbsp;완료되었습니다.<br />
+*438&nbsp;&nbsp;&nbsp;공정진행을&nbsp;완료해주세요.<br />
+*439&nbsp;&nbsp;&nbsp;구매요청&nbsp;수량을&nbsp;확인해&nbsp;주세요.<br />
+*440&nbsp;&nbsp;&nbsp;불량수량을&nbsp;확인해&nbsp;주세요.<br />
+*441&nbsp;&nbsp;&nbsp;생산&nbsp;플랜트를&nbsp;입력해주세요.<br />
+*442&nbsp;&nbsp;&nbsp;계획일자는&nbsp;오늘&nbsp;이후로만&nbsp;입력할&nbsp;수&nbsp;있습니다.<br />
+*443&nbsp;&nbsp;&nbsp;ZCB_PP_BATCH_CAL&nbsp;배치감소&nbsp;오류&nbsp;발생<br />
+*444&nbsp;&nbsp;&nbsp;ZCB_FI_PLNNR&nbsp;전표&nbsp;생성&nbsp;오류&nbsp;발생<br />
+*445&nbsp;&nbsp;&nbsp;실적등록&nbsp;화면으로&nbsp;이동합니다.<br />
+*446&nbsp;&nbsp;&nbsp;ZCB_PP_BATCH&nbsp;배치생성&nbsp;오류&nbsp;발생<br />
+*447&nbsp;&nbsp;&nbsp;ZCB_PP_CREATE_AFRU&nbsp;생산실적&nbsp;생성&nbsp;오류&nbsp;발생<br />
+*448&nbsp;&nbsp;&nbsp;구매수량은&nbsp;0보다&nbsp;커야&nbsp;합니다.<br />
+*449&nbsp;&nbsp;&nbsp;불량수량이&nbsp;음수가&nbsp;나올&nbsp;수&nbsp;없습니다.<br />
+*450&nbsp;&nbsp;&nbsp;불량수량이&nbsp;계획수량&nbsp;보다&nbsp;많을&nbsp;수&nbsp;없습니다.<br />
+*451&nbsp;&nbsp;&nbsp;생산실적&nbsp;생성이&nbsp;완료되었습니다.<br />
+*474&nbsp;&nbsp;&nbsp;생산&nbsp;일자&nbsp;범위를&nbsp;알맞게&nbsp;입력해&nbsp;주세요.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 758</td>
+   </tr>
+</table>
+</body>
+</html>
