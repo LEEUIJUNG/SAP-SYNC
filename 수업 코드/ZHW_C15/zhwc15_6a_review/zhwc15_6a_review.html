@@ -1,0 +1,182 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_6A_REVIEW</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_6A_REVIEW</h2>
+<h3> Description: [HW-6A] 예약정보 집계 및 조회 C15</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZHWC15_6A_REVIEW<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;[HW-6A]&nbsp;예약정보&nbsp;집계&nbsp;및&nbsp;조회&nbsp;C15<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZHWC15_6A_REVIEW.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*---------------------------------------------------------------------*<br />
+*&nbsp;선언&nbsp;관련된&nbsp;INCLUDE<br />
+*---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+include <a href ="zhwc15_6a_review_top.html">ZHWC15_6A_REVIEW_TOP</a>.<br />
+include <a href ="zhwc15_6a_review_scr.html">ZHWC15_6A_REVIEW_SCR</a>.<br />
+   </div>
+   <div class="codeComment">
+*---------------------------------------------------------------------*<br />
+*&nbsp;구현&nbsp;관련된&nbsp;INCLUDE<br />
+*---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+include <a href ="zhwc15_6a_review_pbo.html">ZHWC15_6A_REVIEW_PBO</a>.<br />
+include <a href ="zhwc15_6a_review_pai.html">ZHWC15_6A_REVIEW_PAI</a>.<br />
+include <a href ="zhwc15_6a_review_f01.html">ZHWC15_6A_REVIEW_F01</a>.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*---------------------------------------------------------------------*<br />
+*&nbsp;ABAP&nbsp;EVNETS<br />
+*---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+<br />
+AT SELECTION-SCREEN OUTPUT. " SS의 PBO<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;MESSAGE&nbsp;'PBO'&nbsp;TYPE&nbsp;'I'.&nbsp;"&nbsp;PBO는&nbsp;화면이&nbsp;없어서&nbsp;POP&nbsp;UP&nbsp;이&nbsp;안나고&nbsp;STATUS&nbsp;BAR에&nbsp;나옴.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PERFORM&nbsp;MODIFY_SCREEN_1000.&nbsp;"&nbsp;SS는&nbsp;기본값이&nbsp;1000이다.<br />
+<br />
+AT SELECTION-SCREEN. " SS의 PAI<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;MESSAGE&nbsp;'PAI'&nbsp;TYPE&nbsp;'I'.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PERFORM&nbsp;USER_COMMAND_1000.&nbsp;"&nbsp;POPUP&nbsp;을&nbsp;화면&nbsp;전환&nbsp;없이&nbsp;띄우고&nbsp;싶으면&nbsp;SS&nbsp;영역&nbsp;안에서&nbsp;띄워야&nbsp;한다.<br />
+<br />
+START-OF-SELECTION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;RADIO&nbsp;BTN에&nbsp;따라서&nbsp;LOGIC&nbsp;이&nbsp;다르게&nbsp;작동한다.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CASE&nbsp;ABAP_ON.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;RA_INS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;INSERT_DATA_RTN.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;RA_SEL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;SELECT_DATA_RTN.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;RA_DEL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;POPUP&nbsp;을&nbsp;START&nbsp;OF&nbsp;SELECTION&nbsp;부분에서&nbsp;띄우면&nbsp;빈화면이&nbsp;나오거나,&nbsp;START&nbsp;OF&nbsp;SELECTION&nbsp;에서&nbsp;호출한&nbsp;화면에서&nbsp;POP&nbsp;UP&nbsp;이&nbsp;나온다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;DELETE_DATA_RTN.<br />
+<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*GUI&nbsp;Texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;T0100&nbsp;--&gt;&nbsp;[HW-6A]&nbsp;예약정보&nbsp;집계결과&nbsp;C15<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;S01&nbsp;Insert&nbsp;Data<br />
+*&nbsp;S02&nbsp;Select&nbsp;Data<br />
+*&nbsp;S03&nbsp;Delete&nbsp;All&nbsp;Data<br />
+*&nbsp;T01&nbsp;Executa&nbsp;Mode<br />
+*&nbsp;T02&nbsp;Selection&nbsp;Options<br />
+*&nbsp;T03&nbsp;Additional&nbsp;Options<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PA_INCLD&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Incldue&nbsp;Cancelled&nbsp;Book<br />
+*&nbsp;SO_CAR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_CITFR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Depart.&nbsp;City<br />
+*&nbsp;SO_CON&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_CTITO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Arrival&nbsp;City<br />
+*&nbsp;SO_CTRFR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Depart.&nbsp;Country<br />
+*&nbsp;SO_CTRTO&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Arrival&nbsp;Country<br />
+*&nbsp;SO_FLD&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_ORD&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;BC414<br />
+*010&nbsp;&nbsp;&nbsp;Table&nbsp;entry&nbsp;created&nbsp;successfully<br />
+*020&nbsp;&nbsp;&nbsp;Table&nbsp;entry&nbsp;does&nbsp;not&nbsp;exist<br />
+*052&nbsp;&nbsp;&nbsp;Changes&nbsp;not&nbsp;successful&nbsp;(booking&nbsp;for&nbsp;key&nbsp;already&nbsp;created)<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;Hard&nbsp;coded<br />
+*&nbsp;&nbsp;&nbsp;모든&nbsp;RECORD&nbsp;가&nbsp;삭제되었습니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

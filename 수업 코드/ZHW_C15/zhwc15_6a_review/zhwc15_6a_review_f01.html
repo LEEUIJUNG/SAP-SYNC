@@ -1,0 +1,445 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_6A_REVIEW_F01</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_6A_REVIEW_F01</h2>
+<h3> Description: SUBROUTINES</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZHWC15_6A_REVIEW_F01<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;INSERT_DATA_RTN<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM INSERT_DATA_RTN .<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;so&nbsp;는&nbsp;변수와&nbsp;입력필드도&nbsp;생김&nbsp;다름&nbsp;range는&nbsp;변수만&nbsp;생김<br />
+*&nbsp;&nbsp;RANGES&nbsp;이름&nbsp;FOR&nbsp;변수.&nbsp;"&nbsp;WITH&nbsp;HEADERLINE&nbsp;이&nbsp;있는&nbsp;ITAB(WA&nbsp;도&nbsp;가지고&nbsp;있음)<br />
+<br />
+*&nbsp;TYPE&nbsp;RANGE&nbsp;OF&nbsp;로&nbsp;선언하면&nbsp;HEADER&nbsp;LINE이&nbsp;생성안됨<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;DATA:&nbsp;LR_CANCEL&nbsp;TYPE&nbsp;RANGE&nbsp;OF&nbsp;SBOOK-CANCELLED.&nbsp;"&nbsp;RANGE&nbsp;변수(ITAB)<br />
+&nbsp;&nbsp;DATA:&nbsp;LS_CANCEL&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;LR_CANCEL.&nbsp;"&nbsp;RANGE&nbsp;변수의&nbsp;WA<br />
+<br />
+&nbsp;&nbsp;DATA:&nbsp;LT_DETAIL&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;ZDETAIL_C15_REV.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;PA_INCLD&nbsp;=&nbsp;ABAP_ON.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;REFRESH&nbsp;LR_CANCEL.&nbsp;"&nbsp;RAGNE&nbsp;변수가&nbsp;데이터가&nbsp;없음으로&nbsp;전체조회<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;SO는&nbsp;빈값이&nbsp;들어가면&nbsp;전체&nbsp;조회이다.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;공백만&nbsp;검색한다.&nbsp;CANCELLED&nbsp;가&nbsp;아닌&nbsp;조건만&nbsp;검색<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;LS_CANCEL.&nbsp;"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LS_CANCEL-SIGN&nbsp;=&nbsp;'I'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LS_CANCEL-OPTION&nbsp;=&nbsp;'EQ'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LS_CANCEL-LOW&nbsp;=&nbsp;SPACE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;LS_CANCEL&nbsp;TO&nbsp;LR_CANCEL.&nbsp;"&nbsp;검색조건&nbsp;한줄&nbsp;추가<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;SELECT&nbsp;*&nbsp;"&nbsp;나중에&nbsp;SQL&nbsp;이&nbsp;복잡해&nbsp;질&nbsp;경우가&nbsp;있는대&nbsp;이럴때는&nbsp;A~CARRID&nbsp;처럼&nbsp;입력&nbsp;필드를&nbsp;다&nbsp;입력해줘야&nbsp;안&nbsp;햇갈린다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;&nbsp;SPFLI&nbsp;AS&nbsp;A<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;SBOOK&nbsp;AS&nbsp;B<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;A~CARRID&nbsp;=&nbsp;B~CARRID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;A~CONNID&nbsp;=&nbsp;B~CONNID<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INNER&nbsp;JOIN&nbsp;&nbsp;SCUSTOM&nbsp;AS&nbsp;C<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ON&nbsp;B~BOOKID&nbsp;=&nbsp;C~ID<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;LT_DETAIL&nbsp;"&nbsp;첫번째&nbsp;FIELD&nbsp;가&nbsp;MANDT&nbsp;여거<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;A~CARRID&nbsp;IN&nbsp;SO_CAR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;A~CONNID&nbsp;IN&nbsp;SO_CON<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;B~FLDATE&nbsp;IN&nbsp;SO_FLD<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;B~ORDER_DATE&nbsp;IN&nbsp;SO_ORD<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;A~COUNTRYFR&nbsp;IN&nbsp;SO_CTRFR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;A~COUNTRYTO&nbsp;IN&nbsp;SO_CTRTO<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;A~CITYFROM&nbsp;IN&nbsp;SO_CITFR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;A~CITYTO&nbsp;IN&nbsp;SO_CTITO<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;B~CANCELLED&nbsp;IN&nbsp;LR_CANCEL.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;중복&nbsp;키값을&nbsp;허용하고&nbsp;INSERT&nbsp;진행&nbsp;(&nbsp;해당&nbsp;문구&nbsp;없을시&nbsp;데이터&nbsp;중복&nbsp;DUMP&nbsp;발생)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;MODIFY&nbsp;는&nbsp;한줄식&nbsp;검색해서&nbsp;산입을&nbsp;하여&nbsp;느림,&nbsp;INSERT&nbsp;는&nbsp;통으로&nbsp;진행해서&nbsp;빠름<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;그래서&nbsp;INSERT&nbsp;&nbsp;ACCEPTING&nbsp;DUPLICATE&nbsp;KEYS&nbsp;-&nbsp;중복&nbsp;데이터로&nbsp;인한&nbsp;산입&nbsp;실패시,&nbsp;모든&nbsp;데이터가&nbsp;산입이&nbsp;안됨.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INSERT&nbsp;ZDETAIL_C15_REV&nbsp;FROM&nbsp;TABLE&nbsp;LT_DETAIL&nbsp;ACCEPTING&nbsp;DUPLICATE&nbsp;KEYS.<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;산입&nbsp;성공<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COMMIT&nbsp;WORK.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;S010(BC414).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;중복&nbsp;값이&nbsp;있어서&nbsp;산입&nbsp;실패<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ROLLBACK&nbsp;WORK.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;S052(BC414)&nbsp;DISPLAY&nbsp;LIKE&nbsp;'E'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;검색실패<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;S020(BC414)&nbsp;DISPLAY&nbsp;LIKE&nbsp;'E'.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SELECT_DATA_RTN<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM SELECT_DATA_RTN .<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;RANGES&nbsp;이름&nbsp;FOR&nbsp;변수.&nbsp;"&nbsp;WITH&nbsp;HEADERLINE&nbsp;이&nbsp;있는&nbsp;ITAB(WA&nbsp;도&nbsp;가지고&nbsp;있음)<br />
+<br />
+*&nbsp;TYPE&nbsp;RANGE&nbsp;OF&nbsp;로&nbsp;선언하면&nbsp;HEADER&nbsp;LINE이&nbsp;생성안됨<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;DATA:&nbsp;LR_CANCEL&nbsp;TYPE&nbsp;RANGE&nbsp;OF&nbsp;&nbsp;ZDETAIL_C15_REV-CACNELLED.<br />
+&nbsp;&nbsp;DATA:&nbsp;LS_CANCEL&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;LR_CANCEL.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;PA_INCLD&nbsp;=&nbsp;ABAP_ON.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;REFRESH&nbsp;LR_CANCEL.&nbsp;"&nbsp;RAGNE&nbsp;변수가&nbsp;데이터가&nbsp;없음으로&nbsp;전체조회<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;SO는&nbsp;빈값이&nbsp;들어가면&nbsp;전체&nbsp;조회이다.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;공백만&nbsp;검색한다.&nbsp;CANCELLED&nbsp;가&nbsp;아닌&nbsp;조건만&nbsp;검색<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;LS_CANCEL.&nbsp;"<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LS_CANCEL-SIGN&nbsp;=&nbsp;'I'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LS_CANCEL-OPTION&nbsp;=&nbsp;'EQ'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LS_CANCEL-LOW&nbsp;=&nbsp;SPACE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;LS_CANCEL&nbsp;TO&nbsp;LR_CANCEL.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;SELECT&nbsp;*&nbsp;"&nbsp;나중에&nbsp;SQL&nbsp;이&nbsp;복잡해&nbsp;질&nbsp;경우가&nbsp;있는대&nbsp;이럴때는&nbsp;A~CARRID&nbsp;처럼&nbsp;입력&nbsp;필드를&nbsp;다&nbsp;입력해줘야&nbsp;안&nbsp;햇갈린다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;&nbsp;ZDETAIL_C15_REV<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;GT_DETAIL&nbsp;"&nbsp;첫번째&nbsp;FIELD&nbsp;가&nbsp;MANDT&nbsp;여거<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;CARRID&nbsp;IN&nbsp;SO_CAR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;CONNID&nbsp;IN&nbsp;SO_CON<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;FLDATE&nbsp;IN&nbsp;SO_FLD<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;ORDER_DATE&nbsp;IN&nbsp;SO_ORD<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;COUNTRYFR&nbsp;IN&nbsp;SO_CTRFR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;COUNTRYTO&nbsp;IN&nbsp;SO_CTRTO<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;CITYFROM&nbsp;IN&nbsp;SO_CITFR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;CITYTO&nbsp;IN&nbsp;SO_CTITO<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;CACNELLED&nbsp;IN&nbsp;LR_CANCEL.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;ALV&nbsp;GRID&nbsp;를&nbsp;출력한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;0100.<br />
+<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;검색실패<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;S020(BC414)&nbsp;DISPLAY&nbsp;LIKE&nbsp;'E'.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;CREATE_OBJ_0100<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM CREATE_OBJ_0100 .<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;신문법&nbsp;으로&nbsp;작성해보자&nbsp;!!!!<br />
+*&nbsp;&nbsp;"&nbsp;필수&nbsp;입력&nbsp;필드만&nbsp;적었구나.<br />
+*&nbsp;&nbsp;"&nbsp;&nbsp;CLASS&nbsp;이름을&nbsp;#&nbsp;으로&nbsp;생략가능,&nbsp;그리고&nbsp;#은&nbsp;자동완성&nbsp;지원이&nbsp;안된다.&nbsp;(&nbsp;변수의&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;에&nbsp;따라&nbsp;자동으로&nbsp;작성)<br />
+*&nbsp;&nbsp;"&nbsp;'&nbsp;#&nbsp;'&nbsp;은&nbsp;'&nbsp;=&nbsp;'의&nbsp;참조변수를&nbsp;찾아서&nbsp;자동으로&nbsp;작동함(&nbsp;왼쪽의&nbsp;참조변수를&nbsp;보고&nbsp;오른쪽의&nbsp;타입을&nbsp;맞추겠다.&nbsp;)<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;"&nbsp;파라미터의&nbsp;경우&nbsp;필수입력&nbsp;필드가&nbsp;한개면&nbsp;이름&nbsp;생략가능<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;GO_CONTAINER&nbsp;=&nbsp;NEW&nbsp;#(&nbsp;'CCON'&nbsp;).<br />
+*&nbsp;&nbsp;"&nbsp;두개가&nbsp;같다.<br />
+*&nbsp;&nbsp;GO_CONTAINER&nbsp;=&nbsp;NEW&nbsp;CL_GUI_CUSTOM_CONTAINER(<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;PARENT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;CONTAINER_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;'CCON'&nbsp;"&nbsp;여기만&nbsp;필수&nbsp;입력&nbsp;필드<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;STYLE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;LIFETIME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;LIFETIME_DEFAULT<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;REPID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;DYNNR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;NO_AUTODEF_PROGID_DYNNR&nbsp;=<br />
+*&nbsp;&nbsp;).<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_CONTAINER<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONTAINER_NAME&nbsp;=&nbsp;'CCON'.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Name&nbsp;of&nbsp;the&nbsp;Screen&nbsp;CustCtrl&nbsp;Name&nbsp;to&nbsp;Link&nbsp;Container&nbsp;To<br />
+<br />
+&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;GO_ALV_GID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_PARENT&nbsp;=&nbsp;GO_CONTAINER.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Parent&nbsp;Container<br />
+<br />
+<br />
+<br />
+ENDFORM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SET_ALV_LAYO_0100<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM SET_ALV_LAYO_0100 .<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_LAYOUT.<br />
+<br />
+&nbsp;&nbsp;GS_LAYOUT-CWIDTH_OPT&nbsp;=&nbsp;'X'.&nbsp;"&nbsp;열&nbsp;넓이&nbsp;최적화<br />
+&nbsp;&nbsp;"&nbsp;COLUMNS&nbsp;WITH&nbsp;OPTIMIZAE<br />
+<br />
+ENDFORM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SET_ALV_SET_TABLE_DISPLAY_0100<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM SET_ALV_SET_TABLE_DISPLAY_0100 .<br />
+<br />
+&nbsp;&nbsp;GO_ALV_GID-&gt;SET_TABLE_FOR_FIRST_DISPLAY(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_STRUCTURE_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;'ZDETAIL_C15_REV'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Internal&nbsp;Output&nbsp;Table&nbsp;Structure&nbsp;Name<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IS_LAYOUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_LAYOUT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Layout<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CHANGING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_OUTTAB&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_DETAIL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Output&nbsp;Table<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INVALID_PARAMETER_COMBINATION&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Wrong&nbsp;Parameter<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PROGRAM_ERROR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Program&nbsp;Errors<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TOO_MANY_LINES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Too&nbsp;many&nbsp;Rows&nbsp;in&nbsp;Ready&nbsp;for&nbsp;Input&nbsp;Grid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;4<br />
+&nbsp;&nbsp;).<br />
+&nbsp;&nbsp;"&nbsp;지금은&nbsp;적절한&nbsp;메시지&nbsp;생략<br />
+&nbsp;&nbsp;CASE&nbsp;SY-SUBRC.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;0.&nbsp;"&nbsp;NORMAL<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;LV_MSG&nbsp;TYPE&nbsp;STRING.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DESCRIBE&nbsp;TABLE&nbsp;GT_DETAIL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_MSG&nbsp;=&nbsp;|{&nbsp;SY-TFILL&nbsp;}건이&nbsp;조회되었습니다.|.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;LV_MSG&nbsp;TYPE&nbsp;'S'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;1.&nbsp;"&nbsp;Wrong&nbsp;Parameter<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;3.&nbsp;"&nbsp;Program&nbsp;Errors<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;3.&nbsp;"&nbsp;Too&nbsp;many&nbsp;Rows&nbsp;in&nbsp;Ready&nbsp;for&nbsp;Input&nbsp;Grid<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;OTHERS.&nbsp;"&nbsp;UNKNOWN&nbsp;ERROR<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;DELETE_DATA_RTN<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM DELETE_DATA_RTN .<br />
+<br />
+&nbsp;&nbsp;DATA:&nbsp;LV_ANSWER&nbsp;TYPE&nbsp;C.<br />
+<br />
+&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'POPUP_TO_CONFIRM'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TEXT_QUESTION&nbsp;=&nbsp;'ZDETAIL_C15_REV에&nbsp;집계된&nbsp;모든&nbsp;데이터가&nbsp;삭제됩니다.&nbsp;정말&nbsp;진행하시겠습니까?&nbsp;삭제시&nbsp;복원이&nbsp;불가능합니다.'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANSWER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;LV_ANSWER.<br />
+<br />
+&nbsp;&nbsp;CASE&nbsp;LV_ANSWER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'1'.&nbsp;"&nbsp;YES<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DELETE&nbsp;FROM&nbsp;ZDETAIL_C15_REV.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COMMIT&nbsp;WORK.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;'모든&nbsp;RECORD&nbsp;가&nbsp;삭제되었습니다.'&nbsp;TYPE&nbsp;'S'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;'삭제할&nbsp;RECORD가&nbsp;없습니다.&nbsp;'&nbsp;TYPE&nbsp;'S'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'2'&nbsp;OR&nbsp;'A'.&nbsp;"&nbsp;NO&nbsp;,&nbsp;CANC<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;'사용자가&nbsp;작업을&nbsp;취소하였습니다.&nbsp;'&nbsp;TYPE&nbsp;'S'.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'POPUP_TO_CONFIRM_STEP'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TITEL&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'경고'&nbsp;"&nbsp;독일어&nbsp;TITEL&nbsp;영어아님<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TEXTLINE1&nbsp;=&nbsp;'ZDETAIL_C15_REV에&nbsp;집계된&nbsp;모든&nbsp;데이터가&nbsp;삭제됩니다.'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TEXTLINE2&nbsp;=&nbsp;'정말&nbsp;진행하시겠습니까?&nbsp;삭제시&nbsp;복원이&nbsp;불가능합니다.'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANSWER&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;LV_ANSWER.<br />
+*<br />
+*&nbsp;&nbsp;CASE&nbsp;LV_ANSWER.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'J'.&nbsp;"&nbsp;YES(JA)<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DELETE&nbsp;FROM&nbsp;ZDETAIL_C15_REV.<br />
+*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;=&nbsp;0.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;COMMIT&nbsp;WORK.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;'모든&nbsp;RECORD&nbsp;가&nbsp;삭제되었습니다.'&nbsp;TYPE&nbsp;'S'.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;'삭제할&nbsp;RECORD가&nbsp;없습니다.&nbsp;'&nbsp;TYPE&nbsp;'S'.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+*<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'N'&nbsp;OR&nbsp;'A'.&nbsp;"&nbsp;NO(NEIN)&nbsp;,&nbsp;CANC<br />
+**&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;'사용자가&nbsp;작업을&nbsp;취소하였습니다.&nbsp;'&nbsp;TYPE&nbsp;'S'.<br />
+*<br />
+*&nbsp;&nbsp;ENDCASE.<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;MODIFY_SCREEN_1000<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM MODIFY_SCREEN_1000 .<br />
+<br />
+&nbsp;&nbsp;CHECK&nbsp;RA_DEL&nbsp;=&nbsp;ABAP_ON.<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;SCREEN&nbsp;이&nbsp;LOOP&nbsp;가&nbsp;돌고&nbsp;다시&nbsp;처음&nbsp;SS-OUPUT&nbsp;으로&nbsp;돌아가면&nbsp;SCREEN-INPUT이&nbsp;기본값인&nbsp;1로&nbsp;초기화된다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;SCREEN-GROUP1&nbsp;=&nbsp;'AAA'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCREEN-INPUT&nbsp;=&nbsp;0.&nbsp;"&nbsp;INPUT&nbsp;FIELD&nbsp;비활성화,&nbsp;&nbsp;필수입력은&nbsp;그래도&nbsp;입력을&nbsp;해야&nbsp;넘어가짐<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;필수&nbsp;입력은&nbsp;아무&nbsp;값이라도&nbsp;입력을&nbsp;해야함<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;SCREEN.<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;USER_COMMAND_1000<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+FORM USER_COMMAND_1000 .<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;TOP에서&nbsp;선언함<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CASE&nbsp;SSCRFIELDS-UCOMM.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'ONLI'.&nbsp;"&nbsp;ONLINE의&nbsp;압글자&nbsp;4개가&nbsp;잘린것<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;RA_DEL&nbsp;=&nbsp;ABAP_ON.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;POP_UP_TO_CONFRIM&nbsp;USING&nbsp;'ZDETAIL_C15_REV에&nbsp;집계된&nbsp;모든&nbsp;데이터가&nbsp;삭제됩니다.&nbsp;정말&nbsp;진행하시겠습니까?&nbsp;삭제시&nbsp;복원이&nbsp;불가능합니다.'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;GV_ANSWER.&nbsp;"&nbsp;사용자&nbsp;답변<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;GV_ANSWER&nbsp;&lt;&gt;&nbsp;'1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;SSCRFIELDS.&nbsp;"&nbsp;SS&nbsp;의&nbsp;UCOM&nbsp;을&nbsp;초기화&nbsp;해준다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;'사용자가&nbsp;작업을&nbsp;취소하였습니다.&nbsp;'&nbsp;TYPE&nbsp;'S'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;POP_UP_TO_CONFRIM<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;P_<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;--&nbsp;GV_ANSWER<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM POP_UP_TO_CONFRIM  USING    VALUE(PV_TEXT)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;PV_ANSWER.<br />
+<br />
+&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'POPUP_TO_CONFIRM'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TEXT_QUESTION&nbsp;=&nbsp;'ZDETAIL_C15_REV에&nbsp;집계된&nbsp;모든&nbsp;데이터가&nbsp;삭제됩니다.&nbsp;정말&nbsp;진행하시겠습니까?&nbsp;삭제시&nbsp;복원이&nbsp;불가능합니다.'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ANSWER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;PV_ANSWER.<br />
+<br />
+ENDFORM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_7A_REVIEW</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_7A_REVIEW</h2>
+<h3> Description: [HW-A] 버스 탑승 시뮬레이션  C15</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZHWC15_7A_REVIEW<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;[HW-A]&nbsp;버스&nbsp;탑승&nbsp;시뮬레이션&nbsp;&nbsp;C15<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZHWC15_7A_REVIEW.<br />
+<br />
+include <a href ="zhwc15_7a_review_top.html">ZHWC15_7A_REVIEW_TOP</a>.<br />
+include <a href ="zhwc15_7a_review_cls.html">ZHWC15_7A_REVIEW_CLS</a>.<br />
+<br />
+include <a href ="zhwc15_7a_review_f01.html">ZHWC15_7A_REVIEW_F01</a>.<br />
+<br />
+<br />
+<br />
+START-OF-SELECTION.<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;CREATE_PERSON&nbsp;USING&nbsp;'이의정'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10000.<br />
+&nbsp;&nbsp;PERFORM&nbsp;CREATE_PERSON&nbsp;USING&nbsp;'Gerrard'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5000.<br />
+&nbsp;&nbsp;PERFORM&nbsp;CREATE_PERSON&nbsp;USING&nbsp;'Drogba'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;0.<br />
+&nbsp;&nbsp;PERFORM&nbsp;CREATE_PERSON&nbsp;USING&nbsp;''<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10000.<br />
+&nbsp;&nbsp;PERFORM&nbsp;CREATE_PERSON&nbsp;USING&nbsp;'이의정'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-10000.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;총&nbsp;생성된&nbsp;사람의&nbsp;수는&nbsp;총&nbsp;3명<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;LCL_PERSON=&gt;DISPLAY_DISPLAY_N_PEOPLE(&nbsp;).<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;CREATE_BUS&nbsp;USING:&nbsp;'마을버스01'&nbsp;1200,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'시내버스&nbsp;271'&nbsp;1450,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'광역버스&nbsp;8800'&nbsp;2000,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;''&nbsp;1000,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'마을버스01'&nbsp;-1000,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'마을버스01'&nbsp;0.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;총&nbsp;생성된&nbsp;버스의&nbsp;수는&nbsp;총&nbsp;3대<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;LCL_BUS=&gt;DISPLAY_N_O_BUS(&nbsp;).<br />
+<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;GT_BUS&nbsp;INTO&nbsp;GS_BUS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GO_BUS&nbsp;=&nbsp;GS_BUS-BUS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GO_BUS-&gt;DISPLAY_ATTRIBUTES(&nbsp;).<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;GT_PERSON&nbsp;INTO&nbsp;GS_PERSON&nbsp;.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GO_PERSON&nbsp;=&nbsp;GS_PERSON-PERSON.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GO_PERSON-&gt;DISPLAY_ATTRIBUTE(&nbsp;).<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;FOR&nbsp;ALL&nbsp;INSTANCES&nbsp;를&nbsp;적어서,&nbsp;어떤&nbsp;사람이든&nbsp;관계없이&nbsp;전부<br />
+*&nbsp;ON_GET_ON_BUS&nbsp;가&nbsp;자동으로&nbsp;실행된다.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SET&nbsp;HANDLER&nbsp;LCL_EVENT_HANDLER=&gt;ON_GET_ON_BUS&nbsp;FOR&nbsp;ALL&nbsp;INSTANCES.<br />
+<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;GT_PERSON&nbsp;INTO&nbsp;GS_PERSON&nbsp;INDEX&nbsp;1.<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;GT_BUS&nbsp;INTO&nbsp;GS_BUS&nbsp;INDEX&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;GO_PERSON&nbsp;=&nbsp;GS_PERSON-PERSON.<br />
+&nbsp;&nbsp;GO_BUS&nbsp;=&nbsp;GS_BUS-BUS.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;"&nbsp;전달된&nbsp;사람이&nbsp;전달된&nbsp;버스에&nbsp;탑승하는&nbsp;과정을&nbsp;구현<br />
+*&nbsp;&nbsp;PERFORM&nbsp;TAKE_BUS&nbsp;USING&nbsp;GO_PERSON&nbsp;GO_BUS.<br />
+*<br />
+*&nbsp;&nbsp;"&nbsp;전달된&nbsp;사람이&nbsp;전달된&nbsp;버스에&nbsp;탑승하는&nbsp;과정을&nbsp;구현<br />
+*&nbsp;&nbsp;PERFORM&nbsp;TAKE_BUS&nbsp;USING&nbsp;GS_PERSON-PERSON&nbsp;GS_BUS-BUS.<br />
+*<br />
+*&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;GT_BUS&nbsp;INTO&nbsp;GS_BUS&nbsp;WITH&nbsp;KEY&nbsp;NUMBER&nbsp;=&nbsp;'광역버스&nbsp;8800'.<br />
+*&nbsp;&nbsp;"&nbsp;전달된&nbsp;사람이&nbsp;전달된&nbsp;버스에&nbsp;탑승하는&nbsp;과정을&nbsp;구현<br />
+*&nbsp;&nbsp;PERFORM&nbsp;TAKE_BUS&nbsp;USING&nbsp;GS_PERSON-PERSON&nbsp;GS_BUS-BUS.<br />
+*&nbsp;&nbsp;PERFORM&nbsp;TAKE_BUS&nbsp;USING&nbsp;GS_PERSON-PERSON&nbsp;GS_BUS-BUS.<br />
+*&nbsp;&nbsp;PERFORM&nbsp;TAKE_BUS&nbsp;USING&nbsp;GS_PERSON-PERSON&nbsp;GS_BUS-BUS.<br />
+*&nbsp;&nbsp;PERFORM&nbsp;TAKE_BUS&nbsp;USING&nbsp;GS_PERSON-PERSON&nbsp;GS_BUS-BUS.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;"&nbsp;&nbsp;전달된&nbsp;사람이&nbsp;전달된&nbsp;버스에&nbsp;탑승하는&nbsp;과정을&nbsp;구현<br />
+&nbsp;&nbsp;PERFORM&nbsp;TAKE_BUS_EVENT&nbsp;USING&nbsp;GO_PERSON&nbsp;GO_BUS.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;전달된&nbsp;사람이&nbsp;전달된&nbsp;버스에&nbsp;탑승하는&nbsp;과정을&nbsp;구현<br />
+&nbsp;&nbsp;PERFORM&nbsp;TAKE_BUS_EVENT&nbsp;USING&nbsp;GS_PERSON-PERSON&nbsp;GS_BUS-BUS.<br />
+<br />
+&nbsp;&nbsp;GO_PERSON-&gt;GET_OFF_BUS(&nbsp;).<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;GT_BUS&nbsp;INTO&nbsp;GS_BUS&nbsp;WITH&nbsp;KEY&nbsp;NUMBER&nbsp;=&nbsp;'광역버스&nbsp;8800'.<br />
+&nbsp;&nbsp;"&nbsp;전달된&nbsp;사람이&nbsp;전달된&nbsp;버스에&nbsp;탑승하는&nbsp;과정을&nbsp;구현<br />
+&nbsp;&nbsp;PERFORM&nbsp;TAKE_BUS_EVENT&nbsp;USING&nbsp;GS_PERSON-PERSON&nbsp;GS_BUS-BUS.<br />
+&nbsp;&nbsp;GO_PERSON-&gt;GET_OFF_BUS(&nbsp;).<br />
+&nbsp;&nbsp;PERFORM&nbsp;TAKE_BUS_EVENT&nbsp;USING&nbsp;GS_PERSON-PERSON&nbsp;GS_BUS-BUS.<br />
+&nbsp;&nbsp;GO_PERSON-&gt;GET_OFF_BUS(&nbsp;).<br />
+&nbsp;&nbsp;PERFORM&nbsp;TAKE_BUS_EVENT&nbsp;USING&nbsp;GS_PERSON-PERSON&nbsp;GS_BUS-BUS.<br />
+&nbsp;&nbsp;GO_PERSON-&gt;GET_OFF_BUS(&nbsp;).<br />
+&nbsp;&nbsp;PERFORM&nbsp;TAKE_BUS_EVENT&nbsp;USING&nbsp;GS_PERSON-PERSON&nbsp;GS_BUS-BUS.<br />
+&nbsp;&nbsp;GO_PERSON-&gt;GET_OFF_BUS(&nbsp;).<br />
+&nbsp;&nbsp;PERFORM&nbsp;TAKE_BUS_EVENT&nbsp;USING&nbsp;GS_PERSON-PERSON&nbsp;GS_BUS-BUS.<br />
+<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;GT_PERSON&nbsp;INTO&nbsp;GS_PERSON&nbsp;INDEX&nbsp;2.<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;TAKE_BUS_EVENT&nbsp;USING&nbsp;GS_PERSON-PERSON&nbsp;GS_BUS-BUS.<br />
+&nbsp;&nbsp;GS_BUS-BUS-&gt;ARRIVE_TERMINAL(&nbsp;).<br />
+<br />
+<br />
+&nbsp;&nbsp;"&nbsp;각&nbsp;버스별&nbsp;현황<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;GT_BUS&nbsp;INTO&nbsp;GS_BUS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GO_BUS&nbsp;=&nbsp;GS_BUS-BUS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GO_BUS-&gt;DISPLAY_ATTRIBUTES(&nbsp;).<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+&nbsp;&nbsp;"&nbsp;총&nbsp;버스의&nbsp;수익<br />
+&nbsp;&nbsp;LCL_BUS=&gt;DISPLAY_ALL_SALES(&nbsp;).<br />
+<br />
+&nbsp;&nbsp;"&nbsp;각&nbsp;사람별&nbsp;현황<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;GT_PERSON&nbsp;INTO&nbsp;GS_PERSON&nbsp;.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GO_PERSON&nbsp;=&nbsp;GS_PERSON-PERSON.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GO_PERSON-&gt;DISPLAY_ATTRIBUTE(&nbsp;).<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

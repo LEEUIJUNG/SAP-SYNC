@@ -1,0 +1,278 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_7A</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_7A</h2>
+<h3> Description: [HW-7A] 버스 탑승 시뮬레이션 C15</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZHWC15_7A<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;PROGR&nbsp;동작&nbsp;순서&nbsp;:&nbsp;1.&nbsp;승객&nbsp;OBJ&nbsp;출력&nbsp;-&gt;&nbsp;승객&nbsp;OBJ&nbsp;들의&nbsp;ATTR&nbsp;출력<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;2.&nbsp;버스&nbsp;OBJ&nbsp;출력&nbsp;-&gt;&nbsp;버스&nbsp;OBJ&nbsp;들의&nbsp;ATTR&nbsp;출력<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;3.&nbsp;버스&nbsp;탑승-&gt;&nbsp;버스들의&nbsp;수익의&nbsp;총합&nbsp;출력<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;4.&nbsp;버스&nbsp;종점&nbsp;도착&nbsp;-&gt;&nbsp;승객들의&nbsp;종점&nbsp;하차<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;5.&nbsp;최종&nbsp;OBJ&nbsp;들의&nbsp;ATTR&nbsp;출력<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+REPORT ZHWC15_7A.<br />
+<br />
+include <a href ="zhwc15_7a_cls.html">ZHWC15_7A_CLS</a>.<br />
+include <a href ="zhwc15_7a_top.html">ZHWC15_7A_TOP</a>.<br />
+include <a href ="zhwc15_7a_f01.html">ZHWC15_7A_F01</a>.<br />
+<br />
+<br />
+<br />
+START-OF-SELECTION.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;승객&nbsp;OBJ&nbsp;생성<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PERFORM&nbsp;CREATE_PERSON&nbsp;USING&nbsp;'이의정'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10000.<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;CREATE_PERSON&nbsp;USING&nbsp;'박설아'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10000.<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;CREATE_PERSON&nbsp;USING&nbsp;'이진희'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10000.<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;CREATE_PERSON&nbsp;USING&nbsp;'김종휘'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10000.<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;CREATE_PERSON&nbsp;USING&nbsp;'박현진'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10000.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;총&nbsp;생성된&nbsp;사람&nbsp;수&nbsp;출력<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SKIP&nbsp;1.<br />
+&nbsp;&nbsp;LCL_PERSON=&gt;DISPLAY_N_O_PEOPLE(&nbsp;).<br />
+&nbsp;&nbsp;SKIP&nbsp;2.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;BUS&nbsp;OBJ&nbsp;생성<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PERFORM&nbsp;CREATE_BUS&nbsp;USING&nbsp;'마을버스&nbsp;01'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1200.<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;CREATE_BUS&nbsp;USING&nbsp;'시내버스&nbsp;271'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1450.<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;CREATE_BUS&nbsp;USING&nbsp;'광역버스&nbsp;8800'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2000.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;총&nbsp;생성된&nbsp;버스&nbsp;수&nbsp;출력<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SKIP&nbsp;1.<br />
+&nbsp;&nbsp;LCL_BUS=&gt;DISPLAY_N_O_BUS(&nbsp;).<br />
+&nbsp;&nbsp;SKIP&nbsp;2.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+*&nbsp;모든&nbsp;생성된&nbsp;ATTR&nbsp;출력<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;GT_PERSON&nbsp;INTO&nbsp;GS_PERSON_DATA.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_PERSON_DATA-OBJ-&gt;DISPLAY_ATTRIBUTES(&nbsp;).<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;GT_BUS&nbsp;INTO&nbsp;GS_BUS_DATA.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_BUS_DATA-OBJ-&gt;DISPLAY_ATTRIBUTES(&nbsp;).<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;SKIP&nbsp;1.<br />
+<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;승객이&nbsp;버스에&nbsp;탑승&nbsp;하기전에&nbsp;HANDLER&nbsp;등록<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;"&nbsp;버스&nbsp;탑승&nbsp;EVENT&nbsp;를&nbsp;등록한다.<br />
+&nbsp;&nbsp;"&nbsp;어떤&nbsp;사람이든&nbsp;BUS&nbsp;에&nbsp;탑승하면&nbsp;작동을&nbsp;해야함으로&nbsp;FOR&nbsp;각&nbsp;승객&nbsp;OBJ&nbsp;를&nbsp;사용하지&nbsp;않고<br />
+&nbsp;&nbsp;"&nbsp;&nbsp;FOR&nbsp;ALL&nbsp;INSTANCES&nbsp;를&nbsp;사용한다.<br />
+&nbsp;&nbsp;"&nbsp;&nbsp;왜냐면&nbsp;빈&nbsp;버스가&nbsp;도착해도&nbsp;RAIS&nbsp;ARRIVE_TERMINAL&nbsp;로인해<br />
+&nbsp;&nbsp;"&nbsp;ON_GET_ON_BUS&nbsp;가&nbsp;작동하여&nbsp;승객이&nbsp;하차한&nbsp;것으로&nbsp;기록을&nbsp;해버린다.<br />
+&nbsp;&nbsp;SET&nbsp;HANDLER&nbsp;LCL_EVENT_HANDLER=&gt;ON_GET_ON_BUS&nbsp;FOR&nbsp;ALL&nbsp;INSTANCES.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;승객이&nbsp;버스에&nbsp;탑승<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PERFORM&nbsp;GET_ON_BUS&nbsp;USING&nbsp;'이의정'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'마을버스&nbsp;01'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;승객을&nbsp;한번더&nbsp;태울경우&nbsp;이미&nbsp;버스에&nbsp;탑승&nbsp;중이라는&nbsp;경고&nbsp;메세지를&nbsp;출력&nbsp;하기&nbsp;위한&nbsp;데이터<br />
+*&nbsp;raise&nbsp;error&nbsp;로&nbsp;경고&nbsp;메세지가&nbsp;나옴<br />
+*&nbsp;&nbsp;PERFORM&nbsp;GET_ON_BUS&nbsp;USING&nbsp;'이의정'<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'마을버스&nbsp;01'.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PERFORM&nbsp;GET_ON_BUS&nbsp;USING&nbsp;'박설아'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'마을버스&nbsp;01'.<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;GET_ON_BUS&nbsp;USING&nbsp;'박현진'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'광역버스&nbsp;8800'.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;버스의&nbsp;수익&nbsp;총합&nbsp;출력<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SKIP&nbsp;1.<br />
+&nbsp;&nbsp;LCL_BUS=&gt;DISPLAY_ALL_SALES(&nbsp;).<br />
+&nbsp;&nbsp;SKIP&nbsp;1.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;버스가&nbsp;종점에&nbsp;도착<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PERFORM&nbsp;ARRIVE_TERMINAL&nbsp;USING&nbsp;'마을버스&nbsp;01'.<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;ARRIVE_TERMINAL&nbsp;USING&nbsp;'시내버스&nbsp;271'.<br />
+<br />
+&nbsp;&nbsp;PERFORM&nbsp;ARRIVE_TERMINAL&nbsp;USING&nbsp;'광역버스&nbsp;8800'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;버스가&nbsp;없는데&nbsp;강제로&nbsp;내리는&nbsp;상황을&nbsp;구현<br />
+*&nbsp;앞의&nbsp;ARRIVE_TERMINAL&nbsp;에서&nbsp;광역버스에서&nbsp;마지막으로&nbsp;내린&nbsp;승객이&nbsp;재활용된다.<br />
+*&nbsp;바로&nbsp;앞에&nbsp;버스가&nbsp;내려서&nbsp;MO_BUS&nbsp;가&nbsp;비어&nbsp;있는&nbsp;&nbsp;바로&nbsp;직전&nbsp;승객에게&nbsp;강제&nbsp;종점하차<br />
+*&nbsp;경고&nbsp;메세지가&nbsp;안나오고&nbsp;handler&nbsp;가&nbsp;해제가&nbsp;되었음으로&nbsp;머스가&nbsp;종점에&nbsp;도착했다는&nbsp;메세지만&nbsp;나옴<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PERFORM&nbsp;ARRIVE_TERMINAL&nbsp;USING&nbsp;'광역버스&nbsp;8800'.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+<br />
+*&nbsp;모든&nbsp;생성된&nbsp;ATTR&nbsp;출력<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;GT_PERSON&nbsp;INTO&nbsp;GS_PERSON_DATA.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_PERSON_DATA-OBJ-&gt;DISPLAY_ATTRIBUTES(&nbsp;).<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;GT_BUS&nbsp;INTO&nbsp;GS_BUS_DATA.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_BUS_DATA-OBJ-&gt;DISPLAY_ATTRIBUTES(&nbsp;).<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;SKIP&nbsp;1.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;Hard&nbsp;coded<br />
+*&nbsp;&nbsp;&nbsp;NOT_YET_0N_BUS<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

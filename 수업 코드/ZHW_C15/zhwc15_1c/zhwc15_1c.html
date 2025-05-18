@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_1C</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_1C</h2>
+<h3> Description: [HW1-C] 구구단 계산하기 C15</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZHWCC15_1C<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;[HW1-C]&nbsp;구구단&nbsp;계산하기&nbsp;C15<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZHWCC15_1C.<br />
+<br />
+   </div>
+   <div class="codeComment">
+**&nbsp;변수이름이&nbsp;8자로&nbsp;제한이&nbsp;있음&nbsp;pa_12345678&nbsp;안됨,&nbsp;실무에서는&nbsp;P_123456&nbsp;이런식으로&nbsp;한글자가&nbsp;아까워서&nbsp;아낌<br />
+*PARAMETERS&nbsp;PA_NUM&nbsp;TYPE&nbsp;I.&nbsp;"&nbsp;입력&nbsp;받은&nbsp;구구단의&nbsp;단수&nbsp;"<br />
+*<br />
+*IF&nbsp;PA_NUM&nbsp;&lt;&nbsp;2&nbsp;OR&nbsp;PA_NUM&nbsp;&gt;&nbsp;9.<br />
+*&nbsp;&nbsp;MESSAGE&nbsp;'&nbsp;입력한&nbsp;단수가&nbsp;2보다&nbsp;작거나&nbsp;9보다&nbsp;큽니다.&nbsp;'&nbsp;TYPE&nbsp;'E'.&nbsp;"&nbsp;구구단의&nbsp;범위가&nbsp;2&nbsp;-&nbsp;9&nbsp;단을&nbsp;벗어날&nbsp;경우&nbsp;오류&nbsp;메시지&nbsp;출력&nbsp;"<br />
+*ENDIF.<br />
+*<br />
+*DATA:&nbsp;GV_RESULT&nbsp;TYPE&nbsp;I.&nbsp;"&nbsp;곱셈&nbsp;결과를&nbsp;저장하는&nbsp;변수&nbsp;"<br />
+*<br />
+**&nbsp;구구단&nbsp;실행<br />
+*DO&nbsp;9&nbsp;TIMES.&nbsp;"&nbsp;입력받은&nbsp;단의&nbsp;9곱&nbsp;까지&nbsp;계산&nbsp;"<br />
+*&nbsp;&nbsp;GV_RESULT&nbsp;=&nbsp;PA_NUM&nbsp;*&nbsp;SY-INDEX.&nbsp;"&nbsp;입력&nbsp;받은&nbsp;단의&nbsp;현재(SY-INDEX)&nbsp;곱&nbsp;&nbsp;"<br />
+*&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;PA_NUM,&nbsp;'&nbsp;*&nbsp;',&nbsp;SY-INDEX,&nbsp;'&nbsp;=&nbsp;',&nbsp;GV_RESULT.<br />
+*ENDDO.<br />
+<br />
+   </div>
+   <div class="code">
+PARAMETERS PA_DAN TYPE I. " 입력 받은 구구단의 단수 "<br />
+<br />
+IF PA_DAN &lt; 2 OR PA_DAN &gt; 9.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;TEXT-M01&nbsp;해도됨<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;MESSAGE&nbsp;'&nbsp;입력한&nbsp;단수가&nbsp;2보다&nbsp;작거나&nbsp;9보다&nbsp;큽니다.&nbsp;'&nbsp;TYPE&nbsp;'S'&nbsp;DISPLAY&nbsp;LIKE&nbsp;'I'.&nbsp;"&nbsp;구구단의&nbsp;범위가&nbsp;2&nbsp;-&nbsp;9&nbsp;단을&nbsp;벗어날&nbsp;경우&nbsp;오류&nbsp;메시지&nbsp;출력&nbsp;"<br />
+&nbsp;&nbsp;EXIT.&nbsp;"&nbsp;조건이&nbsp;많아지면&nbsp;햇갈리니&nbsp;EXIT을&nbsp;사용한다.&nbsp;IF&nbsp;문에서&nbsp;사용하면&nbsp;프로그램&nbsp;EXIT,&nbsp;LOOP&nbsp;에서는&nbsp;LOOP&nbsp;를&nbsp;나감<br />
+<br />
+ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;사용자가&nbsp;보기&nbsp;이쁘게&nbsp;표현하려고&nbsp;이렇게&nbsp;출력이&nbsp;이쁘게&nbsp;나옴<br />
+   </div>
+   <div class="code">
+DATA GV_MUL TYPE N LENGTH 1.<br />
+DATA GV_REUSLT TYPE N LENGTH 2.<br />
+<br />
+DO 9 TIMES.<br />
+&nbsp;&nbsp;GV_MUL&nbsp;=&nbsp;SY-INDEX.<br />
+&nbsp;&nbsp;GV_REUSLT&nbsp;=&nbsp;PA_DAN&nbsp;*&nbsp;GV_MUL.<br />
+<br />
+&nbsp;&nbsp;WRITE&nbsp;/&nbsp;PA_DAN.<br />
+&nbsp;&nbsp;WRITE&nbsp;'X'.<br />
+&nbsp;&nbsp;WRITE&nbsp;GV_MUL.<br />
+&nbsp;&nbsp;WRITE&nbsp;'='.<br />
+&nbsp;&nbsp;WRITE&nbsp;GV_REUSLT.<br />
+<br />
+ENDDO.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;Hard&nbsp;coded<br />
+*&nbsp;&nbsp;&nbsp;입력한&nbsp;단수가&nbsp;2보다&nbsp;작거나&nbsp;9보다&nbsp;큽니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

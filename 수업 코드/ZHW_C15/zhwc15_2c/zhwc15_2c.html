@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_2C</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_2C</h2>
+<h3> Description: [HW-2C] 항공편 조회 C15</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZHWC15_2C<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Title:&nbsp;[HW-2C]&nbsp;항공편&nbsp;조회&nbsp;C15<br />
+*&&nbsp;기존&nbsp;ITABL&nbsp;에&nbsp;추가해서&nbsp;사용<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZHWC15_2C.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;선언부<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+" 검색 결과를 보관 하기 위한 ITAB 을 위한 TYPE 설정<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;그리고&nbsp;추가적인&nbsp;이코노미와&nbsp;좌석&nbsp;예약율을&nbsp;저장하기&nbsp;위한&nbsp;타입도&nbsp;추가해놈<br />
+   </div>
+   <div class="code">
+TYPES: BEGIN OF TY_FLIGHT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-CONNID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLDATE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-FLDATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSMAX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSMAX,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSMAX_E&nbsp;&nbsp;&nbsp;TYPE&nbsp;I,&nbsp;"&nbsp;이코노미&nbsp;좌석의&nbsp;최대&nbsp;예약&nbsp;가능&nbsp;좌석수<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSMAX_B&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSMAX_B,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSMAX_F&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSMAX_F,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSOCC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSOCC,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSOCC_E&nbsp;&nbsp;&nbsp;TYPE&nbsp;I,&nbsp;"&nbsp;현재&nbsp;이코노미&nbsp;좌석의&nbsp;예약수<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSOCC_B&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSOCC_B,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSOCC_F&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSOCC_F,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERCENTAGE_E&nbsp;TYPE&nbsp;P&nbsp;DECIMALS&nbsp;2,&nbsp;"&nbsp;이코노미&nbsp;좌석의&nbsp;예약율<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERCENTAGE_B&nbsp;TYPE&nbsp;P&nbsp;DECIMALS&nbsp;2,&nbsp;"&nbsp;비지니스&nbsp;좌석의&nbsp;예약율<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERCENTAGE_F&nbsp;TYPE&nbsp;P&nbsp;DECIMALS&nbsp;2,&nbsp;"&nbsp;퍼스트&nbsp;좌석의&nbsp;예약율<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;TY_FLIGHT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;검색결과를&nbsp;보관하기&nbsp;위해&nbsp;Internal&nbsp;Table을&nbsp;선언한다.<br />
+*&nbsp;가.&nbsp;Line&nbsp;Type:&nbsp;필요한&nbsp;필드를&nbsp;직접&nbsp;구성<br />
+*&nbsp;나.&nbsp;Table&nbsp;Kind:&nbsp;Standard&nbsp;Table<br />
+*&nbsp;다.&nbsp;Key&nbsp;Components:&nbsp;CARRID,&nbsp;CONNID,&nbsp;FLDATE<br />
+   </div>
+   <div class="code">
+DATA: GT_FLIGHTS TYPE STANDARD TABLE OF TY_FLIGHT WITH NON-UNIQUE KEY CARRID, CONNID, FLDATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FLIGHT&nbsp;&nbsp;TYPE&nbsp;TY_FLIGHT.&nbsp;"&nbsp;START-OF-SELECTION.&nbsp;의&nbsp;Loop&nbsp;문&nbsp;에&nbsp;사용할&nbsp;Work&nbsp;Area<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;1.&nbsp;항공사ID와&nbsp;항공편을&nbsp;입력&nbsp;받는&nbsp;Select-Options를&nbsp;생성한다.<br />
+*&nbsp;가.Name:&nbsp;SO_CAR,&nbsp;SO_CON<br />
+*&nbsp;나.Type:&nbsp;필요&nbsp;변수를&nbsp;적절히&nbsp;선언하여&nbsp;참조<br />
+*&nbsp;SELECT-OPTIONS&nbsp;을&nbsp;활용하여&nbsp;범위를&nbsp;입력&nbsp;값으로&nbsp;가져간다.<br />
+   </div>
+   <div class="code">
+SELECT-OPTIONS: SO_CAR FOR GS_FLIGHT-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SO_CON&nbsp;FOR&nbsp;GS_FLIGHT-CONNID.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;구현부<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+<br />
+<br />
+AT SELECTION-SCREEN.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;항공사&nbsp;ID와&nbsp;항공편을&nbsp;이용해서&nbsp;Database&nbsp;Table&nbsp;SFLIGHT를&nbsp;검색할&nbsp;때&nbsp;검색조건으로&nbsp;사용한다.<br />
+*&nbsp;가.&nbsp;조회필드:<br />
+*&nbsp;1)&nbsp;항공사<br />
+*&nbsp;2)&nbsp;항공편<br />
+*&nbsp;3)&nbsp;비행일자<br />
+*&nbsp;4)&nbsp;최대좌석수,&nbsp;예약좌석수(이코노미,&nbsp;비즈니스,&nbsp;퍼스트)<br />
+*&nbsp;나.&nbsp;검색&nbsp;조건:&nbsp;입력받은&nbsp;검색조건에&nbsp;대한&nbsp;데이터만&nbsp;조회<br />
+*&nbsp;다.&nbsp;검색&nbsp;결과:&nbsp;Array&nbsp;Fetch&nbsp;방식으로&nbsp;Internal&nbsp;Table에&nbsp;보관<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECT&nbsp;CARRID&nbsp;CONNID&nbsp;FLDATE&nbsp;SEATSMAX&nbsp;SEATSMAX_B&nbsp;SEATSMAX_F&nbsp;SEATSOCC&nbsp;SEATSOCC_B&nbsp;SEATSOCC_F<br />
+&nbsp;&nbsp;&nbsp;FROM&nbsp;SFLIGHT<br />
+&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;GT_FLIGHTS&nbsp;"&nbsp;iNTO&nbsp;TABLe을&nbsp;사용하여&nbsp;ARRAY&nbsp;FETCH&nbsp;구현<br />
+&nbsp;&nbsp;&nbsp;WHERE&nbsp;CARRID&nbsp;IN&nbsp;SO_CAR&nbsp;AND&nbsp;CONNID&nbsp;IN&nbsp;SO_CON&nbsp;.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;7.Select문의&nbsp;조회결과가&nbsp;없는&nbsp;경우(항공사ID에&nbsp;대한&nbsp;정보가&nbsp;없는)&nbsp;적절한&nbsp;오류메시지를&nbsp;출력한다.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;&lt;&gt;&nbsp;0.&nbsp;"&nbsp;sy-surbrc&nbsp;가&nbsp;0&nbsp;이&nbsp;아닐경우<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;E000(Z_2_A)&nbsp;WITH&nbsp;SO_CAR.&nbsp;"&nbsp;PA_CAR가&nbsp;조회&nbsp;안될시<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;PA_CAR&nbsp;가&nbsp;존재하지&nbsp;않는다는&nbsp;MESSAGE를&nbsp;출력<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;&&nbsp;항공사&nbsp;ID에&nbsp;대한&nbsp;정보가&nbsp;존재하지&nbsp;않습니다.&nbsp;&&nbsp;부분에&nbsp;PA_CAR&nbsp;가&nbsp;작성됨<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+<br />
+<br />
+START-OF-SELECTION.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;출력시&nbsp;어떤&nbsp;항목에&nbsp;어떤&nbsp;값이&nbsp;있는지&nbsp;보기&nbsp;위한&nbsp;Header&nbsp;보기좋게&nbsp;각&nbsp;항목마다&nbsp;간격을&nbsp;정해둠<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;WRITE:&nbsp;/(10)&nbsp;'상태',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;'항공사',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30&nbsp;'비행번호',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;40&nbsp;'비행일자',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50&nbsp;'최대좌석',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;60&nbsp;'예약좌석',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;75&nbsp;'이코노미예약석',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;90&nbsp;'비즈니스예약석',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;105&nbsp;'퍼스트예약석',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;125&nbsp;'이코노미예약률',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;145&nbsp;'비즈니스예약률',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;165&nbsp;'퍼스트예약률'.<br />
+<br />
+&nbsp;&nbsp;ULINE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Internal&nbsp;Table에&nbsp;보관된&nbsp;결과를&nbsp;Loop문을&nbsp;통해&nbsp;WRITE하여&nbsp;화면에&nbsp;출력한다.<br />
+*&nbsp;Loop문을&nbsp;사용하여&nbsp;결과를&nbsp;출력하기&nbsp;위해서는&nbsp;Internal&nbsp;Table의&nbsp;Work&nbsp;Area가&nbsp;필요하다.<br />
+*&nbsp;적절한&nbsp;Structure&nbsp;변수를&nbsp;선언하도록&nbsp;하자.<br />
+*&nbsp;가.출력필드<br />
+*&nbsp;1)&nbsp;항공사<br />
+*&nbsp;2)&nbsp;항공편<br />
+*&nbsp;3)&nbsp;비행일자<br />
+*&nbsp;4)&nbsp;최대좌석수,&nbsp;예약좌석수(이코노미,&nbsp;비즈니스,&nbsp;퍼스트)<br />
+*&nbsp;5)&nbsp;클래스별&nbsp;예약율(이코노미,&nbsp;비즈니스,&nbsp;퍼스트)<br />
+*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;GT_FLIGHTS&nbsp;INTO&nbsp;GS_FLIGHT.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Internal&nbsp;Table에&nbsp;보관된&nbsp;데이터&nbsp;중&nbsp;각&nbsp;클래스&nbsp;예약율을&nbsp;계산한다.<br />
+*&nbsp;(이코노미는&nbsp;이코노미의&nbsp;예약율,&nbsp;비즈니스는&nbsp;비즈니스의&nbsp;예약율&nbsp;등)<br />
+*&nbsp;계산된&nbsp;예약율은&nbsp;출력용&nbsp;Internal&nbsp;Table을&nbsp;추가로&nbsp;만들어서&nbsp;새롭게&nbsp;기록하거나,<br />
+*&nbsp;기존&nbsp;Internal&nbsp;Table에&nbsp;예약율&nbsp;필드를&nbsp;추가해서&nbsp;기록한다.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;이코노미는&nbsp;테이블을&nbsp;확인하니&nbsp;/전체&nbsp;-&nbsp;비지니스&nbsp;-&nbsp;퍼스트로&nbsp;계산해야한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FLIGHT-SEATSMAX_E&nbsp;=&nbsp;GS_FLIGHT-SEATSMAX&nbsp;-&nbsp;GS_FLIGHT-SEATSMAX_B&nbsp;-&nbsp;GS_FLIGHT-SEATSMAX_F.&nbsp;"&nbsp;이코노미&nbsp;좌석의&nbsp;최대&nbsp;예약&nbsp;좌석수<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FLIGHT-SEATSOCC_E&nbsp;=&nbsp;GS_FLIGHT-SEATSOCC&nbsp;-&nbsp;GS_FLIGHT-SEATSOCC_B&nbsp;-&nbsp;GS_FLIGHT-SEATSOCC_F.&nbsp;"&nbsp;이코노미&nbsp;좌석의&nbsp;현재&nbsp;예약&nbsp;좌석수<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;예약율을&nbsp;계산하는&nbsp;변수<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FLIGHT-PERCENTAGE_E&nbsp;=&nbsp;(&nbsp;100&nbsp;*&nbsp;GS_FLIGHT-SEATSOCC_E&nbsp;)&nbsp;/&nbsp;GS_FLIGHT-SEATSMAX_E.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FLIGHT-PERCENTAGE_F&nbsp;=&nbsp;(&nbsp;100&nbsp;*&nbsp;GS_FLIGHT-SEATSOCC_F&nbsp;)&nbsp;/&nbsp;GS_FLIGHT-SEATSMAX_F.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FLIGHT-PERCENTAGE_B&nbsp;=&nbsp;(&nbsp;100&nbsp;*&nbsp;GS_FLIGHT-SEATSOCC_B&nbsp;)&nbsp;/&nbsp;GS_FLIGHT-SEATSMAX_B.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;6.&nbsp;출력한&nbsp;문장의&nbsp;가장&nbsp;첫번째&nbsp;위치에&nbsp;예약율에&nbsp;따라&nbsp;다음과&nbsp;같이&nbsp;아이콘을&nbsp;출력한다.<br />
+*&nbsp;기준은&nbsp;이코노미의&nbsp;예약율을&nbsp;기준으로&nbsp;한다.<br />
+*&nbsp;1)&nbsp;예약율이&nbsp;90%&nbsp;이상이면&nbsp;ICON_GREEN_LIGHT를,<br />
+*&nbsp;&nbsp;&nbsp;예약율이&nbsp;20%&nbsp;이상이면&nbsp;ICON_YELOWW_LIGHT&nbsp;를,<br />
+*&nbsp;&nbsp;&nbsp;예약율이&nbsp;20%&nbsp;미만이면&nbsp;ICON_RED_LIGHT&nbsp;를&nbsp;출력한다.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;GS_FLIGHT-PERCENTAGE_E&nbsp;&gt;=&nbsp;90.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/(10)&nbsp;ICON_GREEN_LIGHT&nbsp;AS&nbsp;ICON.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;&nbsp;GS_FLIGHT-PERCENTAGE_E&nbsp;&gt;&nbsp;20.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/(10)&nbsp;ICON_YELLOW_LIGHT&nbsp;AS&nbsp;ICON.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/(10)&nbsp;ICON_RED_LIGHT&nbsp;AS&nbsp;ICON.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;&nbsp;&nbsp;20&nbsp;GS_FLIGHT-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30&nbsp;GS_FLIGHT-CONNID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;40&nbsp;GS_FLIGHT-FLDATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50&nbsp;GS_FLIGHT-SEATSMAX,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;60&nbsp;GS_FLIGHT-SEATSOCC,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;75&nbsp;GS_FLIGHT-SEATSOCC_E,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;90&nbsp;GS_FLIGHT-SEATSOCC_B,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;105&nbsp;GS_FLIGHT-SEATSOCC_F,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;125&nbsp;GS_FLIGHT-PERCENTAGE_E,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;145&nbsp;GS_FLIGHT-PERCENTAGE_B,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;165&nbsp;GS_FLIGHT-PERCENTAGE_F.<br />
+<br />
+<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;GT_FLIGHTS&nbsp;FROM&nbsp;GS_FLIGHT&nbsp;INDEX&nbsp;SY-TABIX.&nbsp;"&nbsp;현재&nbsp;Loop&nbsp;가&nbsp;돌고&nbsp;있는&nbsp;SY-TABIX&nbsp;행의&nbsp;ITAB&nbsp;GT_FLIGHTS의<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;값을&nbsp;위에&nbsp;여러&nbsp;정보가&nbsp;추가된&nbsp;GS_FLIGHT&nbsp;로&nbsp;변경한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;GS_FLIGHT.&nbsp;"&nbsp;Work&nbsp;Area&nbsp;초기화<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;SO_CAR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_CON&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;Z_2_A<br />
+*000&nbsp;&nbsp;&nbsp;&&nbsp;항공사&nbsp;ID에&nbsp;대한&nbsp;정보가&nbsp;존재하지&nbsp;않습니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

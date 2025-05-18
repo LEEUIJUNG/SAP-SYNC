@@ -1,0 +1,147 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_6A_SCR</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_6A_SCR</h2>
+<h3> Description: SCREEN</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZHWC15_6A_SCR<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;SELECTION&nbsp;SCREEN&nbsp;을&nbsp;선언&nbsp;하는&nbsp;INDLUDE&nbsp;파일이다.<br />
+*&&nbsp;실행모드,&nbsp;검색&nbsp;조건,&nbsp;검색&nbsp;조건(선택&nbsp;사항)&nbsp;을&nbsp;입력&nbsp;받는다.<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+*&nbsp;RADIO&nbsp;BUTTON&nbsp;을&nbsp;다루는&nbsp;SCREEN&nbsp;BLOCK<br />
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK BLOCK1 WITH FRAME  TITLE TEXT-T01.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;BEGIN&nbsp;OF&nbsp;LINE.&nbsp;"&nbsp;RADIO&nbsp;BTN&nbsp;을&nbsp;한줄에&nbsp;적음<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;RADIO&nbsp;BTN&nbsp;을&nbsp;3개를&nbsp;만든다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;각각의&nbsp;버튼은&nbsp;같은&nbsp;GROUP&nbsp;으로&nbsp;묶어서&nbsp;한&nbsp;요소만&nbsp;선택이&nbsp;가능하도록&nbsp;한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;RADIO&nbsp;BTN&nbsp;클릭&nbsp;이벤트를&nbsp;받기&nbsp;위해&nbsp;USER&nbsp;COMMAND&nbsp;를&nbsp;정의한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;향후&nbsp;SCREEN&nbsp;EVENT&nbsp;를&nbsp;다루기&nbsp;위해&nbsp;MODIF&nbsp;ID&nbsp;를&nbsp;부여한다.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;RADIO&nbsp;BTN&nbsp;의&nbsp;시작&nbsp;위치&nbsp;(1)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;POSITION&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;PA_R1&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;FC1&nbsp;USER-COMMAND&nbsp;UC1&nbsp;DEFAULT&nbsp;'X'&nbsp;.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;RADIO&nbsp;BTN&nbsp;에&nbsp;표시될&nbsp;이름을&nbsp;(출력길이&nbsp;20)&nbsp;PA_R1&nbsp;에서&nbsp;가져온다.&nbsp;(TEXT&nbsp;ELEMENT에&nbsp;선언)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;기본&nbsp;검색&nbsp;조건을&nbsp;fc1&nbsp;btn&nbsp;(insert&nbsp;data)&nbsp;에&nbsp;표시한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;(20)&nbsp;FOR&nbsp;FIELD&nbsp;PA_R1&nbsp;.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;POSITION&nbsp;25.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;PA_R2&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;FC1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;(20)&nbsp;FOR&nbsp;FIELD&nbsp;PA_R2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;POSITION&nbsp;49.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;PA_R3&nbsp;RADIOBUTTON&nbsp;GROUP&nbsp;FC1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECTION-SCREEN&nbsp;COMMENT&nbsp;(20)&nbsp;FOR&nbsp;FIELD&nbsp;PA_R3&nbsp;.<br />
+<br />
+&nbsp;&nbsp;SELECTION-SCREEN&nbsp;END&nbsp;OF&nbsp;LINE.<br />
+<br />
+<br />
+SELECTION-SCREEN END OF BLOCK BLOCK1.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+<br />
+<br />
+*&nbsp;삭제모드시&nbsp;비활성화&nbsp;설정을&nbsp;위해&nbsp;ID&nbsp;을&nbsp;설정한다.&nbsp;MODIF&nbsp;ID&nbsp;=&nbsp;M1<br />
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+*&nbsp;검색조건을&nbsp;받기&nbsp;위한&nbsp;SCREEN&nbsp;BLOCK<br />
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+   </div>
+   <div class="code">
+SELECTION-SCREEN BEGIN OF BLOCK BLOCK2 WITH FRAME TITLE TEXT-T02.<br />
+<br />
+&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;SO_CAR&nbsp;FOR&nbsp;GV_CARRID&nbsp;OBLIGATORY&nbsp;MODIF&nbsp;ID&nbsp;M1&nbsp;,&nbsp;"&nbsp;CARRID&nbsp;는&nbsp;필수로&nbsp;입력해야한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SO_CON&nbsp;FOR&nbsp;GV_CONNID&nbsp;MODIF&nbsp;ID&nbsp;M1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SO_FLD&nbsp;FOR&nbsp;GV_FLDATE&nbsp;MODIF&nbsp;ID&nbsp;M1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SO_OD&nbsp;FOR&nbsp;GV_ORDER_DATE&nbsp;MODIF&nbsp;ID&nbsp;M1.<br />
+<br />
+SELECTION-SCREEN END OF BLOCK BLOCK2.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+<br />
+<br />
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+*&nbsp;선택적인&nbsp;추가&nbsp;검색&nbsp;조건을&nbsp;받기&nbsp;위한&nbsp;SCREEN&nbsp;BLOCK<br />
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+   </div>
+   <div class="code">
+" NO INTERVALS 를 적음으로 SCREEN BLCOK 내에서는 SO 의 범위 입력을  제거<br />
+SELECTION-SCREEN BEGIN OF BLOCK BLOCK3 WITH FRAME TITLE TEXT-T03 NO INTERVALS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT-OPTIONS:&nbsp;SO_CTRF&nbsp;FOR&nbsp;GV_COUNTRYFR&nbsp;MODIF&nbsp;ID&nbsp;M1&nbsp;&nbsp;,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SO_CTYF&nbsp;FOR&nbsp;GV_CITYFROM&nbsp;MODIF&nbsp;ID&nbsp;M1&nbsp;&nbsp;,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SO_CTRT&nbsp;FOR&nbsp;GV_COUNTRYTO&nbsp;MODIF&nbsp;ID&nbsp;M1&nbsp;&nbsp;,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SO_CTYT&nbsp;FOR&nbsp;GV_CITYTO&nbsp;MODIF&nbsp;ID&nbsp;M1&nbsp;&nbsp;.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PARAMETERS:&nbsp;PA_CNC&nbsp;AS&nbsp;CHECKBOX&nbsp;MODIF&nbsp;ID&nbsp;M1.&nbsp;"&nbsp;예약&nbsp;취소정보를&nbsp;선택하기&nbsp;위한&nbsp;CHECK&nbsp;BOX<br />
+<br />
+SELECTION-SCREEN END OF BLOCK BLOCK3.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

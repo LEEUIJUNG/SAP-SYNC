@@ -1,0 +1,273 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>MZHWC15_6B_REVIEW_F01</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: MZHWC15_6B_REVIEW_F01</h2>
+<h3> Description: SUB</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MZHWC15_6B_REVIEW_F01<br />
+*&---------------------------------------------------------------------*<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;ICON_CREATE<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;P_<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;P_<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;--&nbsp;GV_STATUS_ICON<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM ICON_CREATE  USING    VALUE(P_ICON_NAME)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;VALUE(P_TEXT)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;CV_STATUS_ICON&nbsp;TYPE&nbsp;ICONS-TEXT.<br />
+<br />
+&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'ICON_CREATE'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NAME&nbsp;&nbsp;&nbsp;=&nbsp;P_ICON_NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;아이콘이름<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TEXT&nbsp;&nbsp;&nbsp;=&nbsp;P_TEXT&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;아이콘&nbsp;우측에&nbsp;출력할&nbsp;문자열<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RESULT&nbsp;=&nbsp;CV_STATUS_ICON.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;SCREEN&nbsp;의&nbsp;ICON&nbsp;FIELD<br />
+<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SELECT_SINGLE_CUSTOMER<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM SELECT_SINGLE_CUSTOMER .<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;SAP&nbsp;Open&nbsp;SQL의&nbsp;implicit&nbsp;WA&nbsp;를&nbsp;사용하기&nbsp;때문이다<br />
+*&nbsp;&nbsp;시스템은&nbsp;SPFLI&nbsp;TAB과&nbsp;동일한&nbsp;구조의&nbsp;암묵적&nbsp;WA&nbsp;를&nbsp;자동으로&nbsp;사용하여&nbsp;데이터를&nbsp;저장한다<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;SCUSTOM<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;ID&nbsp;=&nbsp;SBOOK-CUSTOMID.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SELECT_SINGLE_TRAVELAG<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM SELECT_SINGLE_TRAVELAG .<br />
+<br />
+&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;STRAVELAG<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;AGENCYNUM&nbsp;=&nbsp;SBOOK-AGENCYNUM.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SELECT_FIX_VALUE_CUSTTYPE<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM SELECT_FIX_VALUE_CUSTTYPE CHANGING VALUE(PV_CUSTTYPE_TEXT).<br />
+<br />
+&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'RKE_DOMVALUE_TEXT_GET'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_DOMA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'S_CUSTTYPE'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_DOMVALUE&nbsp;=&nbsp;SCUSTOM-CUSTTYPE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E_DDTEXT&nbsp;&nbsp;&nbsp;=&nbsp;PV_CUSTTYPE_TEXT.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM SELECT_FIX_VALUE_CLASS CHANGING VALUE(PV_CLASS_TEXT).<br />
+<br />
+&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'RKE_DOMVALUE_TEXT_GET'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_DOMA&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'S_CLASS'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;I_DOMVALUE&nbsp;=&nbsp;SBOOK-CLASS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;E_DDTEXT&nbsp;&nbsp;&nbsp;=&nbsp;PV_CLASS_TEXT.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SELECT_COUNTRY_NAME<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;SPFLI_COUNTRYFR<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;--&nbsp;SCR_0120_LANDX_FROM<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;국가&nbsp;코드만&nbsp;시용,&nbsp;국가&nbsp;명만&nbsp;반환.<br />
+   </div>
+   <div class="code">
+FORM SELECT_COUNTRY_NAME  USING VALUE(PV_COUNTRY) TYPE T005T-LAND1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;VALUE(CV_LANDX)&nbsp;TYPE&nbsp;T005T-LANDX.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;만약&nbsp;국가명&nbsp;코드가&nbsp;없으면&nbsp;DB&nbsp;TAB&nbsp;T005T&nbsp;에서&nbsp;DATA를&nbsp;가져온다.<br />
+&nbsp;&nbsp;IF&nbsp;GT_T005T&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT&nbsp;LAND1&nbsp;"&nbsp;국가코드<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LANDX&nbsp;"&nbsp;국가명<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;T005T<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;GT_T005T.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;국가&nbsp;코드&nbsp;기준으로&nbsp;정렬<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SORT&nbsp;GT_T005T&nbsp;BY&nbsp;LAND1.<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;모든&nbsp;국가명을&nbsp;보유한&nbsp;ITAB&nbsp;GT_T005T&nbsp;를&nbsp;대상으로&nbsp;조회를&nbsp;진행<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;GT_T005T&nbsp;INTO&nbsp;GS_T005T&nbsp;WITH&nbsp;KEY&nbsp;LAND1&nbsp;=&nbsp;PV_COUNTRY&nbsp;BINARY&nbsp;SEARCH.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;결과가&nbsp;있으면&nbsp;값을&nbsp;CV_LANDX&nbsp;로&nbsp;전달<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CV_LANDX&nbsp;=&nbsp;GS_T005T-LANDX.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;값이&nbsp;없다면&nbsp;빈값&nbsp;전달<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;CV_LANDX.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SELECT_SINGLE_CONNECTION<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;--&gt;&nbsp;&nbsp;p1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&&nbsp;&lt;--&nbsp;&nbsp;p2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM SELECT_SINGLE_CONNECTION .<br />
+&nbsp;&nbsp;"&nbsp;키&nbsp;필드를&nbsp;기준으로&nbsp;검색하기&nbsp;때문에,&nbsp;일치하는&nbsp;결과는&nbsp;한&nbsp;줄&nbsp;밖에&nbsp;없다.<br />
+&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;*&nbsp;FROM&nbsp;SPFLI&nbsp;WHERE&nbsp;CARRID&nbsp;=&nbsp;SDYN_BOOK-CARRID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;CONNID&nbsp;=&nbsp;SDYN_BOOK-CONNID.<br />
+<br />
+ENDFORM.<br />
+<br />
+FORM SELECT_SINGLE_FLIGHT.<br />
+&nbsp;&nbsp;"&nbsp;키&nbsp;필드를&nbsp;기준으로&nbsp;검색하기&nbsp;때문에,&nbsp;일치하는&nbsp;결과는&nbsp;한&nbsp;줄&nbsp;밖에&nbsp;없다.<br />
+&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;*&nbsp;FROM&nbsp;SFLIGHT&nbsp;WHERE&nbsp;CARRID&nbsp;=&nbsp;SDYN_BOOK-CARRID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;CONNID&nbsp;=&nbsp;SDYN_BOOK-CONNID&nbsp;AND&nbsp;FLDATE&nbsp;=&nbsp;SDYN_BOOK-FLDATE.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SELECT_AIRPORT_NAME<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;text<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;--&gt;&nbsp;SPFLI_AIRPFROM<br />
+*&&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;--&nbsp;SCR_0120_AIRFROM_NAME<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM SELECT_AIRPORT_NAME  USING    VALUE(PV_AIRPORT) TYPE SAIRPORT-ID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CHANGING&nbsp;VALUE(CV_AIRPORT)&nbsp;TYPE&nbsp;SAIRPORT-NAME.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;만약&nbsp;공항명&nbsp;코드가&nbsp;없으면&nbsp;DB&nbsp;TAB&nbsp;에서&nbsp;DATA를&nbsp;가져온다.<br />
+&nbsp;&nbsp;IF&nbsp;GT_AIRPORT&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SELECT&nbsp;&nbsp;ID"&nbsp;공항코드<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NAME&nbsp;"&nbsp;공항이름<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;SAIRPORT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;GT_AIRPORT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;국가&nbsp;코드&nbsp;기준으로&nbsp;정렬<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SORT&nbsp;GT_AIRPORT&nbsp;BY&nbsp;ID.<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;모든&nbsp;공항명을&nbsp;보유한&nbsp;ITAB&nbsp;를&nbsp;대상으로&nbsp;조회를&nbsp;진행<br />
+&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;GT_AIRPORT&nbsp;INTO&nbsp;GS_AIRPORT&nbsp;WITH&nbsp;KEY&nbsp;ID&nbsp;=&nbsp;PV_AIRPORT&nbsp;BINARY&nbsp;SEARCH.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;결과가&nbsp;있으면&nbsp;값을&nbsp;CV_LANDX&nbsp;로&nbsp;전달<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CV_AIRPORT&nbsp;=&nbsp;GS_AIRPORT-NAME.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;값이&nbsp;없다면&nbsp;빈값&nbsp;전달<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;CV_AIRPORT.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

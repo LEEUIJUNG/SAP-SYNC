@@ -1,0 +1,127 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_1A</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_1A</h2>
+<h3> Description: Program ZHWC15_1A</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZHWCC15_1A<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;[HW1-A]&nbsp;누적합&nbsp;계산하기&nbsp;C15<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZHWCC15_1A.<br />
+<br />
+PARAMETERS: PA_NUM TYPE I. " 정수를 입력 받는 파라미터 "<br />
+<br />
+IF PA_NUM &lt; 1.<br />
+&nbsp;&nbsp;MESSAGE&nbsp;'&nbsp;입력&nbsp;받은&nbsp;정수가&nbsp;1보다&nbsp;작습니다.&nbsp;'&nbsp;TYPE&nbsp;'E'.&nbsp;"&nbsp;입력값이&nbsp;1보다&nbsp;작을&nbsp;경우&nbsp;오류&nbsp;메시지&nbsp;출력&nbsp;"<br />
+&nbsp;&nbsp;"ERROR&nbsp;메세지는&nbsp;되도록&nbsp;사용하지&nbsp;말고(심각한&nbsp;ERROR만&nbsp;사용하자)&nbsp;오류처럼&nbsp;보여주고&nbsp;싶으면&nbsp;display&nbsp;like를&nbsp;사용해서&nbsp;하자"<br />
+&nbsp;&nbsp;"&nbsp;MESSAGE&nbsp;'&nbsp;입력&nbsp;받은&nbsp;정수가&nbsp;1보다&nbsp;작습니다.&nbsp;'&nbsp;TYPE&nbsp;'S'&nbsp;DISPLAY&nbsp;LIKE&nbsp;'I'.&nbsp;이런식으로&nbsp;사용&nbsp;경고처럼&nbsp;출력하라는&nbsp;의미<br />
+<br />
+ELSEIF PA_NUM &gt; 100.<br />
+&nbsp;&nbsp;MESSAGE&nbsp;'&nbsp;입력&nbsp;받은&nbsp;정수가&nbsp;100보다&nbsp;큽니다.&nbsp;'&nbsp;TYPE&nbsp;'E'.&nbsp;"&nbsp;입력값이&nbsp;100보다&nbsp;클&nbsp;경우&nbsp;오류&nbsp;메시지&nbsp;출력&nbsp;"<br />
+<br />
+ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;이런식으로&nbsp;명확히&nbsp;작성을&nbsp;해주면&nbsp;좋겠다&nbsp;회사&nbsp;실무에서&nbsp;하듯이<br />
+*IF&nbsp;PA_NUM&nbsp;&lt;&nbsp;1.<br />
+*&nbsp;&nbsp;MESSAGE&nbsp;'&nbsp;입력&nbsp;받은&nbsp;정수가&nbsp;1보다&nbsp;작습니다&nbsp;(&nbsp;숫자&nbsp;범위&nbsp;1&nbsp;-&nbsp;100&nbsp;)&nbsp;.&nbsp;'&nbsp;TYPE&nbsp;'E'.&nbsp;"&nbsp;입력값이&nbsp;1보다&nbsp;작을&nbsp;경우&nbsp;오류&nbsp;메시지&nbsp;출력&nbsp;"<br />
+*&nbsp;&nbsp;WRITE&nbsp;:&nbsp;"출력&nbsp;내용"(e01).&nbsp;text&nbsp;symbol&nbsp;사용해서&nbsp;출력해도&nbsp;됨<br />
+*<br />
+*ELSEIF&nbsp;PA_NUM&nbsp;&gt;&nbsp;100.<br />
+*&nbsp;&nbsp;MESSAGE&nbsp;'&nbsp;입력&nbsp;받은&nbsp;정수가&nbsp;100보다&nbsp;큽니다&nbsp;(&nbsp;숫자&nbsp;범위&nbsp;1&nbsp;-&nbsp;100&nbsp;)&nbsp;.&nbsp;'&nbsp;TYPE&nbsp;'E'.&nbsp;"&nbsp;입력값이&nbsp;100보다&nbsp;클&nbsp;경우&nbsp;오류&nbsp;메시지&nbsp;출력&nbsp;"<br />
+*<br />
+*ENDIF.<br />
+<br />
+   </div>
+   <div class="code">
+DATA: GV_SUM   TYPE I, " 누적합을 저장하는 변수 "<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_INDEX&nbsp;TYPE&nbsp;I.&nbsp;"&nbsp;반복문을&nbsp;위한&nbsp;인덱스&nbsp;변수&nbsp;"<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;누적합&nbsp;계산&nbsp;및&nbsp;출력<br />
+   </div>
+   <div class="code">
+DO PA_NUM TIMES. " 입력받은 PA_NUM 만큼 반복문 실행 "<br />
+&nbsp;&nbsp;GV_INDEX&nbsp;=&nbsp;SY-INDEX.&nbsp;"&nbsp;GV_INDEX를&nbsp;loop&nbsp;index&nbsp;값으로&nbsp;할당&nbsp;"<br />
+&nbsp;&nbsp;GV_SUM&nbsp;=&nbsp;GV_SUM&nbsp;+&nbsp;GV_INDEX.&nbsp;"&nbsp;GV_SUM&nbsp;에&nbsp;loop&nbsp;index&nbsp;값&nbsp;만큼&nbsp;가산&nbsp;"<br />
+<br />
+&nbsp;&nbsp;"ADD&nbsp;GV_INDEX&nbsp;TO&nbsp;GV_SUM&nbsp;이렇게&nbsp;작성해도&nbsp;상관&nbsp;없음<br />
+<br />
+ENDDO.<br />
+<br />
+WRITE: / ' 입력된 값은 다음과 같다 ', PA_NUM ,' | 누적합 : ', GV_SUM.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;Hard&nbsp;coded<br />
+*&nbsp;&nbsp;&nbsp;입력&nbsp;받은&nbsp;정수가&nbsp;1보다&nbsp;작습니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

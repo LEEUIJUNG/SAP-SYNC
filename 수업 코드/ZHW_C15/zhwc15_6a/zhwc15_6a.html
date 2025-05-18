@@ -1,0 +1,259 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_6A</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_6A</h2>
+<h3> Description: [HW-6A] 예약정보 집계 및 조회 C15</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZHWC15_6A<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;[HW-6A]&nbsp;예약정보&nbsp;집계&nbsp;및&nbsp;조회&nbsp;C15<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZHWC15_6A.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+*&nbsp;선언관련&nbsp;INCLUDE<br />
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+   </div>
+   <div class="code">
+include <a href ="zhwc15_6a_top.html">ZHWC15_6A_TOP</a>.<br />
+include <a href ="zhwc15_6a_scr.html">ZHWC15_6A_SCR</a>.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;INCLUDE&nbsp;ZHWC15_6A_CLS.&nbsp;"&nbsp;사용안함<br />
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+<br />
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+*&nbsp;구현&nbsp;관련&nbsp;INCLUDE<br />
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+   </div>
+   <div class="code">
+include <a href ="zhwc15_6a_pbo.html">ZHWC15_6A_PBO</a>.<br />
+include <a href ="zhwc15_6a_pai.html">ZHWC15_6A_PAI</a>.<br />
+include <a href ="zhwc15_6a_f01.html">ZHWC15_6A_F01</a>.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+<br />
+<br />
+<br />
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+*&nbsp;구현부<br />
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+*&nbsp;SS&nbsp;가&nbsp;실행되기전&nbsp;발생<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;SS가&nbsp;실행되는&nbsp;화면&nbsp;EVENT<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN.<br />
+&nbsp;&nbsp;"&nbsp;검색&nbsp;조건을&nbsp;검증<br />
+&nbsp;&nbsp;PERFORM&nbsp;CHECK_JOIN_TABLE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;DELET_DB_DATA&nbsp;만&nbsp;여기서&nbsp;실행시킴&nbsp;(POP&nbsp;UP&nbsp;창&nbsp;발생시&nbsp;화면&nbsp;이동&nbsp;이슈)<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;"CANCEL&nbsp;에&nbsp;CHECK&nbsp;BOX&nbsp;의&nbsp;값을&nbsp;할당<br />
+&nbsp;&nbsp;GV_CANCEL&nbsp;=&nbsp;PA_CNC.<br />
+   </div>
+   <div class="codeComment">
+*<br />
+**&nbsp;RADIO&nbsp;BTN&nbsp;CLICK&nbsp;에&nbsp;따른&nbsp;분기를&nbsp;처리한다.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;IF&nbsp;PA_R3&nbsp;=&nbsp;ABAP_ON&nbsp;AND&nbsp;SSCRFIELDS-UCOMM&nbsp;=&nbsp;'ONLI'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;SSCRFIELDS-UCOMM&nbsp;=&nbsp;'ONLI'&nbsp;는&nbsp;SS&nbsp;화면에서&nbsp;EXCUTE&nbsp;버튼을&nbsp;누를때&nbsp;실행되는&nbsp;SS의&nbsp;UCOMM이다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;DELETE&nbsp;ALL&nbsp;MODE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;ZDETAIL_C15&nbsp;DB&nbsp;TAB&nbsp;에서&nbsp;모든데이터를&nbsp;삭제한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;DELET_DB_DATA.<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;SS가&nbsp;실행되는&nbsp;화면의&nbsp;PBO<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN OUTPUT.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;INSERT&nbsp;,&nbsp;SELECT&nbsp;MODE<br />
+&nbsp;&nbsp;IF&nbsp;PA_R1&nbsp;=&nbsp;'X'&nbsp;OR&nbsp;PA_R2&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;INPUT&nbsp;FIELD&nbsp;다시&nbsp;활성화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;INSERT&nbsp;,&nbsp;SELECT&nbsp;MODE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;SCREEN-GROUP1&nbsp;=&nbsp;'M1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCREEN-INPUT&nbsp;=&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;DELETE&nbsp;MODE<br />
+&nbsp;&nbsp;ELSEIF&nbsp;PA_R3&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;DELETE&nbsp;ALL&nbsp;MODE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;OBLIGATORY&nbsp;때문에&nbsp;CARRID&nbsp;에&nbsp;값을&nbsp;입력해야&nbsp;필드가&nbsp;잠김<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;TO-DO:&nbsp;추후&nbsp;해결책&nbsp;모색<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;모든&nbsp;인풋필드&nbsp;비활성화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;SCREEN-GROUP1&nbsp;=&nbsp;'M1'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCREEN-INPUT&nbsp;=&nbsp;0.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;SCREEN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;SS가&nbsp;끝나고&nbsp;EXCUTE<br />
+   </div>
+   <div class="code">
+START-OF-SELECTION.<br />
+&nbsp;&nbsp;"&nbsp;여기에&nbsp;있으면&nbsp;POP&nbsp;이&nbsp;나오고&nbsp;계속&nbsp;빈화면으로&nbsp;전환이&nbsp;되어<br />
+&nbsp;&nbsp;"&nbsp;RADIO&nbsp;BTIN&nbsp;EVENT중&nbsp;DELEL를&nbsp;AT&nbsp;SELECTION-SCREEN.&nbsp;으로&nbsp;옮김<br />
+&nbsp;&nbsp;"&nbsp;TO_DO&nbsp;:&nbsp;&nbsp;&nbsp;POP&nbsp;UP&nbsp;이&nbsp;START&nbsp;OF&nbsp;SELECTION&nbsp;에서&nbsp;작동해도&nbsp;빈화면&nbsp;이동이&nbsp;안되는&nbsp;방법&nbsp;찾기<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;RADIO&nbsp;BTN&nbsp;CLICK&nbsp;에&nbsp;따른&nbsp;분기를&nbsp;처리한다.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CASE&nbsp;ABAP_ON.&nbsp;"&nbsp;'X'&nbsp;와&nbsp;같다<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;PA_R1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;INSERT&nbsp;MODE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;DB&nbsp;TAB&nbsp;ZDETAIL_C15&nbsp;의&nbsp;값을&nbsp;검색&nbsp;조건에&nbsp;맞춰&nbsp;UPDATE&nbsp;한다.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;UPDATE_DB_DATA.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;PA_R2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;SELECT&nbsp;MODE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;ZDETAIL_C15&nbsp;DB&nbsp;TAB&nbsp;에서&nbsp;DATA&nbsp;를&nbsp;조회해서&nbsp;ITAB에&nbsp;저장하는&nbsp;한다.<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;GET_DB_DATA.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;ALV&nbsp;화면을&nbsp;설정한다<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;SET_ALV_OPTION.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;ALV&nbsp;화면을&nbsp;설정한다<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;SET_ALV_0100_FAST.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;ALV&nbsp;화면을&nbsp;호출한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;DISPLAY_ALV_0100.<br />
+<br />
+<br />
+&nbsp;&nbsp;ENDCASE.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*GUI&nbsp;Texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;T0100&nbsp;--&gt;&nbsp;Execute&nbsp;Mode:&nbsp;Select&nbsp;Data<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;E01&nbsp;검색&nbsp;조건이&nbsp;DB에&nbsp;존재하지&nbsp;않습니다.<br />
+*&nbsp;E02&nbsp;DB&nbsp;에&nbsp;중복된&nbsp;DATA가&nbsp;존재합니다.<br />
+*&nbsp;E03&nbsp;DB&nbsp;검색에&nbsp;실패&nbsp;하였습니다.<br />
+*&nbsp;S01&nbsp;DB에&nbsp;데이터를&nbsp;저장하였습니다<br />
+*&nbsp;S02&nbsp;DB에서&nbsp;데이터를&nbsp;가져왔습니다<br />
+*&nbsp;T01&nbsp;Execute&nbsp;Mode<br />
+*&nbsp;T02&nbsp;Selection&nbsp;Options<br />
+*&nbsp;T03&nbsp;Additonal&nbsp;Options<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PA_CNC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Include&nbsp;Cancelled&nbsp;Book<br />
+*&nbsp;PA_R1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Insert&nbsp;Data<br />
+*&nbsp;PA_R2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Select&nbsp;Data<br />
+*&nbsp;PA_R3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Delete&nbsp;All&nbsp;Data<br />
+*&nbsp;SO_CAR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_CON&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_FLD&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_OD&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;Hard&nbsp;coded<br />
+*&nbsp;&nbsp;&nbsp;Error&nbsp;when&nbsp;creating&nbsp;the&nbsp;control<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

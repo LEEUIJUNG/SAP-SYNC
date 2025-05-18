@@ -1,0 +1,184 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_2B</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_2B</h2>
+<h3> Description: [HW-2B] 항공편 조회 C15</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZHC15_2B<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;[HW-2B]&nbsp;항공편&nbsp;조회&nbsp;C15<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZHC15_2B.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;선언부<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;1.&nbsp;항공사ID를&nbsp;입력&nbsp;받는&nbsp;Parameters를&nbsp;생성한다.<br />
+*&nbsp;가.Name:&nbsp;PA_CAR<br />
+*&nbsp;나.Type:&nbsp;BC400_S_CARRIER에서&nbsp;적절한&nbsp;Component를&nbsp;선택<br />
+<br />
+   </div>
+   <div class="code">
+PARAMETERS: PA_CAR TYPE BC400_S_CARRIER-CARRID. " carrierID 를 입력 받음으로 CARRID 를 선택<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;3.&nbsp;검색결과를&nbsp;보관하기&nbsp;위해&nbsp;Internal&nbsp;Table을&nbsp;선언한다.<br />
+*&nbsp;가.&nbsp;Line&nbsp;Type:&nbsp;Database&nbsp;Table&nbsp;SPFLI<br />
+*&nbsp;나.&nbsp;Table&nbsp;Kind:&nbsp;Standard&nbsp;Table<br />
+*&nbsp;다.&nbsp;Key&nbsp;Components:&nbsp;CARRID,&nbsp;CONNID<br />
+<br />
+   </div>
+   <div class="code">
+TYPES: TT_SPFLI TYPE STANDARD TABLE OF SPFLI " ITAB 을 선언하기 위한 Table Type을 선언<br />
+&nbsp;&nbsp;WITH&nbsp;NON-UNIQUE&nbsp;KEY&nbsp;CARRID,&nbsp;CONNID.<br />
+<br />
+DATA: GS_PFLI LIKE SPFLI, " START-OF-SELECTION의 Loop문을 사용하여 결과를 출력하기 위한 Work Area<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_PFLIS&nbsp;TYPE&nbsp;TT_SPFLI.&nbsp;"&nbsp;조회된&nbsp;데이터를&nbsp;저장하기&nbsp;위한&nbsp;ITAB<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;구현부<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+<br />
+<br />
+AT SELECTION-SCREEN.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;항공사&nbsp;ID를&nbsp;입력한&nbsp;후&nbsp;실행버튼을&nbsp;누르면,&nbsp;Database&nbsp;Table&nbsp;SPFLI를&nbsp;SELECT문을&nbsp;사용해서&nbsp;조회한다.<br />
+*&nbsp;가.&nbsp;검색&nbsp;대상&nbsp;필드:&nbsp;전부<br />
+*&nbsp;나.&nbsp;검색&nbsp;조건:&nbsp;입력한&nbsp;항공사ID에&nbsp;대한&nbsp;데이터만&nbsp;조회<br />
+*&nbsp;다.&nbsp;검색&nbsp;결과:&nbsp;Array&nbsp;Fetch&nbsp;방식으로&nbsp;Internal&nbsp;Table에&nbsp;보관<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECT&nbsp;*<br />
+&nbsp;&nbsp;&nbsp;FROM&nbsp;SPFLI<br />
+&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;GT_PFLIS&nbsp;"&nbsp;iNTO&nbsp;TABLe을&nbsp;사용하여&nbsp;ARRAY&nbsp;FETCH&nbsp;구현<br />
+&nbsp;&nbsp;&nbsp;WHERE&nbsp;CARRID&nbsp;=&nbsp;PA_CAR.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;5.Select문의&nbsp;조회결과가&nbsp;없는&nbsp;경우(항공사ID에&nbsp;대한&nbsp;정보가&nbsp;없는)&nbsp;적절한&nbsp;오류메시지를&nbsp;출력한다.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;&lt;&gt;&nbsp;0.&nbsp;"&nbsp;sy-surbrc&nbsp;가&nbsp;0&nbsp;이&nbsp;아닐경우<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;E000(Z_2_A)&nbsp;WITH&nbsp;PA_CAR.&nbsp;"&nbsp;PA_CAR가&nbsp;조회&nbsp;안될시<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;PA_CAR&nbsp;가&nbsp;존재하지&nbsp;않는다는&nbsp;MESSAGE를&nbsp;출력<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;&&nbsp;항공사&nbsp;ID에&nbsp;대한&nbsp;정보가&nbsp;존재하지&nbsp;않습니다.&nbsp;&&nbsp;부분에&nbsp;PA_CAR&nbsp;가&nbsp;작성됨<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+<br />
+START-OF-SELECTION.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Internal&nbsp;Table에&nbsp;보관된&nbsp;결과를&nbsp;Loop문을&nbsp;통해&nbsp;WRITE하여&nbsp;화면에&nbsp;출력한다.<br />
+*&nbsp;Loop문을&nbsp;사용하여&nbsp;결과를&nbsp;출력하기&nbsp;위해서는&nbsp;Internal&nbsp;Table의&nbsp;Work&nbsp;Area가&nbsp;필요하다.<br />
+*&nbsp;적절한&nbsp;Structure&nbsp;변수를&nbsp;선언하도록&nbsp;하자.<br />
+*&nbsp;가.출력필드:&nbsp;MANDT를&nbsp;제외한&nbsp;모든&nbsp;필드<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;GT_PFLIS&nbsp;INTO&nbsp;GS_PFLI.&nbsp;"&nbsp;조회된&nbsp;데이터를&nbsp;행&nbsp;단위로&nbsp;Work&nbsp;Area&nbsp;에&nbsp;전달하여&nbsp;출력한다.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;'항공사:&nbsp;'&nbsp;,&nbsp;GS_PFLI-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'비행번호:&nbsp;'&nbsp;,&nbsp;GS_PFLI-CONNID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'출발공항:&nbsp;'&nbsp;,&nbsp;GS_PFLI-AIRPFROM,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'출발도시:&nbsp;'&nbsp;,&nbsp;GS_PFLI-CITYFROM,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/'도착공항:&nbsp;'&nbsp;,&nbsp;GS_PFLI-AIRPTO,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'도착도시:&nbsp;'&nbsp;,&nbsp;GS_PFLI-CITYTO,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/'비행일자:&nbsp;'&nbsp;,&nbsp;GS_PFLI-FLTIME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/'도착시간:&nbsp;'&nbsp;,&nbsp;GS_PFLI-DEPTIME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'출발시간:&nbsp;'&nbsp;,&nbsp;GS_PFLI-ARRTIME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/'비행거리:&nbsp;'&nbsp;,&nbsp;GS_PFLI-DISTANCE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'거리단위:&nbsp;'&nbsp;,&nbsp;GS_PFLI-DISTID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/'비행타입:&nbsp;'&nbsp;,&nbsp;GS_PFLI-FLTYPE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/'비행기간:&nbsp;'&nbsp;,&nbsp;GS_PFLI-PERIOD.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;clear&nbsp;GS_PFLI."&nbsp;WA&nbsp;를&nbsp;초기화&nbsp;시킨다.<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PA_CAR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;Z_2_A<br />
+*000&nbsp;&nbsp;&nbsp;&&nbsp;항공사&nbsp;ID에&nbsp;대한&nbsp;정보가&nbsp;존재하지&nbsp;않습니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

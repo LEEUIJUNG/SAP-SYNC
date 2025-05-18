@@ -1,0 +1,134 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_6A_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_6A_TOP</h2>
+<h3> Description: TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZHWC15_6A_TOP<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+*&nbsp;SS&nbsp;관련&nbsp;변수<br />
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+<br />
+   </div>
+   <div class="code">
+" SCREEN EVNET 를 받기 위한 변수<br />
+&nbsp;TABLES:&nbsp;SSCRFIELDS.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;SELECTION&nbsp;OPTIONS&nbsp;SCREEN&nbsp;BLOCK&nbsp;의&nbsp;SO를&nbsp;위한&nbsp;변수&nbsp;선언.<br />
+   </div>
+   <div class="code">
+DATA: GV_CARRID     TYPE ZDETAIL_C15-CARRID,  " 항공사 ID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_CONNID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ZDETAIL_C15-CONNID,&nbsp;&nbsp;"&nbsp;연결&nbsp;ID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_FLDATE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ZDETAIL_C15-FLDATE,&nbsp;&nbsp;"&nbsp;비행일자<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_ORDER_DATE&nbsp;TYPE&nbsp;ZDETAIL_C15-ORDER_DATE.&nbsp;"&nbsp;예약일자<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ADDITIONAL&nbsp;OPTIONS&nbsp;SCREEN&nbsp;BLOCK&nbsp;의&nbsp;SO를&nbsp;위한&nbsp;변수&nbsp;선언.<br />
+   </div>
+   <div class="code">
+DATA: GV_COUNTRYFR TYPE ZDETAIL_C15-COUNTRYFR, " 출발 국가<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_CITYFROM&nbsp;&nbsp;TYPE&nbsp;ZDETAIL_C15-CITYFROM,&nbsp;"&nbsp;출발&nbsp;도시<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_COUNTRYTO&nbsp;TYPE&nbsp;ZDETAIL_C15-COUNTRYTO,&nbsp;"&nbsp;도착&nbsp;국가<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_CITYTO&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;ZDETAIL_C15-CITYTO.&nbsp;"&nbsp;도착&nbsp;도시<br />
+<br />
+DATA : GV_CANCEL TYPE C LENGTH 1. " CANCELLED 를 받기 위한 변수<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+<br />
+<br />
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+*&nbsp;ITAB&nbsp;및&nbsp;WA&nbsp;관련&nbsp;변수<br />
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+   </div>
+   <div class="code">
+DATA: GS_JOIN TYPE ZDETAIL_C15, " SPFLI, SBOOK, SCUSTOM 을 JOIN 한 TAB 의 STRUCT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_JOIN&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;GS_JOIN&nbsp;WITH&nbsp;NON-UNIQUE&nbsp;KEY&nbsp;CARRID&nbsp;CONNID&nbsp;FLDATE&nbsp;BOOKID.&nbsp;"&nbsp;&nbsp;SPFLI,&nbsp;SBOOK,&nbsp;SCUSTOM&nbsp;을&nbsp;JOIN&nbsp;한&nbsp;ITAB<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+<br />
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+*&nbsp;ALV&nbsp;및&nbsp;SCREEN&nbsp;관련&nbsp;변수<br />
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+   </div>
+   <div class="code">
+DATA: GO_CONTAINER TYPE REF TO CL_GUI_CUSTOM_CONTAINER, " CCON 관련 참조변수<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GO_ALV&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;CL_GUI_ALV_GRID.&nbsp;"&nbsp;ALV&nbsp;관련&nbsp;참조변수<br />
+<br />
+DATA: OK_CODE TYPE SY-UCOMM. " SCREEN USER COMMAND<br />
+<br />
+DATA: GS_LAYO TYPE LVC_S_LAYO. " LAYOUT 설정저장 STRUCT<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;--------------------------------------------------------------------------&nbsp;*<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

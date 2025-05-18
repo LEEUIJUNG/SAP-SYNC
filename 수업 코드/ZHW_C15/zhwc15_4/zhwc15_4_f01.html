@@ -1,0 +1,319 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_4_F01</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_4_F01</h2>
+<h3> Description: SUBROUTINES</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZHWC15_4_F01<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;CHECK_DATA<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;입력&nbsp;받은&nbsp;데이터가&nbsp;정상적으로&nbsp;조회가&nbsp;되는지&nbsp;CHECK<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM CHECK_DATA .<br />
+<br />
+&nbsp;&nbsp;CLEAR&nbsp;GS_PFLI.<br />
+<br />
+&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;CARRID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;&nbsp;&nbsp;SPFLI<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;GS_PFLI<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;CARRID&nbsp;IN&nbsp;SO_CAR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;CONNID&nbsp;IN&nbsp;SO_CON.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;&lt;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;'입력한&nbsp;데이터가&nbsp;존재하지&nbsp;않습니다.'(E01)&nbsp;TYPE&nbsp;'E'.<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SELECT_DATA<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;SELECT&nbsp;SCREEN&nbsp;에서&nbsp;입력받은&nbsp;값으로&nbsp;DB를&nbsp;조회하여&nbsp;데이터를&nbsp;가져온다.<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM SELECT_DATA .<br />
+<br />
+&nbsp;&nbsp;REFRESH&nbsp;GT_PFLI.<br />
+<br />
+&nbsp;&nbsp;SELECT&nbsp;*<br />
+&nbsp;&nbsp;FROM&nbsp;&nbsp;&nbsp;SPFLI<br />
+&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;GT_PFLI<br />
+&nbsp;&nbsp;WHERE&nbsp;CARRID&nbsp;IN&nbsp;SO_CAR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;CONNID&nbsp;IN&nbsp;SO_CON.<br />
+<br />
+<br />
+&nbsp;&nbsp;SORT&nbsp;GT_PFLI&nbsp;BY&nbsp;CARRID&nbsp;CONNID.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;항공사ID&nbsp;와&nbsp;항공사&nbsp;이름만&nbsp;가져와서&nbsp;GT_SCARR&nbsp;에&nbsp;보관.<br />
+&nbsp;&nbsp;SELECT&nbsp;*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;SCARR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;GT_CARR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;CARRID&nbsp;IN&nbsp;SO_CAR.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;데이터&nbsp;검색을&nbsp;빠르게&nbsp;하기위한&nbsp;정렬조치<br />
+&nbsp;&nbsp;SORT&nbsp;GT_CARR&nbsp;BY&nbsp;CARRID.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;DISPLAY_DATA<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;MAIN&nbsp;SCREEN&nbsp;0100&nbsp;을&nbsp;호출한다.<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM DISPLAY_DATA .<br />
+&nbsp;&nbsp;CALL&nbsp;SCREEN&nbsp;0100.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;MODIFY_DATA<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;ALV&nbsp;를&nbsp;지시에&nbsp;따라&nbsp;MODIFY&nbsp;한다.<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM MODIFY_DATA .<br />
+<br />
+&nbsp;&nbsp;DATA:&nbsp;LS_CELL_COLOR&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;GS_PFLI-CELL_COLORS.&nbsp;"&nbsp;CELL&nbsp;의&nbsp;색&nbsp;관련&nbsp;STRUCT<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;GT_PFLI&nbsp;INTO&nbsp;GS_PFLI.<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------*<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;비행&nbsp;시간&nbsp;관련&nbsp;CELL&nbsp;색&nbsp;설정&nbsp;부분<br />
+*----------------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;LS_CELL_COLOR.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;GS_PFLI-FLTIME&nbsp;&gt;&nbsp;1000.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LS_CELL_COLOR-FNAME&nbsp;=&nbsp;'FLTIME'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LS_CELL_COLOR-COLOR-COL&nbsp;=&nbsp;COL_NEGATIVE.&nbsp;"COL_TOTAL&nbsp;노랑&nbsp;COL_NEGATIVE&nbsp;빨강<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LS_CELL_COLOR-COLOR-INT&nbsp;=&nbsp;'1'.&nbsp;"진하기<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LS_CELL_COLOR-COLOR-INV&nbsp;=&nbsp;'0'.&nbsp;"&nbsp;배경&nbsp;강조<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;GS_PFLI-FLTIME&nbsp;&gt;&nbsp;600.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LS_CELL_COLOR-FNAME&nbsp;=&nbsp;'FLTIME'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LS_CELL_COLOR-COLOR-COL&nbsp;=&nbsp;COL_TOTAL.&nbsp;"COL_TOTAL&nbsp;노랑&nbsp;COL_NEGATIVE&nbsp;빨강<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LS_CELL_COLOR-COLOR-INT&nbsp;=&nbsp;'1'.&nbsp;"진하기<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LS_CELL_COLOR-COLOR-INV&nbsp;=&nbsp;'0'.&nbsp;"배경&nbsp;강조<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------*<br />
+<br />
+<br />
+*----------------------------------------*<br />
+*&nbsp;CARRNAME&nbsp;FIELD&nbsp;추가<br />
+*----------------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;GT_CARR&nbsp;INTO&nbsp;GS_CARR&nbsp;WITH&nbsp;KEY&nbsp;CARRID&nbsp;=&nbsp;GS_PFLI-CARRID&nbsp;BINARY&nbsp;SEARCH.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;READ&nbsp;조건이&nbsp;성공<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_PFLI-CARRNAME&nbsp;=&nbsp;GS_CARR-CARRNAME.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------*<br />
+<br />
+<br />
+<br />
+*----------------------------------------*<br />
+*&nbsp;아이콘&nbsp;추가&nbsp;AND&nbsp;&nbsp;국제&nbsp;국내선&nbsp;FLAG<br />
+*----------------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;GS_PFLI-COUNTRYFR&nbsp;=&nbsp;GS_PFLI-COUNTRYTO.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_PFLI-ICON&nbsp;=&nbsp;ICON_INCOMING_OBJECT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_PFLI-ICON&nbsp;=&nbsp;ICON_OUTGOING_OBJECT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------*<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;LS_CELL_COLOR&nbsp;TO&nbsp;GS_PFLI-CELL_COLORS.&nbsp;"&nbsp;CELL&nbsp;COLOR<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;수정한&nbsp;필드들의&nbsp;값만&nbsp;ITAB&nbsp;에&nbsp;반영되기&nbsp;위해&nbsp;TRANSPORTING&nbsp;지정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;GT_PFLI&nbsp;FROM&nbsp;GS_PFLI&nbsp;TRANSPORTING&nbsp;ICON<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CELL_COLORS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRNAME.<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+ENDFORM.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SET_ALV_OPTION<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;SETTING&nbsp;ALV&nbsp;OPTION<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM SET_ALV_OPTION.<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------*<br />
+*&nbsp;VARIANT&nbsp;를&nbsp;위한&nbsp;설정<br />
+*----------------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;GV_VARIANT&nbsp;=&nbsp;SY-CPROG.&nbsp;"&nbsp;CURRENT&nbsp;PROGRAM<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GV_V_SAVE&nbsp;=&nbsp;'A'.&nbsp;"&nbsp;저장모드&nbsp;지정&nbsp;'a"&nbsp;의&nbsp;경우&nbsp;사용자가&nbsp;선택을&nbsp;한다.<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------*<br />
+<br />
+*----------------------------------------*<br />
+*&nbsp;LAYOUT&nbsp;를&nbsp;위한&nbsp;설정<br />
+*----------------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;GS_LAYOUT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_LAYOUT-SEL_MODE&nbsp;=&nbsp;'D'.&nbsp;"&nbsp;자유로운&nbsp;CELL&nbsp;단위&nbsp;선택&nbsp;모드<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_LAYOUT-CWIDTH_OPT&nbsp;=&nbsp;&nbsp;'X'.&nbsp;"&nbsp;열&nbsp;넓이&nbsp;최적화<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_LAYOUT-CTAB_FNAME&nbsp;=&nbsp;'CELL_COLORS'.&nbsp;"&nbsp;셀색장&nbsp;정보를&nbsp;다루는&nbsp;필드명<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------*<br />
+<br />
+*----------------------------------------*<br />
+*&nbsp;FCAT&nbsp;를&nbsp;위한&nbsp;설정<br />
+*----------------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;REFRESH&nbsp;GT_FCAT.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;CARRANME&nbsp;열&nbsp;추가<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FCAT-FIELDNAME&nbsp;=&nbsp;'CARRNAME'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FCAT-REF_FIELD&nbsp;=&nbsp;'CARRNAME'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FCAT-REF_TABLE&nbsp;=&nbsp;'SCARR'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FCAT-COL_POS&nbsp;=&nbsp;3.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;GS_FCAT&nbsp;TO&nbsp;GT_FCAT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;ICON&nbsp;추가<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FCAT-FIELDNAME&nbsp;=&nbsp;'ICON'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FCAT-ICON&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FCAT-COL_POS&nbsp;=&nbsp;5&nbsp;.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FCAT-COLTEXT&nbsp;=&nbsp;'ICON'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;GS_FCAT&nbsp;TO&nbsp;GT_FCAT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;FLTYPE&nbsp;숨김<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FCAT-FIELDNAME&nbsp;=&nbsp;'FLTYPE'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FCAT-NO_OUT&nbsp;=&nbsp;'X'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;GS_FCAT&nbsp;TO&nbsp;GT_FCAT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;출발&nbsp;국가,&nbsp;도착&nbsp;국가&nbsp;FIELD&nbsp;명&nbsp;변경<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FCAT-FIELDNAME&nbsp;=&nbsp;'COUNTRYFR'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FCAT-COLTEXT&nbsp;=&nbsp;'Dep.&nbsp;Ctr'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;GS_FCAT&nbsp;TO&nbsp;GT_FCAT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;GS_FCAT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FCAT-FIELDNAME&nbsp;=&nbsp;'COUNTRYTO'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_FCAT-COLTEXT&nbsp;=&nbsp;'Arr.&nbsp;Ctr'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;GS_FCAT&nbsp;TO&nbsp;GT_FCAT.<br />
+   </div>
+   <div class="codeComment">
+*----------------------------------------*<br />
+   </div>
+   <div class="code">
+ENDFORM.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

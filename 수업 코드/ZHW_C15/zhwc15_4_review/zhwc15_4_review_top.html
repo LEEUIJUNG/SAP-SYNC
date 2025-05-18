@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_4_REVIEW_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_4_REVIEW_TOP</h2>
+<h3> Description: Include ZHWC15_4_REVIEW_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZHWC15_4_REVIEW_TOP<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&nbsp;DICT&nbsp;STRUCT&nbsp;DECLARATION<br />
+*&nbsp;STRUCT&nbsp;VAR&nbsp;FOR&nbsp;USEING&nbsp;SO<br />
+   </div>
+   <div class="code">
+TABLES: SPFLI.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ITAB&nbsp;FOR&nbsp;SAVING&nbsp;SPFLI'S&nbsp;SELECTED&nbsp;DATA&nbsp;AS&nbsp;GT_PFLI<br />
+*&nbsp;WA&nbsp;FOR&nbsp;GT_PFLI&nbsp;AS&nbsp;GS_PFLI<br />
+   </div>
+   <div class="code">
+DATA: GT_PFLI LIKE TABLE OF SPFLI,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_PFLI&nbsp;TYPE&nbsp;SPFLI.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;SCARR&nbsp;TAB&nbsp;의&nbsp;CARRNAME을&nbsp;가여조익&nbsp;위한&nbsp;TIAB&nbsp;선언<br />
+   </div>
+   <div class="code">
+DATA: GT_CARR TYPE TABLE OF SCARR,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_CARR&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;GT_CARR.<br />
+<br />
+DATA: BEGIN OF GS_DISPLAY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;INCLUDE&nbsp;TYPE&nbsp;SPFLI.<br />
+DATA:   ICON       TYPE ICON-ID, " 문자 4자리<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CELL_COLOR&nbsp;TYPE&nbsp;LVC_T_SCOL,&nbsp;"&nbsp;CELL&nbsp;단위&nbsp;색상정보<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRNAME&nbsp;&nbsp;&nbsp;TYPE&nbsp;SCARR-CARRNAME,&nbsp;"&nbsp;항공사이름<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;GS_DISPLAY.<br />
+<br />
+DATA: GT_DISPLAY LIKE TABLE OF GS_DISPLAY.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;DECLAR&nbsp;VAR&nbsp;OK_CODE&nbsp;FOR&nbsp;GETTING&nbsp;USER-COMMAND(&nbsp;FUNCTION&nbsp;CODE&nbsp;),&nbsp;FOR&nbsp;USING&nbsp;SCREEN&nbsp;0100<br />
+   </div>
+   <div class="code">
+DATA: OK_CODE TYPE SY-UCOMM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ALV&nbsp;를&nbsp;화면에&nbsp;출력하기&nbsp;위한&nbsp;REF&nbsp;TO<br />
+   </div>
+   <div class="code">
+DATA: GO_CONTAINER TYPE REF TO CL_GUI_CUSTOM_CONTAINER,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GO_ALV_GIRD&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;CL_GUI_ALV_GRID.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ALV&nbsp;LAYOUT&nbsp;OPTIONS<br />
+   </div>
+   <div class="code">
+DATA: GS_VARIANT TYPE DISVARIANT, " 현재 보이는 ALV 형태를 SAVE & SELECT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_SAVE&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;C&nbsp;LENGTH&nbsp;1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_LAYOUT&nbsp;&nbsp;TYPE&nbsp;LVC_S_LAYO.&nbsp;"&nbsp;ALV의&nbsp;DESGIN&nbsp;이나&nbsp;FUNCTION&nbsp;관련&nbsp;옵션<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;기존&nbsp;G&nbsp;STRUCT&nbsp;TYPE&nbsp;에&nbsp;없는&nbsp;새로운&nbsp;필드의&nbsp;추가&nbsp;또는<br />
+*&nbsp;기존&nbsp;FIELD&nbsp;의&nbsp;속성을&nbsp;변경해서&nbsp;ALV&nbsp;에&nbsp;출력하기&nbsp;위해&nbsp;FCAT&nbsp;를&nbsp;선언<br />
+   </div>
+   <div class="code">
+DATA: GT_FCAT TYPE LVC_T_FCAT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FCAT&nbsp;TYPE&nbsp;LVC_S_FCAT.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

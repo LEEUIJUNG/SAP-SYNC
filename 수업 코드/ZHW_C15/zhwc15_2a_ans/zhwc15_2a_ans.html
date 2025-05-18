@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_2A_ANS</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_2A_ANS</h2>
+<h3> Description: [HW-2A] 항공사 조회 C15</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZHWC15_2A_ANS<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;[HW-2A]&nbsp;항공사&nbsp;조회&nbsp;강사&nbsp;답안<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZHWC15_2A_ANS.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;선언부<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+PARAMETERS: PA_CAR TYPE BC400_S_CARRIER-CARRID. " BC400_S_CARRIER-CARRID TYPE 의 carrierID 를 입력 받는다.<br />
+<br />
+DATA: GS_SCARR TYPE SCARR. " TABLE 조회후 저장을 위한 Structure 를 선언<br />
+DATA: GV_SERACH TYPE C VALUE ''. " 검색성공 : 'X' , 검색실패 : ''(빈값)<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;구현부<br />
+*&nbsp;ABAP&nbsp;EVENT에&nbsp;대한&nbsp;로직&nbsp;을&nbsp;작성<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+   </div>
+   <div class="codeComment">
+*------------------------------------<br />
+*&nbsp;Selection&nbsp;Screen&nbsp;이&nbsp;샐행되기전&nbsp;가장&nbsp;먼저&nbsp;싱행되는&nbsp;이벤트<br />
+*&nbsp;주로&nbsp;Selection&nbsp;Screen&nbsp;의&nbsp;기본값&nbsp;설정&nbsp;등을&nbsp;담당<br />
+*------------------------------------<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN.<br />
+   </div>
+   <div class="codeComment">
+*------------------------------------<br />
+*&nbsp;Selection&nbsp;Screen&nbsp;이&nbsp;출력된&nbsp;후&nbsp;사용자의&nbsp;Enter&nbsp;Or&nbsp;Button&nbsp;Click&nbsp;마다&nbsp;작동하는&nbsp;Event<br />
+*&nbsp;Button이&nbsp;대표적으로&nbsp;실행버튼(Execute),&nbsp;이&nbsp;있다.<br />
+*------------------------------------<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PERFORM&nbsp;CHECK_INPUT_CARRID.<br />
+<br />
+<br />
+START-OF-SELECTION.<br />
+   </div>
+   <div class="codeComment">
+*------------------------------------<br />
+*&nbsp;AT&nbsp;SELECTION-SCREEN&nbsp;이&nbsp;실행된&nbsp;직후&nbsp;사용자가&nbsp;누른&nbsp;버튼이&nbsp;실행(Execute)인&nbsp;경우<br />
+*&nbsp;Selection&nbsp;Screen&nbsp;으로&nbsp;돌아가지&nbsp;않고,&nbsp;이&nbsp;Event&nbsp;를&nbsp;실행한다.<br />
+*&nbsp;이&nbsp;Event는&nbsp;Selection&nbsp;Screen&nbsp;의&nbsp;입력&nbsp;값에&nbsp;따른&nbsp;데이터&nbsp;조회를&nbsp;주&nbsp;목적으로&nbsp;하며,<br />
+*&nbsp;조회된&nbsp;데이터는&nbsp;특정&nbsp;로직을&nbsp;거친&nbsp;후&nbsp;출력한다.<br />
+<br />
+*&nbsp;예전에는&nbsp;END-Of-SELECTION&nbsp;이&nbsp;있었는데&nbsp;LOGICAL&nbsp;DB&nbsp;를&nbsp;사용하지&nbsp;않게&nbsp;되고<br />
+*&nbsp;이제는&nbsp;사용을&nbsp;잘&nbsp;안하고&nbsp;있다.(&nbsp;예전에는&nbsp;EOS&nbsp;에서&nbsp;조회를&nbsp;하였다.&nbsp;)<br />
+*------------------------------------<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PERFORM&nbsp;SELECT_DATA.&nbsp;"&nbsp;글로벌&nbsp;변수만&nbsp;사용함으로&nbsp;using&nbsp;changing&nbsp;을&nbsp;굳이&nbsp;사용할&nbsp;필요&nbsp;없음.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;재사용성을&nbsp;높히려면&nbsp;사용해도&nbsp;상관&nbsp;없음<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;GV_SERACH&nbsp;EQ&nbsp;'X'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;WIRTE_DATA.<br />
+&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;PERFORM&nbsp;WIRTE_ERROR.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SELECT_DATA<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM SELECT_DATA .<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;Where은&nbsp;DB필드&nbsp;비교기호&nbsp;비교&nbsp;할값<br />
+*&nbsp;(&nbsp;{&nbsp;AND&nbsp;|&nbsp;OR&nbsp;}&nbsp;필드&nbsp;비교기호&nbsp;비교할값&nbsp;)<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;*<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;SCARR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;GS_SCARR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;CARRID&nbsp;EQ&nbsp;PA_CAR.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;EQ&nbsp;0.&nbsp;"&nbsp;Select&nbsp;직후&nbsp;SY-SUBRC&nbsp;값이&nbsp;0&nbsp;임으로&nbsp;검색&nbsp;성공<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GV_SERACH&nbsp;=&nbsp;'X'.<br />
+&nbsp;&nbsp;ELSE.&nbsp;"&nbsp;Select&nbsp;직후&nbsp;SY-SUBRC&nbsp;값이&nbsp;0&nbsp;이&nbsp;아님으로&nbsp;검색&nbsp;실패<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GV_SERACH&nbsp;=&nbsp;''.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+<br />
+ENDFORM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;WIRTE_DATA<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM WIRTE_DATA .<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;처음에는&nbsp;15&nbsp;자리&nbsp;공간을&nbsp;만들고,&nbsp;거기에&nbsp;"&nbsp;항공사&nbsp;ID&nbsp;"&nbsp;라는&nbsp;문구를&nbsp;출력한다.<br />
+*&nbsp;그&nbsp;다음칸(16번째)에&nbsp;'&nbsp;:&nbsp;'&nbsp;를&nbsp;출력한다.<br />
+*&nbsp;그&nbsp;다음칸(17번째)에&nbsp;CS_CARR-CARRID&nbsp;값이&nbsp;출력된다.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;WRITE:&nbsp;/(15)&nbsp;'항공사ID'&nbsp;,&nbsp;'|',&nbsp;GS_SCARR-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/(15)&nbsp;'항공사이름'&nbsp;,&nbsp;'|',&nbsp;GS_SCARR-CARRNAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/(15)&nbsp;'항공사코드',&nbsp;'|',&nbsp;GS_SCARR-CURRCODE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/(15)&nbsp;'URL'&nbsp;,&nbsp;'|',(50)&nbsp;GS_SCARR-URL.&nbsp;"&nbsp;URL&nbsp;은&nbsp;너무&nbsp;길어서&nbsp;20&nbsp;글자를&nbsp;초과한다.<br />
+&nbsp;&nbsp;"&nbsp;그래서&nbsp;(50)&nbsp;을&nbsp;통해&nbsp;범위를&nbsp;늘리고&nbsp;URL&nbsp;을&nbsp;출력<br />
+&nbsp;&nbsp;"&nbsp;기본&nbsp;공간이&nbsp;20&nbsp;자리여서&nbsp;그것을&nbsp;초과하면&nbsp;아랫줄ㅇ&nbsp;출력<br />
+&nbsp;&nbsp;ULINE.<br />
+ENDFORM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;WIRTE_ERROR<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM WIRTE_ERROR .<br />
+&nbsp;&nbsp;"&nbsp;한글은&nbsp;짤리는&nbsp;경우가&nbsp;있는데&nbsp;강제로&nbsp;글자수&nbsp;할당해도&nbsp;됨<br />
+&nbsp;&nbsp;WRITE:&nbsp;/(40)&nbsp;'해당&nbsp;항공사는&nbsp;존재하지&nbsp;않습니다.'(E01).<br />
+<br />
+ENDFORM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;CHECK_INPUT_CARRID<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM CHECK_INPUT_CARRID .<br />
+&nbsp;&nbsp;"&nbsp;입력&nbsp;받은&nbsp;항공사&nbsp;ID&nbsp;가&nbsp;SCARR&nbsp;에&nbsp;있는지&nbsp;SINGLE로&nbsp;TEST로&nbsp;하나만&nbsp;가져와&nbsp;본다.<br />
+&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;CARRID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;SCARR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;GS_SCARR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;CARRID&nbsp;EQ&nbsp;PA_CAR.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;NE&nbsp;0.&nbsp;"&nbsp;select&nbsp;결과&nbsp;검색결과가&nbsp;한&nbsp;줄도&nbsp;없어서&nbsp;검색이&nbsp;실패할&nbsp;경우.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;TEXT-E01&nbsp;TYPE&nbsp;'E'&nbsp;DISPLAY&nbsp;LIKE&nbsp;'I'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;오류&nbsp;메세지를&nbsp;실행한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;실제로는&nbsp;에러메세지인데&nbsp;I&nbsp;처럼&nbsp;나옴<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;AT&nbsp;SELECTION-SCREEN&nbsp;이벤트&nbsp;에서만&nbsp;에러&nbsp;메세지를&nbsp;출력<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;그렇게&nbsp;해야&nbsp;출력이&nbsp;되어도&nbsp;프로그램이&nbsp;종료되지&nbsp;않음<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+ENDFORM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;001&nbsp;GS_CARRIER&nbsp;Strcutrue가&nbsp;선언되지&nbsp;않았습니다.<br />
+*&nbsp;E01&nbsp;해당&nbsp;항공사는&nbsp;존재하지&nbsp;않습니다.<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PA_CAR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_4_CLS</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_4_CLS</h2>
+<h3> Description: CLASS</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZHWC15_4_CLS<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+CLASS LCL_EVENT_HANDLER DEFINITION.<br />
+&nbsp;&nbsp;"&nbsp;PUBLIC&nbsp;으로&nbsp;지정하여&nbsp;외부에서&nbsp;접근가능하도록&nbsp;설정<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;STATIC&nbsp;으로&nbsp;지정한다<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:&nbsp;EVENT_TOOLBAR&nbsp;"&nbsp;TOOLBAR&nbsp;관련&nbsp;EVENT&nbsp;METHOD<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR&nbsp;EVENT&nbsp;TOOLBAR&nbsp;OF&nbsp;CL_GUI_ALV_GRID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING&nbsp;E_INTERACTIVE&nbsp;E_OBJECT.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:&nbsp;EVENT_USER_COMMAND&nbsp;"&nbsp;USER&nbsp;COMMAND&nbsp;관련&nbsp;EVENT&nbsp;METHOD<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR&nbsp;EVENT&nbsp;USER_COMMAND&nbsp;OF&nbsp;CL_GUI_ALV_GRID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING&nbsp;E_UCOMM.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:&nbsp;EVENT_DOUBLE_CLICK&nbsp;"&nbsp;DOBULE&nbsp;CLICK&nbsp;관련&nbsp;EVENT&nbsp;METHOD<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FOR&nbsp;EVENT&nbsp;DOUBLE_CLICK&nbsp;OF&nbsp;CL_GUI_ALV_GRID<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING&nbsp;E_COLUMN&nbsp;E_ROW.<br />
+<br />
+<br />
+ENDCLASS.<br />
+<br />
+<br />
+<br />
+CLASS LCL_EVENT_HANDLER IMPLEMENTATION.<br />
+&nbsp;&nbsp;"&nbsp;TOOLBAR&nbsp;관련&nbsp;EVENT&nbsp;선언<br />
+&nbsp;&nbsp;METHOD&nbsp;EVENT_TOOLBAR.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;LS_TOOLBAR&nbsp;TYPE&nbsp;STB_BUTTON.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;TOOLBAR&nbsp;를&nbsp;저장하기&nbsp;위한&nbsp;STRUCT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;LV_ITAB_LINE_COUNT&nbsp;TYPE&nbsp;I.&nbsp;&nbsp;"&nbsp;ITAB&nbsp;이&nbsp;몇줄인지<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LV_ITAB_LINE_COUNT&nbsp;=&nbsp;LINES(&nbsp;GT_PFLI&nbsp;).&nbsp;"&nbsp;현제&nbsp;ITAB&nbsp;이&nbsp;몇줄인지&nbsp;받아온다.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;필터&nbsp;조건&nbsp;초기화&nbsp;관련&nbsp;TOOLBAR<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;LS_TOOLBAR.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LS_TOOLBAR-FUNCTION&nbsp;=&nbsp;'REST_EVENT_BUTTON'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LS_TOOLBAR-QUICKINFO&nbsp;=&nbsp;'모든&nbsp;필터조건&nbsp;초기화'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LS_TOOLBAR-TEXT&nbsp;=&nbsp;&nbsp;|Total&nbsp;Lines:&nbsp;{&nbsp;LV_ITAB_LINE_COUNT&nbsp;}|.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;LS_TOOLBAR&nbsp;TO&nbsp;E_OBJECT-&gt;MT_TOOLBAR.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;국내선&nbsp;조회&nbsp;&nbsp;관련&nbsp;TOOLBAR<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;LS_TOOLBAR.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LS_TOOLBAR-FUNCTION&nbsp;=&nbsp;'DOMESTIC_AIRLINES_BUTTON'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LS_TOOLBAR-QUICKINFO&nbsp;=&nbsp;'국내선만&nbsp;출력'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LS_TOOLBAR-TEXT&nbsp;=&nbsp;&nbsp;'국내선'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;LS_TOOLBAR&nbsp;TO&nbsp;E_OBJECT-&gt;MT_TOOLBAR.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;국제선&nbsp;조회&nbsp;관련&nbsp;TOOLBAR<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;LS_TOOLBAR.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LS_TOOLBAR-FUNCTION&nbsp;=&nbsp;'GLOBAL_AIRLINES_BUTTON'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LS_TOOLBAR-QUICKINFO&nbsp;=&nbsp;'국제선만&nbsp;출력'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LS_TOOLBAR-TEXT&nbsp;=&nbsp;&nbsp;'국제선'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;LS_TOOLBAR&nbsp;TO&nbsp;E_OBJECT-&gt;MT_TOOLBAR.<br />
+<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;USER&nbsp;COMMAND&nbsp;관련&nbsp;EVENT&nbsp;선언<br />
+&nbsp;&nbsp;METHOD&nbsp;EVENT_USER_COMMAND.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;현제는&nbsp;수동으로&nbsp;다시&nbsp;ITAB&nbsp;을&nbsp;받아오지만<br />
+*&nbsp;FILTER&nbsp;함수를&nbsp;찾아서&nbsp;추후&nbsp;적용&nbsp;예정<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;LT_FILTER&nbsp;TYPE&nbsp;LVC_T_FILT.&nbsp;"&nbsp;FILTER&nbsp;를&nbsp;적용하기&nbsp;위한&nbsp;ITAB&nbsp;선언.<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CASE&nbsp;E_UCOMM.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'REST_EVENT_BUTTON'.&nbsp;"&nbsp;필터&nbsp;초기화&nbsp;버튼&nbsp;클릭시<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;REFRESH&nbsp;GT_FILTER<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;FILTER&nbsp;를&nbsp;초기화&nbsp;한다<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;GO_ALV_GRID-&gt;SET_FILTER_CRITERIA<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_FILTER&nbsp;=&nbsp;GT_FILTER.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Filter&nbsp;Conditions<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'GLOBAL_AIRLINES_BUTTON'.&nbsp;"&nbsp;국제선&nbsp;버튼&nbsp;클릭시<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LT_FILTER&nbsp;=&nbsp;GT_FILTER.&nbsp;"&nbsp;현재&nbsp;적용중인&nbsp;GLOBAL&nbsp;FILTER&nbsp;를&nbsp;가져온다.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;GS_FILTER.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FILTER-FIELDNAME&nbsp;=&nbsp;'ICON'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FILTER-SIGN&nbsp;=&nbsp;'I'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FILTER-OPTION&nbsp;=&nbsp;'EQ'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FILTER-LOW&nbsp;=&nbsp;'@LS@'.&nbsp;"&nbsp;ICON_OUTGOING_OBJECT&nbsp;의&nbsp;값.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;GS_FILTER&nbsp;TO&nbsp;LT_FILTER.<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;GO_ALV_GRID-&gt;SET_FILTER_CRITERIA<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_FILTER&nbsp;=&nbsp;LT_FILTER.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Filter&nbsp;Conditions<br />
+<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'DOMESTIC_AIRLINES_BUTTON'.&nbsp;"&nbsp;국내선&nbsp;버튼&nbsp;클릭시<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LT_FILTER&nbsp;=&nbsp;GT_FILTER.&nbsp;"&nbsp;현재&nbsp;적용중인&nbsp;GLOBAL&nbsp;FILTER&nbsp;를&nbsp;가져온다.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;GS_FILTER.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FILTER-FIELDNAME&nbsp;=&nbsp;'ICON'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FILTER-SIGN&nbsp;=&nbsp;'I'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FILTER-OPTION&nbsp;=&nbsp;'EQ'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_FILTER-LOW&nbsp;=&nbsp;'@LR@'.&nbsp;"&nbsp;ICON_INCOMING_OBJECT&nbsp;의&nbsp;값.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;GS_FILTER&nbsp;TO&nbsp;LT_FILTER.<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;GO_ALV_GRID-&gt;SET_FILTER_CRITERIA<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IT_FILTER&nbsp;=&nbsp;LT_FILTER.&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Filter&nbsp;Conditions<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;GO_ALV_GRID-&gt;REFRESH_TABLE_DISPLAY(&nbsp;).&nbsp;"&nbsp;ALV&nbsp;를&nbsp;REFRESH&nbsp;하여&nbsp;USER&nbsp;COMMAND에&nbsp;대한&nbsp;화면&nbsp;적용<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;DOUBLE&nbsp;CLICK&nbsp;관련&nbsp;EVENT&nbsp;선언<br />
+&nbsp;&nbsp;METHOD&nbsp;EVENT_DOUBLE_CLICK.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;DOUBLE&nbsp;CLICK&nbsp;EVENT&nbsp;시&nbsp;해당&nbsp;열의&nbsp;값을&nbsp;받아온다.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;GS_PFLI.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;READ&nbsp;TABLE&nbsp;GT_PFLI&nbsp;INTO&nbsp;GS_PFLI&nbsp;INDEX&nbsp;E_ROW-INDEX.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;DOUBLE&nbsp;CLICK&nbsp;시&nbsp;해당&nbsp;COL&nbsp;에&nbsp;따른&nbsp;프로그램&nbsp;동작&nbsp;로직<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;CASE&nbsp;E_COLUMN.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;'CARRID'&nbsp;&nbsp;OR&nbsp;'CARRNAME'&nbsp;.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;선택한&nbsp;CELL&nbsp;이&nbsp;CARRID&nbsp;나&nbsp;CARRNAME&nbsp;일&nbsp;경우<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;PARAMETER&nbsp;ID:&nbsp;'CAR'&nbsp;FIELD&nbsp;GS_PFLI-CARRID.&nbsp;"&nbsp;PARMETER&nbsp;ID&nbsp;가&nbsp;CAR&nbsp;이다<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;검색&nbsp;방법은&nbsp;해당&nbsp;T-CODE&nbsp;에&nbsp;들어가서&nbsp;TECHNICAL&nbsp;INFO&nbsp;에서&nbsp;확인가능<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CALL&nbsp;TRANSACTION&nbsp;'BC402MCAR'&nbsp;AND&nbsp;SKIP&nbsp;FIRST&nbsp;SCREEN.&nbsp;"&nbsp;.T-CODE&nbsp;를&nbsp;호출하고&nbsp;첫&nbsp;입력&nbsp;화면을&nbsp;스킵한다.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;OTHERS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;선택한&nbsp;CELL&nbsp;이&nbsp;위&nbsp;두&nbsp;가지가&nbsp;아닐경우<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SUBMIT&nbsp;BC402_INS_FLIGHT_LIST_OSQL&nbsp;"&nbsp;EXCUTABLE&nbsp;PROGRAM&nbsp;으로&nbsp;이동<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;PA_CAR&nbsp;=&nbsp;GS_PFLI-CARRID&nbsp;"&nbsp;BC402_INS_FLIGHT_LIST_OSQL&nbsp;의&nbsp;PARAMETER&nbsp;참조<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WITH&nbsp;SO_CON&nbsp;=&nbsp;GS_PFLI-CONNID&nbsp;"&nbsp;SO&nbsp;로&nbsp;CONNID&nbsp;를&nbsp;받음으로&nbsp;BODY[]&nbsp;를&nbsp;통하여&nbsp;전달.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;RETURN.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br />
+<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+<br />
+ENDCLASS.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

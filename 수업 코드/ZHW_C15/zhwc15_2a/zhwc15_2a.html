@@ -1,0 +1,218 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_2A</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_2A</h2>
+<h3> Description: [HW-2A] 항공사 조회 C15</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZHWC15_2A<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;[HW-2A]&nbsp;항공사&nbsp;조회<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZHWC15_2A.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;선언부<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;항공사ID를&nbsp;입력&nbsp;받는&nbsp;Parameters를&nbsp;생성한다.<br />
+*&nbsp;가.Name:&nbsp;PA_CAR<br />
+*&nbsp;나.Type:&nbsp;BC400_S_CARRIER에서&nbsp;적절한&nbsp;Component를&nbsp;선택<br />
+<br />
+   </div>
+   <div class="code">
+PARAMETERS: PA_CAR TYPE BC400_S_CARRIER-CARRID. " BC400_S_CARRIER-CARRID TYPE 의 carrierID 를 입력 받는다.<br />
+<br />
+DATA: GS_CARRIER TYPE BC400_S_CARRIER. " TABLE 조회후 저장을 위한 Structure 를 선언<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;구현부<br />
+*&nbsp;ABAP&nbsp;EVENT에&nbsp;대한&nbsp;로직&nbsp;을&nbsp;작성<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+   </div>
+   <div class="codeComment">
+*------------------------------------<br />
+*&nbsp;Selection&nbsp;Screen&nbsp;이&nbsp;샐행되기전&nbsp;가장&nbsp;먼저&nbsp;싱행되는&nbsp;이벤트<br />
+*&nbsp;주로&nbsp;Selection&nbsp;Screen&nbsp;의&nbsp;기본값&nbsp;설정&nbsp;등을&nbsp;담당<br />
+*------------------------------------<br />
+<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+AT SELECTION-SCREEN.<br />
+   </div>
+   <div class="codeComment">
+*------------------------------------<br />
+*&nbsp;Selection&nbsp;Screen&nbsp;이&nbsp;출력된&nbsp;후&nbsp;사용자의&nbsp;Enter&nbsp;Or&nbsp;Button&nbsp;Click&nbsp;마다&nbsp;작동하는&nbsp;Event<br />
+*&nbsp;Button이&nbsp;대표적으로&nbsp;실행버튼(Execute),&nbsp;이&nbsp;있다.<br />
+*------------------------------------<br />
+*&nbsp;입력된&nbsp;데이터가&nbsp;옳바르지&nbsp;않을경우&nbsp;&nbsp;&nbsp;START-OF-SELECTION.&nbsp;구문으로&nbsp;넘어가지&nbsp;않고<br />
+*&nbsp;다시&nbsp;SELECTION-SCREEN&nbsp;으로&nbsp;돌려보냄<br />
+<br />
+*&nbsp;항공사ID를&nbsp;입력한&nbsp;후&nbsp;실행버튼을&nbsp;누르면,&nbsp;Database&nbsp;Table&nbsp;SCARR를&nbsp;SELECT문을&nbsp;사용해서&nbsp;한&nbsp;줄만(SINGLE)&nbsp;조회한다.<br />
+*&nbsp;가.&nbsp;검색&nbsp;대상&nbsp;필드:&nbsp;전부<br />
+*&nbsp;나.&nbsp;검색&nbsp;조건:&nbsp;입력한&nbsp;항공사ID와&nbsp;동일한&nbsp;데이터<br />
+*&nbsp;다.&nbsp;검색&nbsp;결과:&nbsp;적절하게&nbsp;선언한&nbsp;Structure&nbsp;변수에&nbsp;SELECT&nbsp;SINGLE로&nbsp;보관<br />
+*&nbsp;해당&nbsp;Class&nbsp;Method&nbsp;확인&nbsp;(코드첨부)<br />
+<br />
+**&---------------------------------------------------------------------*<br />
+**&nbsp;IV_CARRID&nbsp;&nbsp;TYPE&nbsp;BC400_S_CARRIER-CARRID&nbsp;Airline&nbsp;Code<br />
+**&nbsp;ES_RESULT&nbsp;&nbsp;TYPE&nbsp;BC400_S_CARRIER&nbsp;&nbsp;Airline&nbsp;Carrier<br />
+**&nbsp;NO_DATA&nbsp;&nbsp;&nbsp;&nbsp;데이터가&nbsp;존재하이&nbsp;않습니다.<br />
+**&---------------------------------------------------------------------*<br />
+*<br />
+*&nbsp;&nbsp;method&nbsp;Z_GET_AIRLINE.<br />
+*<br />
+**&nbsp;입력받은&nbsp;IV_CARRID&nbsp;가&nbsp;SCARR&nbsp;TABLE의&nbsp;CARRID&nbsp;에&nbsp;존재할&nbsp;경우<br />
+**&nbsp;SCARR&nbsp;table&nbsp;에서&nbsp;ES_RESULT(Strcuture)&nbsp;로&nbsp;SINGLE&nbsp;라인의&nbsp;정보만&nbsp;전달<br />
+*<br />
+*&nbsp;&nbsp;SELECT&nbsp;SINGLE&nbsp;CARRID&nbsp;CARRNAME&nbsp;CURRCODE&nbsp;URL<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;SCARR<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;ES_RESULT<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;CARRID&nbsp;=&nbsp;IV_CARRID.<br />
+*<br />
+**&nbsp;조회가&nbsp;안될시&nbsp;출력하는&nbsp;내용<br />
+*&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;&lt;&gt;&nbsp;0.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;NO_DATA.<br />
+*&nbsp;&nbsp;ENDIF.<br />
+*<br />
+*&nbsp;&nbsp;endmethod.<br />
+*<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;CALL&nbsp;METHOD&nbsp;ZCL_2=&gt;Z_GET_AIRLINE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_CARRID&nbsp;=&nbsp;PA_CAR&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Airline&nbsp;Code<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ES_RESULT&nbsp;=&nbsp;GS_CARRIER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;Airline&nbsp;Carrier<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NO_DATA&nbsp;&nbsp;&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;데이터가&nbsp;존재하이&nbsp;않습니다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;5.조회&nbsp;결과가&nbsp;없는&nbsp;경우(항공사ID에&nbsp;대한&nbsp;정보가&nbsp;없는)&nbsp;적절한&nbsp;오류메시지를&nbsp;출력한다.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;IF&nbsp;SY-SUBRC&nbsp;&lt;&gt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;검색결과가&nbsp;없을시&nbsp;에러&nbsp;메세지를&nbsp;출력한다<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;E000(Z_2_A)&nbsp;WITH&nbsp;PA_CAR.&nbsp;"&nbsp;PA_CAR가&nbsp;Target&nbsp;table&nbsp;에&nbsp;업을시<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;PA_CAR&nbsp;가&nbsp;존재하지&nbsp;않는다는&nbsp;MESSAGE를&nbsp;출력<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;&&nbsp;항공사&nbsp;ID에&nbsp;대한&nbsp;정보가&nbsp;존재하지&nbsp;않습니다.&nbsp;&&nbsp;부분에&nbsp;PA_CAR&nbsp;가&nbsp;작성됨<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+<br />
+START-OF-SELECTION.<br />
+   </div>
+   <div class="codeComment">
+*------------------------------------<br />
+*&nbsp;AT&nbsp;SELECTION-SCREEN&nbsp;이&nbsp;실행된&nbsp;직후&nbsp;사용자가&nbsp;누른&nbsp;버튼이&nbsp;실행(Execute)인&nbsp;경우<br />
+*&nbsp;Selection&nbsp;Screen&nbsp;으로&nbsp;돌아가지&nbsp;않고,&nbsp;이&nbsp;Event&nbsp;를&nbsp;실행한다.<br />
+*&nbsp;이&nbsp;Event는&nbsp;Selection&nbsp;Screen&nbsp;의&nbsp;입력&nbsp;값에&nbsp;따른&nbsp;데이터&nbsp;조회를&nbsp;주&nbsp;목적으로&nbsp;하며,<br />
+*&nbsp;조회된&nbsp;데이터는&nbsp;특정&nbsp;로직을&nbsp;거친&nbsp;후&nbsp;출력한다.<br />
+*------------------------------------<br />
+*&nbsp;조회&nbsp;결과&nbsp;중&nbsp;MANDT를&nbsp;제외한&nbsp;모든&nbsp;필드를&nbsp;WRITE문을&nbsp;사용하여&nbsp;화면에&nbsp;출력한다.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;IF&nbsp;GS_CARRIER&nbsp;IS&nbsp;NOT&nbsp;INITIAL.&nbsp;"&nbsp;IS&nbsp;NOT&nbsp;INITIAL&nbsp;문을&nbsp;사용하여&nbsp;GS_CARRIER&nbsp;변수가&nbsp;선언&nbsp;되어&nbsp;있는지&nbsp;한번더&nbsp;확인<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;'항공사&nbsp;ID&nbsp;:&nbsp;',&nbsp;GS_CARRIER-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'항공사&nbsp;이름&nbsp;:&nbsp;',&nbsp;GS_CARRIER-CARRNAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'항공사&nbsp;코드&nbsp;:&nbsp;',&nbsp;GS_CARRIER-CURRCODE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'항공사&nbsp;URL&nbsp;:&nbsp;',&nbsp;GS_CARRIER-URL.<br />
+<br />
+&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;WRITE:&nbsp;/&nbsp;'GS_CARRIER&nbsp;Strcutrue가&nbsp;선언되지&nbsp;않았습니다.&nbsp;'(001).<br />
+<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;001&nbsp;GS_CARRIER&nbsp;Strcutrue가&nbsp;선언되지&nbsp;않았습니다.<br />
+*&nbsp;E01&nbsp;항공사&nbsp;ID에&nbsp;대한&nbsp;정보가&nbsp;없습니다.<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;PA_CAR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;Z_2_A<br />
+*000&nbsp;&nbsp;&nbsp;&&nbsp;항공사&nbsp;ID에&nbsp;대한&nbsp;정보가&nbsp;존재하지&nbsp;않습니다.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

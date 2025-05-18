@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_4_REVIEW</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_4_REVIEW</h2>
+<h3> Description: [HW-4] 항공편 조회 리뷰</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZHWC15_4_REVIEW<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZHWC15_4_REVIEW.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;선언&nbsp;관련&nbsp;Include<br />
+*&nbsp;-&nbsp;여기는&nbsp;직접&nbsp;DOUBLE&nbsp;CLICK&nbsp;해서,&nbsp;DATA&nbsp;,&nbsp;TAB&nbsp;등&nbsp;선언을&nbsp;한다.<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+include <a href ="zhwc15_4_review_top.html">ZHWC15_4_REVIEW_TOP</a>.<br />
+include <a href ="zhwc15_4_review_scr.html">ZHWC15_4_REVIEW_SCR</a>.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;CLASS&nbsp;정의&nbsp;및&nbsp;구현<br />
+   </div>
+   <div class="code">
+include <a href ="zhwc15_4_review_cls.html">ZHWC15_4_REVIEW_CLS</a>.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;구현&nbsp;관련&nbsp;Include<br />
+*&nbsp;-&nbsp;여기는&nbsp;직접&nbsp;DOUBLE&nbsp;CLICK&nbsp;해서&nbsp;들어가지&nbsp;말것<br />
+*&nbsp;-&nbsp;직접&nbsp;내부&nbsp;로직을&nbsp;만들지&nbsp;않고&nbsp;호출하는&nbsp;곳에서&nbsp;DOUBLE&nbsp;CLICK&nbsp;으로&nbsp;생성한다.<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+include <a href ="zhwc15_4_review_pbo.html">ZHWC15_4_REVIEW_PBO</a>.<br />
+include <a href ="zhwc15_4_review_pai.html">ZHWC15_4_REVIEW_PAI</a>.<br />
+include <a href ="zhwc15_4_review_f01.html">ZHWC15_4_REVIEW_F01</a>.<br />
+<br />
+<br />
+INITIALIZATION.<br />
+<br />
+AT SELECTION-SCREEN.<br />
+<br />
+START-OF-SELECTION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;SEARCH&nbsp;SPFLI&nbsp;TAB<br />
+   </div>
+   <div class="code">
+PERFORM SELECT_DATA.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;출력을&nbsp;위해&nbsp;GT_DISPLAY에&nbsp;데이터를&nbsp;가공하면서&nbsp;기록하는&nbsp;로직<br />
+   </div>
+   <div class="code">
+PERFORM MAKE_DISPLAY_DATA.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;CALL&nbsp;0100&nbsp;SCREEN&nbsp;FOR&nbsp;DISLAYING&nbsp;SPFLI&nbsp;DATA<br />
+   </div>
+   <div class="code">
+PERFORM DISPLAY_DATA.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*GUI&nbsp;Texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;T0100&nbsp;--&gt;&nbsp;항공편&nbsp;검색&nbsp;결과화면,&nbsp;&<br />
+<br />
+*Text&nbsp;elements<br />
+*----------------------------------------------------------<br />
+*&nbsp;E01&nbsp;해당&nbsp;행&nbsp;정보를&nbsp;찾을&nbsp;수&nbsp;없습니다.<br />
+*&nbsp;F01&nbsp;국내선/국제선<br />
+*&nbsp;F02&nbsp;Dep.&nbsp;Ctr<br />
+*&nbsp;F03&nbsp;Arr.&nbsp;Ctr<br />
+*&nbsp;L02&nbsp;국내선<br />
+*&nbsp;L03&nbsp;국제선<br />
+*&nbsp;S01&nbsp;Selection&nbsp;Options<br />
+<br />
+<br />
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;SO_CAR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_CON&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+<br />
+<br />
+*Messages<br />
+*----------------------------------------------------------<br />
+*<br />
+*&nbsp;Message&nbsp;class:&nbsp;Hard&nbsp;coded<br />
+*&nbsp;&nbsp;&nbsp;해당&nbsp;행&nbsp;정보를&nbsp;찾을&nbsp;수&nbsp;없습니다.&nbsp;(E01)<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

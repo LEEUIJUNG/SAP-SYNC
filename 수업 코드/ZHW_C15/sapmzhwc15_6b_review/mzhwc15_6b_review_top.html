@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>MZHWC15_6B_REVIEW_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: MZHWC15_6B_REVIEW_TOP</h2>
+<h3> Description: Include MZHWC15_6B_REVIEW_TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;MZHWC15_6B_REVIEW_TOP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Module&nbsp;Pool&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SAPMZHWC15_6B_REVIEW<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+PROGRAM SAPMZHWC15_6B_REVIEW.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;검색조건&nbsp;입력필드<br />
+   </div>
+   <div class="code">
+TABLES SDYN_BOOK.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;STATUS&nbsp;ICON을&nbsp;화면에&nbsp;출력시키기&nbsp;위한&nbsp;변수<br />
+   </div>
+   <div class="code">
+DATA: GV_STATUS_ICON TYPE ICONS-TEXT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;PROG&nbsp;실행시,&nbsp;검색&nbsp;성공&nbsp;시&nbsp;,검색&nbsp;실패&nbsp;시<br />
+   </div>
+   <div class="code">
+CONSTANTS: GC_INIT           VALUE 'I',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GC_SELECT_SUCCESS&nbsp;VALUE&nbsp;'S',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GC_SELECT_FAIL&nbsp;&nbsp;&nbsp;&nbsp;VALUE&nbsp;'F'.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;현재&nbsp;검색결과의&nbsp;상태코드를&nbsp;다루는&nbsp;변수<br />
+   </div>
+   <div class="code">
+DATA: GV_SELECT_RESULT VALUE GC_INIT.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;SCREEN&nbsp;FUNC&nbsp;제어를&nbsp;위한&nbsp;변수<br />
+   </div>
+   <div class="code">
+DATA : OK_CODE TYPE SY-UCOMM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;TABSTRIP&nbsp;을&nbsp;제어하기&nbsp;위한&nbsp;CONTROLS<br />
+   </div>
+   <div class="code">
+CONTROLS MY_TABSTRIP TYPE TABSTRIP.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;TABSTRIP에서&nbsp;출력될&nbsp;SUBA&nbsp;번호를&nbsp;저장한다.<br />
+   </div>
+   <div class="code">
+DATA: DYNNR  TYPE SY-DYNNR.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;DATA&nbsp;검색결과를&nbsp;보관하고&nbsp;화면에&nbsp;출력할&nbsp;변수들<br />
+*&nbsp;SCREEN&nbsp;LAYOUT&nbsp;에서&nbsp;참조해서&nbsp;만든&nbsp;입력필드를&nbsp;위한&nbsp;변수<br />
+   </div>
+   <div class="code">
+TABLES: SBOOK, " 0110<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SCUSTOM,&nbsp;"&nbsp;0110<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;STRAVELAG,&nbsp;"&nbsp;0110<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SPFLI,&nbsp;"&nbsp;0120<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SFLIGHT.&nbsp;"&nbsp;0120<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;0110&nbsp;화면의&nbsp;직접&nbsp;만든&nbsp;입력필드를&nbsp;위한&nbsp;변수<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF SCR_0110,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CUSTTYPE_TEXT&nbsp;TYPE&nbsp;DD07T-DDTEXT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLASS_TEXT&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;DD07T-DDTEXT,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;SCR_0110.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;0120&nbsp;화면의&nbsp;직접&nbsp;만든&nbsp;입력필드를&nbsp;위한&nbsp;변수<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF SCR_0120,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LANDX_FROM&nbsp;TYPE&nbsp;T005T-LANDX,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LANDX_TO&nbsp;TYPE&nbsp;T005T-LANDX,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AIRFROM_NAME&nbsp;TYPE&nbsp;SAIRPORT-NAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AIRTO_NAME&nbsp;&nbsp;&nbsp;TYPE&nbsp;SAIRPORT-NAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;SCR_0120.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;모든&nbsp;국가명을&nbsp;조회해서&nbsp;보관하기&nbsp;위한&nbsp;ITAB<br />
+   </div>
+   <div class="code">
+DATA: GT_T005T TYPE TABLE OF T005T.<br />
+DATA: GS_T005T LIKE LINE OF GT_T005T.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;모든&nbsp;공항명을&nbsp;조회해서&nbsp;보관하기&nbsp;위한&nbsp;ITAB<br />
+   </div>
+   <div class="code">
+DATA: GT_AIRPORT TYPE TABLE OF SAIRPORT.<br />
+DATA: GS_AIRPORT LIKE LINE OF GT_AIRPORT.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

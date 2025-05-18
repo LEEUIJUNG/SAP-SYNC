@@ -1,0 +1,262 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_2C_ANS</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_2C_ANS</h2>
+<h3> Description: [HW-2C] 항공편 조회 C15</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Report&nbsp;ZHWC15_2C<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Title:&nbsp;[HW-2C]&nbsp;항공편&nbsp;조회&nbsp;C15&nbsp;강사&nbsp;답안<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+REPORT ZHWC15_2C_ANS.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;선언부<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+DATA: GV_CARRID TYPE SFLIGHT-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GV_CONNID&nbsp;TYPE&nbsp;SFLIGHT-CONNID.<br />
+<br />
+DATA GS_FLIGHT TYPE SFLIGHT.<br />
+<br />
+" select-options 는 전달된 변수와 동일한 입력필드를 만들어서 사용자에게 검색조건에 대한 정보를 입력 받는다.<br />
+SELECT-OPTIONS: SO_CAR FOR GV_CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SO_CON&nbsp;FOR&nbsp;GV_CONNID.&nbsp;"&nbsp;selection&nbsp;options&nbsp;를&nbsp;for&nbsp;뒤에&nbsp;선언된&nbsp;변수가&nbsp;와야됨<br />
+" for 에 선언될 변수들은 Data Element 한 칸짜리 변수가 와야함.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;SELECT-OPTIONS&nbsp;so_car&nbsp;for&nbsp;GS_FLIGHT-carrid&nbsp;"&nbsp;이런식으로&nbsp;사용할거임&nbsp;나중에는<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+TYPES: TY_PERC TYPE P LENGTH 3 DECIMALS 2.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;원하는&nbsp;모양의&nbsp;ITAB을&nbsp;선언하기&nbsp;위해,&nbsp;원하는&nbsp;모양의&nbsp;한줄의&nbsp;Structure를&nbsp;먼저&nbsp;선언한다.<br />
+   </div>
+   <div class="code">
+DATA: BEGIN OF GS_DATA,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CARRID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONNID&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-CONNID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FLDATE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-FLDATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSMAX&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSMAX,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSOCC&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSOCC,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSMAX_B&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSMAX_B,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSOCC_B&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSOCC_B,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSMAX_F&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSMAX_F,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SEATSOCC_F&nbsp;&nbsp;&nbsp;TYPE&nbsp;SFLIGHT-SEATSOCC_F,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;예약율을&nbsp;보관하기&nbsp;위해&nbsp;3개의&nbsp;필드&nbsp;추가.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERCENTAGE&nbsp;&nbsp;&nbsp;TYPE&nbsp;TY_PERC,&nbsp;"&nbsp;이코노미&nbsp;예약율<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERCENTAGE_B&nbsp;TYPE&nbsp;TY_PERC,&nbsp;"&nbsp;비지니스&nbsp;예약율<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERCENTAGE_F&nbsp;TYPE&nbsp;TY_PERC,&nbsp;"&nbsp;퍼스트&nbsp;예약율<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;GS_DATA.<br />
+<br />
+<br />
+DATA: GT_DATA LIKE TABLE OF GS_DATA WITH NON-UNIQUE KEY CARRID CONNID FLDATE.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;DATA:&nbsp;GT_DATA&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;TS_DATA.&nbsp;"&nbsp;Structure&nbsp;type이&nbsp;올경우에는&nbsp;type&nbsp;table&nbsp;of&nbsp;이&nbsp;들어간다.<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;구현부<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+INITIALIZATION.<br />
+<br />
+<br />
+AT SELECTION-SCREEN.<br />
+<br />
+<br />
+START-OF-SELECTION.<br />
+<br />
+<br />
+&nbsp;&nbsp;"&nbsp;subroutine을&nbsp;사용하여&nbsp;로직을&nbsp;보기&nbsp;좋게&nbsp;표현<br />
+&nbsp;&nbsp;PERFORM&nbsp;SELECT_DATA.&nbsp;"&nbsp;DB&nbsp;Table&nbsp;조회<br />
+&nbsp;&nbsp;PERFORM&nbsp;MODIFY_DATA.&nbsp;"&nbsp;ITAB&nbsp;데이터&nbsp;수정<br />
+&nbsp;&nbsp;PERFORM&nbsp;OUTPUT_DATA.&nbsp;"&nbsp;ITAB&nbsp;데이터&nbsp;출력<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;SELECT_DATA<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM SELECT_DATA .<br />
+<br />
+&nbsp;&nbsp;SELECT&nbsp;CARRID&nbsp;CONNID&nbsp;FLDATE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SEATSMAX&nbsp;&nbsp;&nbsp;SEATSOCC<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SEATSMAX_B&nbsp;SEATSOCC_B<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SEATSMAX_F&nbsp;SEATSOCC_F<br />
+&nbsp;&nbsp;&nbsp;&nbsp;FROM&nbsp;SFLIGHT<br />
+&nbsp;&nbsp;&nbsp;&nbsp;INTO&nbsp;CORRESPONDING&nbsp;FIELDS&nbsp;OF&nbsp;TABLE&nbsp;&nbsp;GT_DATA<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WHERE&nbsp;CARRID&nbsp;IN&nbsp;SO_CAR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;AND&nbsp;CONNID&nbsp;IN&nbsp;SO_CON.<br />
+<br />
+ENDFORM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;MODIFY_DATA<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM MODIFY_DATA .<br />
+<br />
+&nbsp;&nbsp;"&nbsp;각&nbsp;라인별로&nbsp;최대&nbsp;좌석수&nbsp;예약&nbsp;좌석수가&nbsp;다를&nbsp;수&nbsp;있기&nbsp;떄문에<br />
+&nbsp;&nbsp;"&nbsp;각&nbsp;라인별로&nbsp;예약율도&nbsp;계산하는&nbsp;과정이&nbsp;있어야&nbsp;한다.<br />
+&nbsp;&nbsp;"&nbsp;그럼으로&nbsp;ITAB을&nbsp;한줄씩&nbsp;반복하는&nbsp;Loop&nbsp;문을&nbsp;이용하여&nbsp;예약율을&nbsp;계산<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;&nbsp;GT_DATA&nbsp;INTO&nbsp;GS_DATA.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;GS_DATA&nbsp;는&nbsp;ITAB&nbsp;의&nbsp;특정&nbsp;라인이다.&nbsp;라고&nbsp;착각하면&nbsp;안된다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;GS_DATA&nbsp;의&nbsp;값을&nbsp;변경하면&nbsp;그게,&nbsp;ITAB&nbsp;의&nbsp;특정&nbsp;행의&nbsp;데이터를&nbsp;변경하는&nbsp;것이&nbsp;아니다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;GS_DATA&nbsp;라는&nbsp;ITAB&nbsp;과&nbsp;GS_DATA라는&nbsp;Structure변수는&nbsp;엄연히&nbsp;다른&nbsp;변수다<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;그럼으로&nbsp;GS_DATA&nbsp;와&nbsp;GT_DATA&nbsp;는&nbsp;연결&nbsp;되어&nbsp;있지&nbsp;않다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;그래서&nbsp;아랫&nbsp;값이&nbsp;바뀌어도&nbsp;ITAB의&nbsp;값은&nbsp;바뀌지&nbsp;않는다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_DATA-PERCENTAGE&nbsp;&nbsp;&nbsp;=&nbsp;(&nbsp;100&nbsp;*&nbsp;GS_DATA-SEATSOCC&nbsp;&nbsp;&nbsp;)&nbsp;/&nbsp;GS_DATA-SEATSMAX.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_DATA-PERCENTAGE_B&nbsp;=&nbsp;(&nbsp;100&nbsp;*&nbsp;GS_DATA-SEATSOCC_B&nbsp;)&nbsp;/&nbsp;GS_DATA-SEATSMAX_B.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GS_DATA-PERCENTAGE_F&nbsp;=&nbsp;(&nbsp;100&nbsp;*&nbsp;GS_DATA-SEATSOCC_F&nbsp;)&nbsp;/&nbsp;GS_DATA-SEATSMAX_F.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;TABLE&nbsp;GT_DATA&nbsp;FROM&nbsp;GS_DATA.&nbsp;"&nbsp;key&nbsp;field&nbsp;를&nbsp;기준으로&nbsp;작동을해서&nbsp;조건이&nbsp;필요&nbsp;없음,&nbsp;key&nbsp;field로&nbsp;데이터를&nbsp;찾아서&nbsp;덮어&nbsp;씌운다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;GS_DATA&nbsp;에서&nbsp;만약&nbsp;키필드를&nbsp;지우면&nbsp;수정이&nbsp;안됨&nbsp;,&nbsp;ITAB에서&nbsp;GS_DATA&nbsp;와&nbsp;일치하는&nbsp;key&nbsp;field를&nbsp;찾을&nbsp;수&nbsp;없어서.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_DATA&nbsp;FROM&nbsp;GS_DATA.&nbsp;"&nbsp;둘중&nbsp;뭐를&nbsp;사용해도&nbsp;상관&nbsp;없음&nbsp;LOOP&nbsp;내에서는&nbsp;INDEX&nbsp;를&nbsp;안적어도&nbsp;상관&nbsp;없다.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;현재&nbsp;반복중인&nbsp;라인을&nbsp;무조건&nbsp;덮어씀<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;MODIFY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_DATA&nbsp;FROM&nbsp;GS_DATA&nbsp;index&nbsp;1.&nbsp;"&nbsp;loop&nbsp;외부에서&nbsp;적으면&nbsp;몇번쨰&nbsp;줄을&nbsp;수정할지&nbsp;index&nbsp;를&nbsp;적어줘야함<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+ENDFORM.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Form&nbsp;OUTPUT_DATA<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+FORM OUTPUT_DATA .<br />
+<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;GT_DATA&nbsp;INTO&nbsp;GS_DATA.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;NEW-LINE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:(5)&nbsp;ICON_FLIGHT&nbsp;AS&nbsp;ICON.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;GS_DATA-PERCENTAGE&nbsp;&gt;=&nbsp;90.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;(5)&nbsp;ICON_GREEN_LIGHT&nbsp;AS&nbsp;ICON.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;GS_DATA-PERCENTAGE&nbsp;&gt;=&nbsp;20.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;(5)&nbsp;ICON_YELLOW_LIGHT&nbsp;AS&nbsp;ICON.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;(5)&nbsp;ICON_RED_LIGHT&nbsp;AS&nbsp;ICON.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:&nbsp;&nbsp;GS_DATA-CARRID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_DATA-CONNID,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_DATA-FLDATE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_DATA-SEATSMAX,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_DATA-SEATSOCC,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_DATA-PERCENTAGE,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_DATA-SEATSMAX_B,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_DATA-SEATSOCC_B,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_DATA-PERCENTAGE_B,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_DATA-SEATSMAX_F,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_DATA-SEATSOCC_F,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GS_DATA-PERCENTAGE_F.<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+ENDFORM.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*Selection&nbsp;texts<br />
+*----------------------------------------------------------<br />
+*&nbsp;SO_CAR&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+*&nbsp;SO_CON&nbsp;D&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

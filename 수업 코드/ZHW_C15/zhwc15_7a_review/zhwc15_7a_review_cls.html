@@ -1,0 +1,435 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_7A_REVIEW_CLS</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_7A_REVIEW_CLS</h2>
+<h3> Description: CLS</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZHWC15_7A_REVIEW_CLS<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*---------------------------------------------------------------------*<br />
+*&nbsp;CLASS&nbsp;는&nbsp;항상&nbsp;DEFINITION&nbsp;과&nbsp;IMPLEMENTATION&nbsp;으로&nbsp;나뉜다<br />
+*&nbsp;CLASS&nbsp;는&nbsp;항상&nbsp;DEFINITION이&nbsp;먼저&nbsp;작성되야&nbsp;한다.<br />
+   </div>
+   <div class="code">
+CLASS LCL_PERSON DEFINITION.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;SECTION&nbsp;도&nbsp;PUBLIC-&gt;&nbsp;PROTECT&nbsp;-&gt;&nbsp;PRIVATE&nbsp;순으로&nbsp;적어야함&nbsp;안그러면&nbsp;에러가나옴<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;OBJ&nbsp;가&nbsp;처음&nbsp;생성될&nbsp;때&nbsp;자동으로&nbsp;호출되는&nbsp;METHOD,&nbsp;CONSTRUCTOR<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;CONSTRUCT는&nbsp;주로&nbsp;INSTANCE&nbsp;ATTR의&nbsp;초기값을&nbsp;설정하는&nbsp;목적으로&nbsp;사용<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONSTRUCTOR&nbsp;IMPORTING&nbsp;&nbsp;IV_NAME&nbsp;&nbsp;TYPE&nbsp;FULLNAME<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_MONEY&nbsp;TYPE&nbsp;I<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS&nbsp;EMPTY_NAME&nbsp;"&nbsp;이름이&nbsp;없다.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MONEY_MINUS&nbsp;,&nbsp;"&nbsp;돈이&nbsp;음수다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USE_MONEY&nbsp;IMPORTING&nbsp;&nbsp;IV_MONEY&nbsp;TYPE&nbsp;I&nbsp;&nbsp;"&nbsp;전재산<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS&nbsp;MONEY_MIUSE&nbsp;"&nbsp;전재산이&nbsp;음수다.&nbsp;(전재산이&nbsp;음수가&nbsp;될&nbsp;수&nbsp;없다.)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOT_ENOUGH_MONEY,&nbsp;"&nbsp;돈이&nbsp;부족하다.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GET_MONEY&nbsp;RETURNING&nbsp;VALUE(RV_MOENY)&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISPLAY_ATTRIBUTE,&nbsp;"&nbsp;OBJ의&nbsp;INSTNACE&nbsp;ATTR&nbsp;을&nbsp;출력&nbsp;(MV_NAME,&nbsp;MV_MONEY)<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;버스에&nbsp;탄다<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TAKE_BUS&nbsp;IMPORTING&nbsp;&nbsp;IO_BUS&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;LCL_BUS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS&nbsp;ALREADY_ON_BUS&nbsp;"&nbsp;이미&nbsp;버스에&nbsp;탑승<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOT_ENOUGH_MONEY,&nbsp;"&nbsp;보유&nbsp;현금이&nbsp;부족<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;버스에&nbsp;내린다<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GET_OFF_BUS&nbsp;EXCEPTIONS&nbsp;NOT_YET_ON_BUS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISPLAY_DISPLAY_N_PEOPLE."&nbsp;CLASS의&nbsp;STATIC&nbsp;ATTR&nbsp;을&nbsp;출력&nbsp;(GV_N_O_PEOPLE)<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EVENTS:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GET_ON_BUS&nbsp;&nbsp;EXPORTING&nbsp;VALUE(EO_BUS)&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;LCL_BUS.<br />
+<br />
+<br />
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MV_NAME&nbsp;TYPE&nbsp;FULLNAME.&nbsp;"CHAR(30)&nbsp;임으로&nbsp;대소문자&nbsp;구분가능&nbsp;,&nbsp;CASE_SENSITIVE&nbsp;(DOMAIN&nbsp;을&nbsp;잘확인)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MV_MONEY&nbsp;TYPE&nbsp;I.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MO_CURRENT_BUS&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;LCL_BUS.&nbsp;"&nbsp;현재&nbsp;탑승중인&nbsp;버스<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MO_EVENT_HANDLER&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;LCL_EVENT_HANDLER.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:&nbsp;GV_N_O_PEOPLE&nbsp;TYPE&nbsp;I.<br />
+<br />
+ENDCLASS.<br />
+<br />
+CLASS LCL_BUS DEFINITION.<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CONSTRUCTOR&nbsp;IMPORTING&nbsp;&nbsp;IV_NUMBER&nbsp;TYPE&nbsp;CHAR20<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_FARE&nbsp;&nbsp;&nbsp;TYPE&nbsp;I<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS&nbsp;EMPTY_NUMBER<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FARE_ZERO<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FARE_MINUS,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ADD_PASSENGER,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GET_FARE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RETURNING&nbsp;VALUE(RV_FARE)&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISPLAY_ATTRIBUTES,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ARRIVE_TERMINAL.&nbsp;"&nbsp;버스가&nbsp;종점에&nbsp;도착&nbsp;하는&nbsp;경우<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISPLAY_N_O_BUS,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISPLAY_ALL_SALES.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EVENTS:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ARRIVED_TERMINAL.&nbsp;"&nbsp;종점에&nbsp;도착했을떄&nbsp;이벤트<br />
+<br />
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MV_NUMBER&nbsp;TYPE&nbsp;CHAR20.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MV_FARE&nbsp;TYPE&nbsp;I.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MV_SALES&nbsp;TYPE&nbsp;I.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MV_N_O_PASSENGER&nbsp;TYPE&nbsp;I.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:&nbsp;GV_N_O_BUS&nbsp;TYPE&nbsp;I.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:&nbsp;GT_B_BUS&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;REF&nbsp;TO&nbsp;LCL_BUS.<br />
+<br />
+ENDCLASS.<br />
+<br />
+CLASS LCL_EVENT_HANDLER DEFINITION.<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:&nbsp;CONSTRUCTOR&nbsp;IMPORTING&nbsp;IO_PERSON&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;LCL_PERSON.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:&nbsp;ON_ARRIVED_TERMINAL&nbsp;FOR&nbsp;EVENT&nbsp;ARRIVED_TERMINAL&nbsp;OF&nbsp;LCL_BUS&nbsp;IMPORTING&nbsp;SENDER.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ON_GET_ON_BUS&nbsp;FOR&nbsp;EVENT&nbsp;GET_ON_BUS&nbsp;OF&nbsp;LCL_PERSON&nbsp;IMPORTING&nbsp;EO_BUS.&nbsp;"&nbsp;이벤트&nbsp;발생시&nbsp;현재&nbsp;탑승중인&nbsp;BUS&nbsp;OBJ&nbsp;를&nbsp;받아온다.<br />
+<br />
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:&nbsp;MO_PERSON&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;LCL_PERSON.<br />
+<br />
+ENDCLASS.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Class&nbsp;Implementation<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Class&nbsp;(Implementation)&nbsp;LCL_PERSON<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+CLASS LCL_PERSON IMPLEMENTATION.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;METHOD&nbsp;구현시&nbsp;IMPORT&nbsp;PARM&nbsp;이&nbsp;있다면,&nbsp;제일&nbsp;먼저&nbsp;값을&nbsp;점검하라.<br />
+*&nbsp;그&nbsp;다음에,&nbsp;METHOD&nbsp;의&nbsp;목적을&nbsp;구현해라.<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;CONSTRUCTOR.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;IV_NAME&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;EMPTY_NAME.&nbsp;"&nbsp;EXCEPTION&nbsp;발생시&nbsp;METHOD&nbsp;가&nbsp;중단.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;IV_MONEY&nbsp;&lt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;MONEY_MINUS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;위&nbsp;검증&nbsp;단계를&nbsp;넘어간&nbsp;경우&nbsp;EXCEPTION이&nbsp;발생하지&nbsp;않은&nbsp;경우다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;IMPORT&nbsp;PARM&nbsp;이&nbsp;모두&nbsp;옳바른&nbsp;경우라면&nbsp;본래의&nbsp;목적을&nbsp;수행한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_NAME&nbsp;=&nbsp;IV_NAME.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_MONEY&nbsp;=&nbsp;IV_MONEY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;OBJ&nbsp;가&nbsp;생성된&nbsp;경우,&nbsp;총&nbsp;사람수&nbsp;+1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GV_N_O_PEOPLE&nbsp;+=&nbsp;1.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;ADD&nbsp;&nbsp;GV_N_O_PEOPLE&nbsp;TO&nbsp;1.<br />
+*&nbsp;&nbsp;&nbsp;GV_N_O_PEOPLE&nbsp;=&nbsp;GV_N_O_PEOPLE&nbsp;+&nbsp;1.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;|사람&nbsp;{&nbsp;MV_NAME&nbsp;}&nbsp;이&nbsp;생성되었습니다.|.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;USE_MONEY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;IV_MONEY&nbsp;&lt;&nbsp;0&nbsp;.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;MONEY_MIUSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;IV_MONEY&nbsp;&gt;&nbsp;MV_MONEY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;NOT_ENOUGH_MONEY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_MONEY&nbsp;-=&nbsp;IV_MONEY.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;SUBTRACT&nbsp;IV_MONEY&nbsp;FROM&nbsp;MV_MONEY.<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;|{&nbsp;MV_NAME&nbsp;}&nbsp;이가,{&nbsp;IV_MONEY&nbsp;}원을&nbsp;사용하여&nbsp;{&nbsp;MV_MONEY&nbsp;}원이&nbsp;남았습니다.|.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;GET_MONEY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;RV_MOENY&nbsp;=&nbsp;MV_MONEY.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_ATTRIBUTE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;'이름',&nbsp;AT&nbsp;10&nbsp;':'&nbsp;,&nbsp;&nbsp;MV_NAME&nbsp;,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'보유현금',&nbsp;AT&nbsp;10&nbsp;':'&nbsp;,&nbsp;&nbsp;MV_MONEY&nbsp;,&nbsp;'원'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_DISPLAY_N_PEOPLE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;'생성된&nbsp;총&nbsp;인원수&nbsp;:',&nbsp;GV_N_O_PEOPLE&nbsp;RIGHT-JUSTIFIED,&nbsp;'명'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;TAKE_BUS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;MO_CURRENT_BUS&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;ALREADY_ON_BUS.&nbsp;"&nbsp;발생시&nbsp;METHOD&nbsp;중단<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;MO_CURRENT_BUS-&gt;GET_FARE(&nbsp;)&nbsp;&lt;=&nbsp;MV_MONEY.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;NOT_ENOUGH_MONEY.<br />
+*&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;ME-&gt;USE_MONEY(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_MONEY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;IO_BUS-&gt;GET_FARE(&nbsp;)<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MONEY_MIUSE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOT_ENOUGH_MONEY&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;).<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CASE&nbsp;SY-SUBRC.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;0.<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IO_BUS-&gt;ADD_PASSENGER(&nbsp;).<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;&nbsp;MV_NAME,&nbsp;'ERROR&nbsp;:&nbsp;사용금액이&nbsp;마이너스가&nbsp;될&nbsp;수&nbsp;업습니다.'&nbsp;.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;&nbsp;MV_NAME,&nbsp;'ERROR&nbsp;:&nbsp;돈이&nbsp;부족하여&nbsp;탑승하지&nbsp;못하였습니다.'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;OTHERS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;'ERROR&nbsp;:&nbsp;알&nbsp;수&nbsp;없는&nbsp;오류가&nbsp;발생하였습니다.'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MO_CURRENT_BUS&nbsp;=&nbsp;IO_BUS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;'사람',&nbsp;MV_NAME,&nbsp;'가&nbsp;버스에&nbsp;탑승하면서&nbsp;EVENT&nbsp;를&nbsp;발생시켰다.'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;MO_EVENT_HANDLER&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CREATE&nbsp;OBJECT&nbsp;MO_EVENT_HANDLER<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IO_PERSON&nbsp;=&nbsp;ME.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;내가&nbsp;타고&nbsp;있는&nbsp;버스에만&nbsp;종점&nbsp;하차&nbsp;EVENT&nbsp;등록<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;HANDLER&nbsp;MO_EVENT_HANDLER-&gt;ON_ARRIVED_TERMINAL&nbsp;FOR&nbsp;MO_CURRENT_BUS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;EVENT&nbsp;GET_ON_BUS&nbsp;EXPORTING&nbsp;EO_BUS&nbsp;=&nbsp;MO_CURRENT_BUS.<br />
+<br />
+<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;GET_OFF_BUS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;MO_CURRENT_BUS&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;NOT_YET_ON_BUS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;종점에&nbsp;내렸음으로&nbsp;등록한&nbsp;HANDLER&nbsp;등록&nbsp;를&nbsp;취소<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;HANDLER&nbsp;MO_EVENT_HANDLER-&gt;ON_ARRIVED_TERMINAL&nbsp;FOR&nbsp;MO_CURRENT_BUS&nbsp;ACTIVATION&nbsp;SPACE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;MO_CURRENT_BUS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;'사람',&nbsp;MV_NAME,&nbsp;'가&nbsp;타고&nbsp;있는&nbsp;버스에서&nbsp;하차하였다.'.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+ENDCLASS.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Class&nbsp;(Implementation)&nbsp;LCL_BUS<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+CLASS LCL_BUS IMPLEMENTATION.<br />
+&nbsp;&nbsp;METHOD&nbsp;CONSTRUCTOR.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;IV_NUMBER&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;EMPTY_NUMBER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;IV_FARE&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;FARE_ZERO.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;IV_FARE&nbsp;&lt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;FARE_MINUS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_NUMBER&nbsp;=&nbsp;IV_NUMBER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_FARE&nbsp;=&nbsp;IV_FARE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GV_N_O_BUS&nbsp;+=&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;현재&nbsp;생성된&nbsp;BUS&nbsp;의&nbsp;OBJ&nbsp;를&nbsp;ITAB&nbsp;에&nbsp;추가<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;ME&nbsp;TO&nbsp;GT_B_BUS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;|버스&nbsp;{&nbsp;MV_NUMBER&nbsp;}&nbsp;이&nbsp;생성되었습니다.|.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;ADD_PASSENGER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_SALES&nbsp;+=&nbsp;MV_FARE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_N_O_PASSENGER&nbsp;+=&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;|버스&nbsp;{&nbsp;MV_NUMBER&nbsp;}에&nbsp;승객이&nbsp;탑승하여&nbsp;매출이&nbsp;증가합니다.|.<br />
+<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;GET_FARE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;RV_FARE&nbsp;를&nbsp;할당&nbsp;안하면&nbsp;0&nbsp;을&nbsp;RETURN&nbsp;한다&nbsp;,&nbsp;(처음&nbsp;RV_FARE이&nbsp;0임으로&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;RV_FARE&nbsp;=&nbsp;MV_FARE.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_ATTRIBUTES.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;&nbsp;'버스번호',&nbsp;AT&nbsp;10&nbsp;':'&nbsp;,&nbsp;MV_NUMBER&nbsp;&nbsp;,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'운임',&nbsp;AT&nbsp;10&nbsp;':'&nbsp;,&nbsp;&nbsp;MV_FARE&nbsp;,'원',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'매출액',&nbsp;AT&nbsp;10&nbsp;':'&nbsp;,&nbsp;&nbsp;MV_SALES&nbsp;&nbsp;,'원',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;'승객수',&nbsp;AT&nbsp;10&nbsp;':'&nbsp;,&nbsp;&nbsp;MV_N_O_PASSENGER&nbsp;&nbsp;,'원'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_N_O_BUS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;'생성된&nbsp;총&nbsp;버스&nbsp;수&nbsp;:',&nbsp;GV_N_O_BUS&nbsp;RIGHT-JUSTIFIED,&nbsp;'대'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_ALL_SALES.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;LV_TOTAL&nbsp;TYPE&nbsp;I.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;LO_BUS&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;LCL_BUS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;GT_B_BUS&nbsp;INTO&nbsp;LO_BUS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_TOTAL&nbsp;+=&nbsp;LO_BUS-&gt;MV_SALES.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;'생성된&nbsp;총&nbsp;매출액&nbsp;:',&nbsp;LV_TOTAL&nbsp;RIGHT-JUSTIFIED,&nbsp;'원'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;ARRIVE_TERMINAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;EVENT&nbsp;ARRIVED_TERMINAL.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+ENDCLASS.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Class&nbsp;(Implementation)&nbsp;LCL_EVENT_HANDLER<br />
+*&---------------------------------------------------------------------*<br />
+*&<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+CLASS LCL_EVENT_HANDLER IMPLEMENTATION.<br />
+&nbsp;&nbsp;METHOD&nbsp;CONSTRUCTOR.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MO_PERSON&nbsp;=&nbsp;IO_PERSON.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;METHOD&nbsp;ON_GET_ON_BUS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EO_BUS-&gt;ADD_PASSENGER(&nbsp;).<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;버스가&nbsp;종점에&nbsp;도착하면&nbsp;호출이됨.<br />
+&nbsp;&nbsp;METHOD&nbsp;ON_ARRIVED_TERMINAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MO_PERSON-&gt;GET_OFF_BUS(&nbsp;).<br />
+<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+<br />
+ENDCLASS.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

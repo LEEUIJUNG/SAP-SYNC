@@ -1,0 +1,587 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_7A_TASK_5_2_CLS</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_7A_TASK_5_2_CLS</h2>
+<h3> Description: PERSON CLS</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZHWC15_7A_PERSON<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;LCL_PERSON&nbsp;선언&nbsp;위치&nbsp;때문에&nbsp;DEFERRED&nbsp;사용<br />
+   </div>
+   <div class="code">
+CLASS LCL_PERSON DEFINITION DEFERRED.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;CLASS&nbsp;DEFINITION<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;버스와&nbsp;관련된&nbsp;기능을&nbsp;하는&nbsp;CLASS&nbsp;정의<br />
+   </div>
+   <div class="code">
+CLASS LCL_BUS DEFINITION.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;VISIBLE&nbsp;영역<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+*&nbsp;INSTANCE&nbsp;METHOD<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;OBJ&nbsp;생성시&nbsp;버스&nbsp;이름,&nbsp;요금을&nbsp;받아온다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:&nbsp;CONSTRUCTOR&nbsp;IMPORTING&nbsp;&nbsp;IV_NUMBER&nbsp;TYPE&nbsp;CHAR20<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_FARE&nbsp;&nbsp;&nbsp;TYPE&nbsp;I<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS&nbsp;EMPTY_NUMBER<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FARE_ZERO<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FARE_MINUS,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;승객이&nbsp;탑승시&nbsp;+1&nbsp;을&nbsp;한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ADD_PASSENGER,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;버스의&nbsp;요금을&nbsp;반환한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GET_FARE&nbsp;RETURNING&nbsp;VALUE(RV_FARE)&nbsp;TYPE&nbsp;I,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;버스의&nbsp;이름,&nbsp;요금을&nbsp;출력한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISPLAY_ATTRIBUTES.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;버스가&nbsp;종점에&nbsp;도착하는&nbsp;이벤트<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EVENTS:&nbsp;ARRIVED_TERMINAL.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;버스가&nbsp;종점에&nbsp;도착하면&nbsp;실행<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:&nbsp;ARRIVE_TERMINAL.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+*-------------------------------*<br />
+*&nbsp;STATIC&nbsp;METHOD<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;지금&nbsp;까지&nbsp;생성된&nbsp;버스의&nbsp;수를&nbsp;출력한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:&nbsp;DISPLAY_N_O_BUS,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;DISPLAY_ALL_SALES.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;INVISIBLE&nbsp;영역<br />
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+*&nbsp;INSTANCE&nbsp;ATTR<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MV_NUMBER&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;CHAR20,&nbsp;"&nbsp;버스이름<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_FARE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;I,&nbsp;&nbsp;"&nbsp;버스요금<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_SALES&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;I&nbsp;VALUE&nbsp;0,&nbsp;"&nbsp;버스&nbsp;수익<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MV_N_O_PASSENGER&nbsp;TYPE&nbsp;I&nbsp;VALUE&nbsp;0.&nbsp;"&nbsp;버스에&nbsp;탑승한&nbsp;승객<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+*-------------------------------*<br />
+*&nbsp;STATIC&nbsp;ATTR<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:&nbsp;GV_N_O_BUS&nbsp;TYPE&nbsp;I,&nbsp;"&nbsp;생성된&nbsp;총&nbsp;버스의&nbsp;수<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_BUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;REF&nbsp;TO&nbsp;LCL_BUS.&nbsp;"&nbsp;생성된&nbsp;BUS&nbsp;OBJ를&nbsp;보관하는&nbsp;ITAB<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+   </div>
+   <div class="code">
+ENDCLASS.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;승객의&nbsp;정보를&nbsp;관리하는&nbsp;CLASS&nbsp;정의<br />
+   </div>
+   <div class="code">
+CLASS LCL_PERSON DEFINITION.<br />
+&nbsp;&nbsp;"&nbsp;VISIBLE&nbsp;영역<br />
+&nbsp;&nbsp;PUBLIC&nbsp;SECTION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+*&nbsp;INSTANCE&nbsp;METHOD<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;CONSTRUCTOR&nbsp;-&nbsp;승객&nbsp;OBJ&nbsp;가&nbsp;생성되면&nbsp;이름,&nbsp;전재산을&nbsp;받아온다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:&nbsp;CONSTRUCTOR&nbsp;IMPORTING&nbsp;&nbsp;IV_NAME&nbsp;&nbsp;TYPE&nbsp;FULL_NAME<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_MONEY&nbsp;TYPE&nbsp;I<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS&nbsp;EMPTY_NAME<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MONEY_MINUS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;승객이&nbsp;돈을&nbsp;사용하면&nbsp;요금만큼&nbsp;재산이&nbsp;들어든다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:&nbsp;USE_MONEY&nbsp;&nbsp;IMPORTING&nbsp;&nbsp;IV_MONEY&nbsp;TYPE&nbsp;I<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS&nbsp;MONEY_MINUS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOT_ENOUGH_MONEY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;승객의&nbsp;현재&nbsp;전재산을&nbsp;가져온다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:&nbsp;GET_MONEY&nbsp;RETURNING&nbsp;VALUE(RV_MONEY)&nbsp;TYPE&nbsp;I.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;승객의&nbsp;이름&nbsp;,전재산을&nbsp;출력한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:&nbsp;DISPLAY_ATTRIBUTES.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;OBJ&nbsp;를&nbsp;받아서&nbsp;그&nbsp;버스에&nbsp;탑승을한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:&nbsp;TAKE_BUS&nbsp;IMPORTING&nbsp;&nbsp;VALUE(IO_BUS)&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;LCL_BUS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS&nbsp;ALREADY_ON_BUS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOT_ENOUGH_MONEY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;버스에서&nbsp;하차한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:&nbsp;GET_OFF_BUS&nbsp;EXCEPTIONS&nbsp;NOT_YET_0N_BUS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;종점에&nbsp;도착하는&nbsp;EVENT가&nbsp;발동되면&nbsp;&nbsp;실행되는&nbsp;METHOD<br />
+&nbsp;&nbsp;&nbsp;&nbsp;METHODS:&nbsp;ON_ARRIVED_TERMINAL&nbsp;FOR&nbsp;EVENT&nbsp;ARRIVED_TERMINAL&nbsp;OF&nbsp;LCL_BUS&nbsp;IMPORTING&nbsp;SENDER.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+*-------------------------------*<br />
+*&nbsp;STATIC&nbsp;METHOD<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;몇명의&nbsp;승객이&nbsp;생성되었나&nbsp;출력한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-METHODS:&nbsp;DISPLAY_N_O_PEOPLE.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;INVISIBLE&nbsp;영역<br />
+&nbsp;&nbsp;PRIVATE&nbsp;SECTION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+*&nbsp;INSTANCE&nbsp;ATTR&nbsp;선언<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MV_MONEY&nbsp;TYPE&nbsp;I.&nbsp;"&nbsp;승객의&nbsp;전재산<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MV_NAME&nbsp;TYPE&nbsp;FULL_NAME.&nbsp;"&nbsp;승객의&nbsp;이름<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;MO_CURRENT_BUS&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;LCL_BUS.&nbsp;"&nbsp;현재&nbsp;탑승중인&nbsp;BUS&nbsp;OBJ<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+*-------------------------------*<br />
+*&nbsp;STATIC&nbsp;ATTR&nbsp;선언<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;&nbsp;&nbsp;CLASS-DATA:&nbsp;GV_N_O_PEOPLE&nbsp;TYPE&nbsp;I.&nbsp;"&nbsp;생성된&nbsp;승객의&nbsp;숫자<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+   </div>
+   <div class="code">
+ENDCLASS.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&nbsp;CLASS&nbsp;IMPLEMENTATION<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;버스와&nbsp;관련된&nbsp;기능을&nbsp;하는&nbsp;CLASS&nbsp;구현<br />
+   </div>
+   <div class="code">
+CLASS LCL_BUS IMPLEMENTATION.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;OBJ&nbsp;생성시&nbsp;작동<br />
+*-------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;CONSTRUCTOR.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;IV_NUMBER&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;버스&nbsp;이름이&nbsp;없음&nbsp;RAISE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;EMPTY_NUMBER.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;IV_FARE&nbsp;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;요금이&nbsp;0&nbsp;이면&nbsp;RAISE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;FARE_ZERO.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;IV_FARE&nbsp;&lt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;요금이&nbsp;-&nbsp;값이면&nbsp;RAISE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;FARE_MINUS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;입력이&nbsp;성공적이면&nbsp;입력&nbsp;값으로&nbsp;ATTR&nbsp;을&nbsp;선언<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_NUMBER&nbsp;=&nbsp;IV_NUMBER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_FARE&nbsp;=&nbsp;IV_FARE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;지금&nbsp;까지&nbsp;생성된&nbsp;버스의&nbsp;수를&nbsp;+1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GV_N_O_BUS&nbsp;+=&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;OBJ&nbsp;를&nbsp;저장하는&nbsp;ITAB&nbsp;에&nbsp;생성된&nbsp;OBJ&nbsp;를&nbsp;APPEND<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;ME&nbsp;TO&nbsp;GT_BUS.<br />
+<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+*&nbsp;승객이&nbsp;탑승할&nbsp;경우<br />
+*-------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;ADD_PASSENGER.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;승객이&nbsp;탑승하면&nbsp;&nbsp;수익에&nbsp;요금만큼&nbsp;더한다<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;이용&nbsp;승객&nbsp;수를&nbsp;+1&nbsp;한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_SALES&nbsp;+=&nbsp;MV_FARE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_N_O_PASSENGER&nbsp;+=&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+*&nbsp;버스&nbsp;이용료를&nbsp;반환한다.<br />
+*-------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;GET_FARE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;RV_FARE&nbsp;=&nbsp;MV_FARE.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+<br />
+<br />
+*&nbsp;BUS&nbsp;의&nbsp;이름,&nbsp;요금,&nbsp;이용승객을&nbsp;출력한다.<br />
+*-------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_ATTRIBUTES.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;|버스번호&nbsp;:&nbsp;{&nbsp;MV_NUMBER&nbsp;}&nbsp;|,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;|운임&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:&nbsp;{&nbsp;MV_FARE&nbsp;}&nbsp;|,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;|매출액&nbsp;&nbsp;&nbsp;:&nbsp;{&nbsp;MV_SALES&nbsp;}&nbsp;|,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;|승객수&nbsp;&nbsp;&nbsp;:&nbsp;{&nbsp;MV_N_O_PASSENGER&nbsp;}&nbsp;|.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+*&nbsp;버스가&nbsp;종점에&nbsp;도착하면&nbsp;실행<br />
+*-------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;ARRIVE_TERMINAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;종점&nbsp;도착&nbsp;EVENT&nbsp;를&nbsp;RAISE&nbsp;한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;EVENT&nbsp;ARRIVED_TERMINAL.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+*&nbsp;총&nbsp;생성된&nbsp;버스의&nbsp;수를&nbsp;출력한다.<br />
+*-------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_N_O_BUS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;LV_LINES&nbsp;TYPE&nbsp;I.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DESCRIBE&nbsp;TABLE&nbsp;GT_BUS&nbsp;LINES&nbsp;LV_LINES.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;|생성된&nbsp;총&nbsp;버스&nbsp;수:&nbsp;{&nbsp;LV_LINES&nbsp;}&nbsp;|.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+*&nbsp;모드&nbsp;버스의&nbsp;수익을&nbsp;출력<br />
+*-------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_ALL_SALES.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;LV_SALES&nbsp;TYPE&nbsp;I.&nbsp;"&nbsp;전체&nbsp;수익을&nbsp;저장하기&nbsp;위한&nbsp;LV<br />
+&nbsp;&nbsp;&nbsp;&nbsp;DATA:&nbsp;LO_BUS&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;LCL_BUS.&nbsp;"&nbsp;ITAB&nbsp;에서&nbsp;OBJ&nbsp;를&nbsp;불러올때&nbsp;사용할&nbsp;OBJ<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;GT_BUS&nbsp;INTO&nbsp;LO_BUS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;OBJ&nbsp;에서&nbsp;수익을&nbsp;가져와&nbsp;모두&nbsp;더한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;LV_SALES&nbsp;+=&nbsp;LO_BUS-&gt;MV_SALES.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE&nbsp;:/&nbsp;|모든&nbsp;버스의&nbsp;총&nbsp;수익의&nbsp;합은&nbsp;{&nbsp;LV_SALES&nbsp;}&nbsp;입니다.|.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+   </div>
+   <div class="code">
+ENDCLASS.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;승객의&nbsp;정보를&nbsp;관리하는&nbsp;CLASS&nbsp;구현<br />
+*-------------------------------*<br />
+   </div>
+   <div class="code">
+CLASS LCL_PERSON IMPLEMENTATION.<br />
+&nbsp;&nbsp;METHOD&nbsp;CONSTRUCTOR.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;승객&nbsp;OBJ&nbsp;가&nbsp;생성되면&nbsp;작동을&nbsp;함<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;IV_NAME&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;승객의&nbsp;이름이&nbsp;입력&nbsp;안되면&nbsp;RAISE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;EMPTY_NAME.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;IV_MONEY&nbsp;&lt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;승객의&nbsp;돈이&nbsp;입력이&nbsp;안되면&nbsp;RAISE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;MONEY_MINUS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;승객의&nbsp;돈과,&nbsp;이름이&nbsp;입력되면&nbsp;승객의&nbsp;이름과&nbsp;재산을&nbsp;입력&nbsp;값으로&nbsp;설정<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_MONEY&nbsp;=&nbsp;IV_MONEY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_NAME&nbsp;=&nbsp;IV_NAME.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;생성된&nbsp;승객의&nbsp;수를&nbsp;+1&nbsp;한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;GV_N_O_PEOPLE&nbsp;+=&nbsp;1.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;종점&nbsp;도착&nbsp;EVENT&nbsp;를&nbsp;등록한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;SET&nbsp;HANDLER&nbsp;ON_ARRIVED_TERMINAL&nbsp;FOR&nbsp;ALL&nbsp;INSTANCES.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+*&nbsp;승객이&nbsp;비용을&nbsp;내면&nbsp;작동한다.<br />
+*-------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;USE_MONEY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;IV_MONEY&nbsp;&lt;&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;돈이&nbsp;없으면&nbsp;RAISE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;MONEY_MINUS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;IV_MONEY&nbsp;&gt;&nbsp;MV_MONEY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;비용&nbsp;보다&nbsp;전재산이&nbsp;적으면&nbsp;RAISE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;NOT_ENOUGH_MONEY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;비용을&nbsp;정상적으로&nbsp;지불<br />
+&nbsp;&nbsp;&nbsp;&nbsp;MV_MONEY&nbsp;-=&nbsp;IV_MONEY.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+*&nbsp;승객의&nbsp;전재산을&nbsp;반환하는&nbsp;기능<br />
+*-------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;GET_MONEY.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;승객의&nbsp;전재산을&nbsp;RETURING&nbsp;으로&nbsp;반환한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;RV_MONEY&nbsp;=&nbsp;MV_MONEY.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+*&nbsp;버스에&nbsp;탑승하는&nbsp;기능이다.<br />
+*-------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;TAKE_BUS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;MO_CURRENT_BUS&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;버스에&nbsp;타고&nbsp;있지&nbsp;않다면<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;USE_MONEY(&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;비용을&nbsp;지불한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;IV_MONEY&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;&nbsp;IO_BUS-&gt;GET_FARE(&nbsp;)&nbsp;"&nbsp;BUS&nbsp;의&nbsp;요금을&nbsp;가져온다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MONEY_MINUS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOT_ENOUGH_MONEY&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;3<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CASE&nbsp;SY-SUBRC.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;받아온&nbsp;버스&nbsp;OBJ에&nbsp;탑승을한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MO_CURRENT_BUS&nbsp;=&nbsp;IO_BUS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;OTHERS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;돈이&nbsp;없어서&nbsp;못타면&nbsp;RAISE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;NOT_ENOUGH_MONEY.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSEIF&nbsp;MO_CURRENT_BUS&nbsp;IS&nbsp;NOT&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;&nbsp;이미&nbsp;버스에&nbsp;타고&nbsp;있으면&nbsp;RAISE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;ALREADY_ON_BUS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+*&nbsp;버스가&nbsp;종점에&nbsp;도착하는&nbsp;이벤트가&nbsp;실행되면&nbsp;발동한다.<br />
+*-------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;ON_ARRIVED_TERMINAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;이벤트가&nbsp;실행된&nbsp;버스와&nbsp;승객이&nbsp;탑승한&nbsp;버스&nbsp;OBJ&nbsp;가&nbsp;일치하면<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;MO_CURRENT_BUS&nbsp;=&nbsp;SENDER&nbsp;.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"버스에서&nbsp;하차한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GET_OFF_BUS(<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NOT_YET_0N_BUS&nbsp;=&nbsp;1<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;2<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CASE&nbsp;SY-SUBRC.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;1.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;'NOT_YET_0N_BUS'&nbsp;TYPE&nbsp;'A'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WHEN&nbsp;2.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MESSAGE&nbsp;'OTHERS'&nbsp;TYPE&nbsp;'A'.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ENDCASE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+*&nbsp;버스에서&nbsp;하차를&nbsp;한다.<br />
+*-------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;GET_OFF_BUS.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;MO_CURRENT_BUS&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;만약&nbsp;MO_CURRENT_BUS&nbsp;가&nbsp;초기화&nbsp;되어&nbsp;있으면<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;버스에&nbsp;탑승중이&nbsp;아님으로&nbsp;RASIE<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;NOT_YET_0N_BUS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ELSE.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"&nbsp;버스에서&nbsp;내렸음으로&nbsp;MO_CURRENT_BUS를&nbsp;초기화한다.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;CLEAR&nbsp;MO_CURRENT_BUS.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;|승객&nbsp;&nbsp;{&nbsp;MV_NAME&nbsp;}&nbsp;종점이여서&nbsp;하차|.<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+*&nbsp;승객의&nbsp;이름&nbsp;,전재산을&nbsp;출력한다.<br />
+*-------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_ATTRIBUTES.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;|이름&nbsp;&nbsp;&nbsp;:&nbsp;{&nbsp;MV_NAME&nbsp;}|,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;|보유현금&nbsp;:&nbsp;{&nbsp;MV_MONEY&nbsp;}|.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ULINE.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+<br />
+*&nbsp;지금까지&nbsp;생성된&nbsp;승객의&nbsp;수&nbsp;를&nbsp;출력한다.<br />
+*-------------------------------*<br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;METHOD&nbsp;DISPLAY_N_O_PEOPLE.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;WRITE:/&nbsp;|생성된&nbsp;총&nbsp;인원&nbsp;수:&nbsp;{&nbsp;GV_N_O_PEOPLE&nbsp;}|.<br />
+<br />
+&nbsp;&nbsp;ENDMETHOD.<br />
+   </div>
+   <div class="codeComment">
+*-------------------------------*<br />
+   </div>
+   <div class="code">
+ENDCLASS.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>

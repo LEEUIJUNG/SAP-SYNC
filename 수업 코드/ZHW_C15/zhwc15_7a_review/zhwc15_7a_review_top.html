@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=UTF-8" />
+<title>ZHWC15_7A_REVIEW_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZHWC15_7A_REVIEW_TOP</h2>
+<h3> Description: TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZHWC15_7A_REVIEW_TOP<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+*&nbsp;아직&nbsp;CLASS&nbsp;정의를&nbsp;하지&nbsp;못한&nbsp;상황에서&nbsp;바로&nbsp;CLASS&nbsp;를&nbsp;사용하려&nbsp;하면<br />
+*&nbsp;미정의된&nbsp;TYPE&nbsp;으로&nbsp;오류가&nbsp;발생한다.<br />
+*&nbsp;1.&nbsp;그럼으로&nbsp;TOP&nbsp;을&nbsp;선언하기&nbsp;전에&nbsp;CLASS&nbsp;를&nbsp;정의해야&nbsp;한다.(&nbsp;INCLUDE&nbsp;CLS가&nbsp;먼저&nbsp;와야함&nbsp;)<br />
+*&nbsp;2.&nbsp;미리&nbsp;CLASS&nbsp;의&nbsp;존재를&nbsp;미리&nbsp;알려준다&nbsp;(&nbsp;DEFERRED&nbsp;).<br />
+<br />
+*&nbsp;나중에&nbsp;CLASS&nbsp;를&nbsp;만들게&nbsp;오류지&nbsp;말고&nbsp;일단&nbsp;기다려줘<br />
+   </div>
+   <div class="code">
+CLASS LCL_EVENT_HANDLER DEFINITION DEFERRED.<br />
+<br />
+CLASS LCL_PERSON DEFINITION DEFERRED. " DEFERRED 를 사용하면 향후 무조건 CLASS 를 정의 해줘야 오류가 안남<br />
+DATA: GO_PERSON TYPE REF TO LCL_PERSON.<br />
+<br />
+CLASS LCL_BUS DEFINITION DEFERRED.<br />
+DATA: GO_BUS TYPE REF TO LCL_BUS.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;내가&nbsp;원하는&nbsp;이름을&nbsp;가진&nbsp;OBJ&nbsp;를&nbsp;찾기&nbsp;위해서&nbsp;ITAB을&nbsp;만듬<br />
+   </div>
+   <div class="code">
+" PERSON 를 모아 두는 ITAB.<br />
+DATA: BEGIN OF GS_PERSON,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NAME&nbsp;&nbsp;&nbsp;TYPE&nbsp;FULLNAME,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;PERSON&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;LCL_PERSON,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;GS_PERSON,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;GT_PERSON&nbsp;LIKE&nbsp;TABLE&nbsp;OF&nbsp;GS_PERSON.<br />
+<br />
+" BUS 를 모아 두는 ITAB.<br />
+DATA: BEGIN OF GS_BUS,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;NUMBER&nbsp;TYPE&nbsp;CHAR20,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;BUS&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;REF&nbsp;TO&nbsp;LCL_BUS,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;END&nbsp;OF&nbsp;GS_BUS.<br />
+<br />
+DATA: GT_BUS LIKE TABLE OF GS_BUS.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer"></td>
+   </tr>
+</table>
+</body>
+</html>
