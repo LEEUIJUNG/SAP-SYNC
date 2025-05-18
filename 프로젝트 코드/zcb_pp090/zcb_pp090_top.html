@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+<title>ZCB_PP090_TOP</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for: ZCB_PP090_TOP</h2>
+<h3> Description: TOP</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+*&&nbsp;Include&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ZCB_PP090_TOP<br />
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;사용할&nbsp;Table&nbsp;및&nbsp;Struct<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;SCR&nbsp;EVENT&nbsp;관련&nbsp;변수&nbsp;선언<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+" 화면 EVENT를 위한 변수<br />
+DATA: ok_code TYPE sy-ucomm.<br />
+<br />
+TABLES: zcb_afko, " 생산오더 Header<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;zcb_eban.&nbsp;"&nbsp;구매요청<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;사용할&nbsp;Table&nbsp;및&nbsp;Struct<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;EBAN(구매요청)<br />
+*&nbsp;AFKO(생산계획&nbsp;H)<br />
+*&nbsp;AFPO(생산계획&nbsp;I)<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+DATA: gt_eban TYPE TABLE OF zcb_eban,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_eban&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;&nbsp;gt_eban.<br />
+<br />
+DATA: gt_afko TYPE TABLE OF zcb_afko,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_afko&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;&nbsp;gt_afko.<br />
+<br />
+DATA: gt_afpo TYPE TABLE OF zcb_afpo,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_afpo&nbsp;LIKE&nbsp;LINE&nbsp;OF&nbsp;&nbsp;gt_afpo.<br />
+<br />
+<br />
+<br />
+<br />
+" 구매 요청 태이블<br />
+data: gs_purchase_temp TYPE zcb_pp_eabn.<br />
+DATA: gt_purchase_temp LIKE TABLE OF gs_purchase_temp.<br />
+<br />
+DATA: BEGIN OF gs_purchase_r,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maktx&nbsp;TYPE&nbsp;zcb_maktx.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;include&nbsp;structure&nbsp;<a&nbsp;href&nbsp;="zcb_pp_eabn/dictionary-zcb_pp_eabn.html">zcb_pp_eabn</a>.<br />
+DATA: END OF gs_purchase_r.<br />
+DATA: gt_purchase_r LIKE TABLE OF gs_purchase_r.<br />
+<br />
+" 생산오더 태이블<br />
+data: gs_production_temp TYPE zcb_pp_afko.<br />
+DATA: gt_production_temp LIKE TABLE OF gs_production_temp.<br />
+<br />
+DATA: BEGIN OF gs_production_r,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maktx&nbsp;TYPE&nbsp;zcb_maktx.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;include&nbsp;structure&nbsp;<a&nbsp;href&nbsp;="zcb_pp_afko/dictionary-zcb_pp_afko.html">zcb_pp_afko</a>.<br />
+DATA: END OF gs_production_r.<br />
+DATA: gt_production_r LIKE TABLE OF gs_production_r.<br />
+<br />
+" SUBMIT (ABAP MEMORY)으로 전달 받은 TAB<br />
+DATA: gt_order LIKE TABLE OF zcb_pp_date,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_order&nbsp;TYPE&nbsp;zcb_pp_date.<br />
+<br />
+" MARA 상품 정보를 얻기 위한 TAB<br />
+DATA: BEGIN OF gs_mara,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;maktx&nbsp;TYPE&nbsp;zcb_maktx.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;include&nbsp;structure&nbsp;<a&nbsp;href&nbsp;="zcb_mara/dictionary-zcb_mara.html">zcb_mara</a>.<br />
+DATA: END OF gs_mara.<br />
+DATA: gt_mara LIKE TABLE OF gs_mara.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;Flag&nbsp;및&nbsp;CONST&nbsp;선언<br />
+*&---------------------------------------------------------------------*<br />
+   </div>
+   <div class="code">
+" SUBMIT 으로 호출한경우 flag<br />
+DATA: gv_flag_submit TYPE c VALUE ''.<br />
+<br />
+CONSTANTS: c_func_toolbar_delete_eban TYPE syucomm VALUE 'TOOLBAR_DELETE_EBAN',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c_func_toolbar_delete_afko&nbsp;TYPE&nbsp;syucomm&nbsp;VALUE&nbsp;'TOOLBAR_DELETE_AFKO'.<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;ALV&nbsp;를&nbsp;위한&nbsp;변수&nbsp;선언<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;layout&nbsp;save&nbsp;mode&nbsp;일&nbsp;경우&nbsp;초기값&nbsp;'X'&nbsp;(모두저장&nbsp;허용)<br />
+*&nbsp;ALV&nbsp;GRID<br />
+*&---------------------------------------------------------------------*<br />
+*&nbsp;행&nbsp;선택과,&nbsp;색&nbsp;입력을&nbsp;위한&nbsp;변수<br />
+   </div>
+   <div class="code">
+DATA: gt_rows  TYPE lvc_t_row,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_row&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_s_row,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_color&nbsp;TYPE&nbsp;lvc_t_scol,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_color&nbsp;TYPE&nbsp;lvc_s_scol.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ALV&nbsp;GRID<br />
+   </div>
+   <div class="code">
+DATA: go_container1 TYPE REF TO cl_gui_custom_container.<br />
+DATA: go_alv_grid1 TYPE REF TO cl_gui_alv_grid.<br />
+<br />
+DATA: go_container2 TYPE REF TO cl_gui_custom_container.<br />
+DATA: go_alv_grid2 TYPE REF TO cl_gui_alv_grid.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ALV&nbsp;1<br />
+   </div>
+   <div class="code">
+DATA: gt_fcat1 TYPE lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_fcat1&nbsp;TYPE&nbsp;lvc_s_fcat,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt1&nbsp;TYPE&nbsp;lvc_t_filt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_filt1&nbsp;TYPE&nbsp;lvc_s_filt,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort1&nbsp;TYPE&nbsp;lvc_t_sort,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sort1&nbsp;TYPE&nbsp;lvc_s_sort.<br />
+<br />
+DATA: gs_variant1 TYPE disvariant,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save1&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c&nbsp;VALUE&nbsp;'X',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo1&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_s_layo.<br />
+<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&nbsp;ALV&nbsp;2<br />
+   </div>
+   <div class="code">
+DATA: gt_fcat2 TYPE lvc_t_fcat,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_fcat2&nbsp;TYPE&nbsp;lvc_s_fcat,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_filt2&nbsp;TYPE&nbsp;lvc_t_filt,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_filt2&nbsp;TYPE&nbsp;lvc_s_filt,<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gt_sort2&nbsp;TYPE&nbsp;lvc_t_sort,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_sort2&nbsp;TYPE&nbsp;lvc_s_sort.<br />
+<br />
+DATA: gs_variant2 TYPE disvariant,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gv_save2&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;c&nbsp;VALUE&nbsp;'X',<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;gs_layo2&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;lvc_s_layo.<br />
+<br />
+   </div>
+   <div class="codeComment">
+*&---------------------------------------------------------------------*<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 758</td>
+   </tr>
+</table>
+</body>
+</html>

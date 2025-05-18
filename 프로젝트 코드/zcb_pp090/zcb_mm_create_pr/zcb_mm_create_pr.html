@@ -1,0 +1,161 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=utf-8" />
+<title>ZCB_MM_CREATE_PR</title>
+<style type="text/css">
+.code{ font-family:"Courier New", Courier, monospace; color:#000; font-size:14px; background-color:#F2F4F7 }
+  .codeComment {font-family:"Courier New", Courier, monospace; color:#0000F0; font-size:14px; background-color:#F2F4F7 }
+  .normalBold{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; font-weight:800 }
+  .normalBoldLarge{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+</style>
+<style type="text/css">
+  .normal{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px }
+  .footer{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:12px; text-align: center }
+  h2{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:16px; font-weight:800 }
+  h3{ font-family:Arial, Helvetica, sans-serif; color:#000; font-size:14px; font-weight:800 }
+  .outerTable{
+   background-color:#E0E7ED;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-right-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+  .innerTable{
+   background-color:#F2F4F7;
+   width:100%;
+   border-top-width: thin;
+   border-right-width: thin;
+   border-bottom-width: thin;
+   border-left-width: thin;
+   border-top-style: solid;
+   border-right-style: solid;
+   border-bottom-style: solid;
+   border-left-style: solid;
+  }
+</style>
+</head>
+<body>
+<table class="outerTable">
+  <tr class="normalBoldLarge">
+     <td><h2>Code listing for function ZCB_MM_CREATE_PR</h2>
+<h3> Description: 구매요청 생성 함수</h3></td>
+   </tr>
+  <tr>
+     <td>
+     <table class="innerTable">
+       <tr>
+          <td>
+   <div class="code">
+FUNCTION zcb_mm_create_pr.<br />
+   </div>
+   <div class="codeComment">
+*"----------------------------------------------------------------------<br />
+*"*"Local Interface:<br />
+*"  IMPORTING<br />
+*"     REFERENCE(IT_EBAN) TYPE  ZCB_EBAN_T<br />
+*"  EXPORTING<br />
+*"     REFERENCE(E_BANFN) TYPE  ZCB_BANFN<br />
+*"     REFERENCE(E_BNFPO) TYPE  ZCB_BNFPO<br />
+*"  EXCEPTIONS<br />
+*"      INVALID_QUANTITY<br />
+*"      NUMBER_RANGE_ERROR<br />
+*"      INSERT_FAILED<br />
+*"----------------------------------------------------------------------<br />
+<br />
+
+<div class="codeComment">*       <a href ="global-zcb_mm_create_pr.html">Global data declarations</a></div><br />
+   </div>
+   <div class="code">
+&nbsp;&nbsp;DATA:&nbsp;lv_banfn_num&nbsp;TYPE&nbsp;n&nbsp;LENGTH&nbsp;10,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_banfn&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_banfn,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lv_bnfpo_num&nbsp;TYPE&nbsp;i&nbsp;VALUE&nbsp;1,<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_eban&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;TYPE&nbsp;zcb_eban_s,&nbsp;"&nbsp;i_eban&nbsp;테이블의&nbsp;작업공간<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;lt_eban_save&nbsp;TYPE&nbsp;TABLE&nbsp;OF&nbsp;zcb_eban,&nbsp;&nbsp;&nbsp;"&nbsp;zcb_eban에&nbsp;insert할&nbsp;internal&nbsp;Table<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ls_eban_save&nbsp;TYPE&nbsp;zcb_eban.<br />
+<br />
+<br />
+&nbsp;&nbsp;"&nbsp;1.&nbsp;수량&nbsp;유효성&nbsp;검사&nbsp;(한&nbsp;건이라도&nbsp;0이하&nbsp;수량이면&nbsp;에러)<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;it_eban&nbsp;INTO&nbsp;ls_eban.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IF&nbsp;ls_eban-menge&nbsp;IS&nbsp;INITIAL&nbsp;OR&nbsp;ls_eban-menge&nbsp;&lt;=&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;invalid_quantity.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ENDIF.<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;2.&nbsp;구매요청번호&nbsp;채번<br />
+&nbsp;&nbsp;CALL&nbsp;FUNCTION&nbsp;'NUMBER_GET_NEXT'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;nr_range_nr&nbsp;=&nbsp;'01'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;object&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;'ZCB_BANFN'<br />
+&nbsp;&nbsp;&nbsp;&nbsp;IMPORTING<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;number&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;lv_banfn_num<br />
+&nbsp;&nbsp;&nbsp;&nbsp;EXCEPTIONS<br />
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;OTHERS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;8.<br />
+<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;&lt;&gt;&nbsp;0&nbsp;OR&nbsp;lv_banfn_num&nbsp;IS&nbsp;INITIAL.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;number_range_error.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;DATA&nbsp;lv_numlnr_f&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;10.<br />
+&nbsp;&nbsp;DATA&nbsp;lv_numlnr_s&nbsp;TYPE&nbsp;c&nbsp;LENGTH&nbsp;8.<br />
+<br />
+&nbsp;&nbsp;lv_numlnr_s&nbsp;=&nbsp;lv_banfn_num+2(8).<br />
+<br />
+&nbsp;&nbsp;lv_banfn&nbsp;=&nbsp;|PR{&nbsp;lv_numlnr_s&nbsp;ALPHA&nbsp;=&nbsp;IN&nbsp;}|.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;3.&nbsp;항목&nbsp;세팅&nbsp;(00001,&nbsp;00002,&nbsp;00003&nbsp;형태)<br />
+&nbsp;&nbsp;LOOP&nbsp;AT&nbsp;it_eban&nbsp;INTO&nbsp;ls_eban.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_eban_save-banfn&nbsp;=&nbsp;&nbsp;lv_banfn.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_eban_save-bnfpo&nbsp;=&nbsp;CONV&nbsp;zcb_bnfpo(&nbsp;lv_bnfpo_num&nbsp;).<br />
+&nbsp;&nbsp;&nbsp;&nbsp;lv_bnfpo_num&nbsp;=&nbsp;lv_bnfpo_num&nbsp;+&nbsp;1.<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_eban_save-matnr&nbsp;=&nbsp;ls_eban-matnr.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_eban_save-werks&nbsp;=&nbsp;ls_eban-werks.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_eban_save-lgort&nbsp;=&nbsp;ls_eban-lgort.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_eban_save-meins&nbsp;=&nbsp;ls_eban-meins.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_eban_save-menge&nbsp;=&nbsp;ls_eban-menge.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_eban_save-eindt&nbsp;=&nbsp;ls_eban-eindt.<br />
+<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_eban_save-erdat&nbsp;=&nbsp;sy-datum.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_eban_save-erzet&nbsp;=&nbsp;sy-uzeit.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_eban_save-ernam&nbsp;=&nbsp;sy-uname.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;ls_eban_save-afnam&nbsp;=&nbsp;sy-uname.<br />
+<br />
+&nbsp;&nbsp;&nbsp;&nbsp;APPEND&nbsp;ls_eban_save&nbsp;TO&nbsp;lt_eban_save.<br />
+<br />
+&nbsp;&nbsp;ENDLOOP.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;4.&nbsp;INSERT<br />
+&nbsp;&nbsp;INSERT&nbsp;zcb_eban&nbsp;FROM&nbsp;TABLE&nbsp;lt_eban_save.<br />
+&nbsp;&nbsp;IF&nbsp;sy-subrc&nbsp;NE&nbsp;0.<br />
+&nbsp;&nbsp;&nbsp;&nbsp;RAISE&nbsp;insert_failed.<br />
+&nbsp;&nbsp;ENDIF.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;5.&nbsp;COMMIT<br />
+&nbsp;&nbsp;COMMIT&nbsp;WORK.<br />
+<br />
+&nbsp;&nbsp;"&nbsp;6.&nbsp;결과&nbsp;리턴<br />
+&nbsp;&nbsp;e_banfn&nbsp;=&nbsp;lv_banfn.<br />
+<br />
+ENDFUNCTION.<br />
+            </div>
+          </td>
+        </tr>
+      </table>
+      </td>
+      </tr>
+   <tr>
+<td class="footer">Extracted by Mass Download version 1.5.5 - E.G.Mellodew. 1998-2025. Sap Release 758</td>
+   </tr>
+</table>
+</body>
+</html>
